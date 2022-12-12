@@ -34,6 +34,6 @@ dependencies {
 }
 
 application {
-    mainClass.set("de.sambalmueslie.openevent.core.CoreApplication")
+    mainClass.set("de.sambalmueslie.openbooking.BookingApplication")
 }
 
