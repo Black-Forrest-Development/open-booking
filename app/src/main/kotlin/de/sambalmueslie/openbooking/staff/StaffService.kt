@@ -34,7 +34,7 @@ class StaffService(
     override fun isValid(request: StaffMemberChangeRequest) {
         if (request.firstName.isEmpty()) throw InvalidRequestException("First name cannot be empty")
         if (request.lastName.isEmpty()) throw InvalidRequestException("First name cannot be empty")
-        if (request.email.isEmpty() && request.phone.isEmpty()) throw InvalidRequestException("Eighter mail or phone conntact must be provided")
+        if (request.email.isEmpty() && request.phone.isEmpty()) throw InvalidRequestException("Either mail or phone contact must be provided")
     }
 
 
