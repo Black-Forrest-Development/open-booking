@@ -15,22 +15,24 @@ data class StaffMemberData(
     @Column var lastName: String,
     @Column var email: String,
     @Column var phone: String,
+    @Column var mobile: String,
     @Column var created: LocalDateTime,
     @Column var updated: LocalDateTime? = null,
 ) : DataObject<StaffMember> {
     companion object {
         fun create(request: StaffMemberChangeRequest, timestamp: LocalDateTime): StaffMemberData {
-            return StaffMemberData(0, request.firstName, request.lastName, request.email, request.phone, timestamp)
+            return StaffMemberData(0, request.firstName, request.lastName, request.email, request.phone, request.mobile, timestamp)
         }
     }
 
-    override fun convert() = StaffMember(id, firstName, lastName, email, phone)
+    override fun convert() = StaffMember(id, firstName, lastName, email, phone, mobile)
 
     fun update(request: StaffMemberChangeRequest, timestamp: LocalDateTime): StaffMemberData {
         firstName = request.firstName
         lastName = request.lastName
         email = request.email
         phone = request.phone
+        mobile = request.mobile
         updated = timestamp
         return this
     }

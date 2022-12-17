@@ -7,7 +7,6 @@ import de.sambalmueslie.openbooking.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.group.api.VisitorGroupChangeRequest
 import de.sambalmueslie.openbooking.group.db.VisitorGroupData
 import de.sambalmueslie.openbooking.group.db.VisitorGroupRepository
-import de.sambalmueslie.openbooking.staff.db.StaffMemberData
 import de.sambalmueslie.openbooking.util.TimeProvider
 import jakarta.inject.Singleton
 import org.slf4j.Logger
@@ -29,6 +28,11 @@ class VisitorGroupService(
 
     override fun updateData(data: VisitorGroupData, request: VisitorGroupChangeRequest): VisitorGroupData {
         return data.update(request, timeProvider.now())
+    }
+
+    override fun create(request: VisitorGroupChangeRequest): VisitorGroup {
+        // TODO check for duplicates
+        return super.create(request)
     }
 
     override fun isValid(request: VisitorGroupChangeRequest) {

@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 data class OfferData(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long,
     @Column var start: LocalDateTime,
-    @Column var end: LocalDateTime,
+    @Column var finish: LocalDateTime,
     @Column var maxPersons: Int,
     @Column var active: Boolean,
     @Column var created: LocalDateTime,
@@ -21,15 +21,15 @@ data class OfferData(
 ) : DataObject<Offer> {
     companion object {
         fun create(request: OfferChangeRequest, timestamp: LocalDateTime): OfferData {
-            return OfferData(0, request.start, request.end, request.maxPersons, request.active, timestamp)
+            return OfferData(0, request.start, request.finish, request.maxPersons, request.active, timestamp)
         }
     }
 
-    override fun convert() = Offer(id, start, end, maxPersons, active)
+    override fun convert() = Offer(id, start, finish, maxPersons, active)
 
     fun update(request: OfferChangeRequest, timestamp: LocalDateTime): OfferData {
         start = request.start
-        end = request.end
+        finish = request.finish
         maxPersons = request.maxPersons
         active = request.active
         updated = timestamp

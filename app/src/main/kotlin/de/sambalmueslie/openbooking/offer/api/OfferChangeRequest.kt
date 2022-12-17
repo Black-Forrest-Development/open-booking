@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 data class OfferChangeRequest(
     val start: LocalDateTime,
-    val end: LocalDateTime,
+    val finish: LocalDateTime,
     val maxPersons: Int,
     val active: Boolean
 ) : BusinessObjectChangeRequest
