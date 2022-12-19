@@ -10,5 +10,7 @@ import java.time.LocalDateTime
 @JdbcRepository(dialect = Dialect.POSTGRES)
 interface OfferRepository : PageableRepository<OfferData, Long> {
 
-    fun findByStartGreaterThanEqualsAndFinishLessThanEqualsOrderByStart(start: LocalDateTime, end: LocalDateTime) : List<OfferData>
+    fun findByStartGreaterThanEqualsAndFinishLessThanEqualsOrderByStart(start: LocalDateTime, end: LocalDateTime): List<OfferData>
+
+    fun findOneByStartGreaterThanEqualsOrderByStart(start: LocalDateTime): OfferData?
 }

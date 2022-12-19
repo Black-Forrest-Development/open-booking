@@ -36,6 +36,9 @@ micronaut:
         access:
           - isAuthenticated()
 
+jackson:
+  serialization-inclusion: always
+  bean-introspection-module: true
 
 datasources:
   default:

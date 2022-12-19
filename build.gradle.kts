@@ -56,6 +56,7 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.21")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.21")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+        implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
         // caching
         implementation("io.micronaut.cache:micronaut-cache-caffeine")

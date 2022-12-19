@@ -1,10 +1,10 @@
-package de.sambalmueslie.openbooking.frontend.logic
+package de.sambalmueslie.openbooking.frontend.user.logic
 
 
 import de.sambalmueslie.openbooking.backend.booking.BookingService
-import de.sambalmueslie.openbooking.frontend.api.DayInfo
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.offer.OfferService
+import de.sambalmueslie.openbooking.frontend.user.api.DayInfo
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -22,11 +22,12 @@ class DayInfoService(
     }
 
     fun getDefaultDayInfo(): List<DayInfo> {
-        return getDayInfo(LocalDate.now(), DEFAULT_DAY_INFO_AMOUNT)
+        val first = offerService.getFirstOffer(LocalDate.now()) ?: return emptyList()
+        return getDayInfo(first.start.toLocalDate(), DEFAULT_DAY_INFO_AMOUNT)
     }
 
     fun getDayInfo(date: LocalDate, amount: Int): List<DayInfo> {
-        return (0 until amount).map { getDayInfo(date) }
+        return (0 until amount).map { getDayInfo(date.plusDays(it.toLong())) }
     }
 
 

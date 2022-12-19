@@ -41,7 +41,7 @@ class AdminService(
         if (minutes <= offerMinutes) throw InvalidRequestException("Start Time ${request.startTime} cannot be before ${request.finishTime} and and must be greater than ${request.duration}")
 
         val offers = ceil(minutes.toDouble() / offerMinutes).toInt()
-        for (offset in 0..offers) {
+        for (offset in 0 until offers) {
             val time = request.startTime.plusMinutes(offset * offerMinutes)
             val start = LocalDateTime.of(day, time)
             val finish = start.plusMinutes(offerMinutes)

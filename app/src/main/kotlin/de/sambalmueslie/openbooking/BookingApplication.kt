@@ -32,8 +32,8 @@ class BookingApplication {
             val mapper: ObjectMapper = event.bean
             mapper.registerModule(JavaTimeModule())
             mapper.registerKotlinModule()
-            mapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            mapper.enable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS)
+            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            mapper.disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS)
             return mapper
         }
     }
