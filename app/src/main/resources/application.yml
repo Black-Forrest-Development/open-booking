@@ -25,8 +25,8 @@ micronaut:
         enabled: true
         signatures:
           jwks:
-            default:
-              url: ${TOKEN_URL:xyz}'
+            auth0:
+              url: ""
     intercept-url-map:
       - access: isAnonymous()
         pattern: /swagger/**
@@ -45,7 +45,7 @@ datasources:
     password: postgres
     schema-generate: NONE
     dialect: POSTGRES
-    schema: open_event_user
+    schema: open_booking
 
 netty:
   default:
@@ -56,7 +56,7 @@ flyway:
   datasources:
     default:
       enabled: true
-      default-schema: open_event_user
+      default-schema: open_booking
       create-schemas: true
-      schemas: open_event_user
+      schemas: open_booking
       clean-schema: false

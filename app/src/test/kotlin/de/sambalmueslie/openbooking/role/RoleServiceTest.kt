@@ -1,8 +1,9 @@
 package de.sambalmueslie.openbooking.role
 
-import de.sambalmueslie.openbooking.role.api.TourRole
-import de.sambalmueslie.openbooking.role.api.TourRoleChangeRequest
-import de.sambalmueslie.openbooking.util.TimeProvider
+import de.sambalmueslie.openbooking.backend.role.RoleService
+import de.sambalmueslie.openbooking.backend.role.api.TourRole
+import de.sambalmueslie.openbooking.backend.role.api.TourRoleChangeRequest
+import de.sambalmueslie.openbooking.common.TimeProvider
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.annotation.MockBean
 import io.mockk.every

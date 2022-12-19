@@ -1,8 +1,9 @@
 package de.sambalmueslie.openbooking.staff
 
-import de.sambalmueslie.openbooking.staff.api.StaffMember
-import de.sambalmueslie.openbooking.staff.api.StaffMemberChangeRequest
-import de.sambalmueslie.openbooking.util.TimeProvider
+import de.sambalmueslie.openbooking.backend.staff.StaffService
+import de.sambalmueslie.openbooking.backend.staff.api.StaffMember
+import de.sambalmueslie.openbooking.backend.staff.api.StaffMemberChangeRequest
+import de.sambalmueslie.openbooking.common.TimeProvider
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest

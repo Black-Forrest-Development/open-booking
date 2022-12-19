@@ -1,6 +1,6 @@
 package de.sambalmueslie.openbooking.frontend.api
 
-import de.sambalmueslie.openbooking.booking.api.BookingStatus
+import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
 import java.time.LocalDate
 import java.time.LocalDateTime
 

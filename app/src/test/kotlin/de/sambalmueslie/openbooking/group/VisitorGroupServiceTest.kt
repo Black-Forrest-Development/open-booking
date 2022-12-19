@@ -1,10 +1,11 @@
 package de.sambalmueslie.openbooking.group
 
-import de.sambalmueslie.openbooking.group.api.Address
-import de.sambalmueslie.openbooking.group.api.VisitorGroup
-import de.sambalmueslie.openbooking.group.api.VisitorGroupChangeRequest
-import de.sambalmueslie.openbooking.group.api.VisitorGroupStatus
-import de.sambalmueslie.openbooking.util.TimeProvider
+import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
+import de.sambalmueslie.openbooking.backend.group.api.Address
+import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
+import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupChangeRequest
+import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupStatus
+import de.sambalmueslie.openbooking.common.TimeProvider
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest

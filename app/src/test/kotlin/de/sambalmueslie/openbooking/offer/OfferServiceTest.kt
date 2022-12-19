@@ -1,8 +1,9 @@
 package de.sambalmueslie.openbooking.offer
 
-import de.sambalmueslie.openbooking.offer.api.Offer
-import de.sambalmueslie.openbooking.offer.api.OfferChangeRequest
-import de.sambalmueslie.openbooking.util.TimeProvider
+import de.sambalmueslie.openbooking.backend.offer.OfferService
+import de.sambalmueslie.openbooking.backend.offer.api.Offer
+import de.sambalmueslie.openbooking.backend.offer.api.OfferChangeRequest
+import de.sambalmueslie.openbooking.common.TimeProvider
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest

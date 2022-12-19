@@ -1,10 +1,10 @@
 package de.sambalmueslie.openbooking.frontend.logic
 
 
-import de.sambalmueslie.openbooking.booking.BookingService
+import de.sambalmueslie.openbooking.backend.booking.BookingService
 import de.sambalmueslie.openbooking.frontend.api.DayInfo
-import de.sambalmueslie.openbooking.group.VisitorGroupService
-import de.sambalmueslie.openbooking.offer.OfferService
+import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
+import de.sambalmueslie.openbooking.backend.offer.OfferService
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

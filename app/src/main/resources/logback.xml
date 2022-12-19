@@ -17,5 +17,5 @@
     <logger name="org.flywaydb" level="INFO"/>
     <logger name="io.micronaut.core.io.service" level="INFO"/>
     <logger name="de.sambalmueslie" level="INFO"/>
-    <logger name="io.netty.handler" level="INFO"/>
+    <logger name="de.sambalmueslie.openbooking.common" level="DEBUG"/>
 </configuration>

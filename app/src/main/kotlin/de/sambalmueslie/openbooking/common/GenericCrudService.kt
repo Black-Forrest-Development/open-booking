@@ -1,7 +1,6 @@
 package de.sambalmueslie.openbooking.common
 
 
-import de.sambalmueslie.openbooking.util.findByIdOrNull
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.data.repository.PageableRepository
@@ -23,7 +22,7 @@ abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectCh
     override fun create(request: R): O {
         isValid(request)
         val existing = existing(request)
-        if(existing != null) return existing.convert()
+        if (existing != null) return existing.convert()
 
         val data = repository.save(createData(request)).convert()
         notifyCreated(data)
@@ -44,15 +43,23 @@ abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectCh
 
     override fun delete(id: T): O? {
         val data = repository.findByIdOrNull(id) ?: return null
-        repository.delete(data)
+        return delete(data)
+    }
+
+    fun delete(data: D): O {
+        deleteDependencies(data)
         val result = data.convert()
         notifyDeleted(result)
+        repository.delete(data)
         return result
     }
 
     protected abstract fun isValid(request: R)
     protected open fun existing(request: R): D? {
         return null
+    }
+    protected open fun deleteDependencies(data: D) {
+        // intentionally left empty
     }
 }
 

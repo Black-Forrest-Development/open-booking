@@ -1,8 +1,8 @@
 package de.sambalmueslie.openbooking.settings.api
 
 import de.sambalmueslie.openbooking.common.AuthCrudAPI
-import de.sambalmueslie.openbooking.offer.api.Offer
-import de.sambalmueslie.openbooking.offer.api.OfferChangeRequest
+import de.sambalmueslie.openbooking.backend.offer.api.Offer
+import de.sambalmueslie.openbooking.backend.offer.api.OfferChangeRequest
 
 interface SettingsAPI : AuthCrudAPI<Long, Offer, OfferChangeRequest> {
     companion object {

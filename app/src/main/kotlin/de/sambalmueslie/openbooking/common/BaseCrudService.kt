@@ -1,7 +1,6 @@
 package de.sambalmueslie.openbooking.common
 
 
-import de.sambalmueslie.openbooking.util.forEachWithTryCatch
 import org.slf4j.Logger
 
 abstract class BaseCrudService<T, O : BusinessObject<T>, R : BusinessObjectChangeRequest>(
