@@ -16,6 +16,6 @@ interface BookingRequestRelationRepository : GenericRepository<BookingRequestRel
 
     fun deleteByBookingId(bookingId: Long)
     fun deleteByBookingRequestId(bookingRequestId: Long)
-    fun deleteAll(relations: List<BookingRequestRelation>)
+
 
 }

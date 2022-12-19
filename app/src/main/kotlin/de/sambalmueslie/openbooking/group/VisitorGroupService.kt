@@ -1,6 +1,7 @@
 package de.sambalmueslie.openbooking.group
 
 
+import de.sambalmueslie.openbooking.booking.api.Booking
 import de.sambalmueslie.openbooking.common.GenericCrudService
 import de.sambalmueslie.openbooking.error.InvalidRequestException
 import de.sambalmueslie.openbooking.group.api.VisitorGroup
@@ -30,10 +31,12 @@ class VisitorGroupService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun create(request: VisitorGroupChangeRequest): VisitorGroup {
-        // TODO check for duplicates
-        return super.create(request)
+
+    override fun existing(request: VisitorGroupChangeRequest): VisitorGroupData? {
+        // TODO check for existing data
+        return null
     }
+
 
     override fun isValid(request: VisitorGroupChangeRequest) {
         if (request.title.isEmpty()) throw InvalidRequestException("Title cannot be empty")
@@ -42,6 +45,11 @@ class VisitorGroupService(
         if (request.maxAge <= 0) throw InvalidRequestException("Max Age must be a positive number")
         if (request.contact.isEmpty()) throw InvalidRequestException("Contact cannot be empty")
         if (request.email.isEmpty() && request.phone.isEmpty()) throw InvalidRequestException("Either mail or phone contact must be provided")
+    }
+
+    fun get(bookings: List<Booking>): List<VisitorGroup>{
+        val visitorGroupIds = bookings.map { it.visitorGroupId }.toSet()
+        return repository.findByIdIn(visitorGroupIds).map { it.convert() }
     }
 
 

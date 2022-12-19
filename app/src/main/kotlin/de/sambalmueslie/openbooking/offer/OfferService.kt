@@ -11,6 +11,7 @@ import de.sambalmueslie.openbooking.util.TimeProvider
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.time.LocalDate
 
 @Singleton
 class OfferService(
@@ -33,6 +34,12 @@ class OfferService(
 
     override fun isValid(request: OfferChangeRequest) {
         if (request.maxPersons <= 0) throw InvalidRequestException("Max Person for offer cannot be below or equals 0")
+    }
+
+    fun getOffer(date: LocalDate): List<Offer>{
+        val start = date.atStartOfDay()
+        val finish = date.atTime(23, 59, 59)
+        return repository.findByStartGreaterThanEqualsAndFinishLessThanEqualsOrderByStart(start, finish).map { it.convert()}
     }
 
 

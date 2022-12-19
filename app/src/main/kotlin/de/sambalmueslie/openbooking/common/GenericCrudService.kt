@@ -22,6 +22,8 @@ abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectCh
 
     override fun create(request: R): O {
         isValid(request)
+        val existing = existing(request)
+        if(existing != null) return existing.convert()
 
         val data = repository.save(createData(request)).convert()
         notifyCreated(data)
@@ -49,6 +51,9 @@ abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectCh
     }
 
     protected abstract fun isValid(request: R)
+    protected open fun existing(request: R): D? {
+        return null
+    }
 }
 
 

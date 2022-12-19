@@ -14,12 +14,13 @@ data class BookingRequestData(
     @Column @Enumerated(EnumType.STRING) var status: BookingRequestStatus,
 
     @Column var visitorGroupId: Long,
+    @Column var comment: String,
     @Column var created: LocalDateTime,
     @Column var updated: LocalDateTime? = null,
 ) : DataObject<BookingRequest> {
 
 
-    override fun convert() = BookingRequest(id, status)
+    override fun convert() = BookingRequest(id, comment, status)
 
 }
 

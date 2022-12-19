@@ -42,7 +42,7 @@ class BookingRequestService(
     fun create(request: BookingRequestChangeRequest): BookingRequest {
         val visitorGroup = visitorGroupService.create(request.visitorGroupChangeRequest)
 
-        val data = repository.save(BookingRequestData(0, BookingRequestStatus.UNKNOWN, visitorGroup.id, timeProvider.now()))
+        val data = repository.save(BookingRequestData(0, BookingRequestStatus.UNKNOWN, visitorGroup.id,request.comment, timeProvider.now()))
 
         val bookings = request.bookings.mapNotNull { bookingService.create(it) }
         val relations = bookings.map { BookingRequestRelation(data.id, it.id) }
@@ -57,7 +57,7 @@ class BookingRequestService(
         val relations = relationRepository.getByBookingRequestId(data.id)
         relations.forEach { bookingService.delete(it.bookingId) }
 
-        relationRepository.deleteAll(relations)
+        relationRepository.deleteByBookingRequestId(data.id)
     }
 
 

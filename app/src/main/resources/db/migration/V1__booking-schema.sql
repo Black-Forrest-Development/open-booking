@@ -81,6 +81,7 @@ CREATE TABLE booking_request
 (
     id               BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('booking_request_seq'::regclass),
     status           VARCHAR(255)                NOT NULL,
+    comment          TEXT                        NOT NULL,
 
     visitor_group_id BIGINT                      NOT NULL,
 
