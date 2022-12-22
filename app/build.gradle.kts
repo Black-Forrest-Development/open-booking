@@ -34,3 +34,12 @@ application {
     mainClass.set("de.sambalmueslie.openbooking.BookingApplication")
 }
 
+jib {
+    from.image = "eclipse-temurin:18-jre-alpine"
+    to {
+        image = "iee1394/open-booking"
+        tags = setOf(version.toString(), "latest")
+    }
+    container.creationTime.set("USE_CURRENT_TIMESTAMP")
+}
+
