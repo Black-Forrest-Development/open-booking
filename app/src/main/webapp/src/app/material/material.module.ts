@@ -31,6 +31,7 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatRadioModule} from "@angular/material/radio";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 const MATERIAL_IMPORTS = [
   MatButtonModule,
@@ -64,7 +65,8 @@ const MATERIAL_IMPORTS = [
   MatProgressBarModule,
   MatBadgeModule,
   MatTooltipModule,
-  MatRadioModule
+  MatRadioModule,
+  MatButtonToggleModule
 ];
 
 @NgModule({

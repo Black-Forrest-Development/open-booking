@@ -91,7 +91,9 @@ body {
 .fxFlex {
   flex: 1 1 auto;
 }
-
+.fxFlexNoGrow {
+  flex: 0 1 auto;
+}
 .container {
   padding: 10px;
 }

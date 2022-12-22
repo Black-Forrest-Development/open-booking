@@ -37,6 +37,25 @@ export class DayInfoService extends BaseService {
 
   private handleData(d: DayInfo[]) {
     this.data = d
+    this.selected = []
     this.reloading.next(false)
+  }
+
+  selected: DayInfo[] = []
+  primarySelected: DayInfo | null = null
+
+  toggleSelection(data: DayInfo) {
+    let index = this.selected.indexOf(data)
+    if (index < 0) {
+      this.selected.push(data)
+      if (!this.primarySelected) this.primarySelected = data
+    } else {
+      this.selected.splice(index, 1);
+      if (this.selected.length == 0) {
+        this.primarySelected = null
+      } else if (this.primarySelected == data) {
+        this.primarySelected = this.selected[0]
+      }
+    }
   }
 }

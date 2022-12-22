@@ -1,0 +1,53 @@
+<div class="container fxLayoutColumn fxLayoutAlignStretchCenter">
+  <mat-card>
+    <mat-card-header style="padding-bottom:10px;">
+      <mat-card-title>{{'BOOKING.Create.Title' | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <!--      <mat-stepper orientation="vertical" linear="true" #stepper>-->
+      <mat-stepper orientation="vertical" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>{{'BOOKING.Create.Step.VisitorGroup' | translate}}</ng-template>
+            <app-booking-create-visitor-group></app-booking-create-visitor-group>
+            <div>
+              <button mat-button matStepperNext>{{'ACTION.Next' | translate}}</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+          <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>{{'BOOKING.Create.Step.Offer' | translate}}</ng-template>
+            <app-booking-create-offer-select></app-booking-create-offer-select>
+            <div>
+              <button mat-button matStepperPrevious>{{'ACTION.Back' | translate}}</button>
+              <button mat-button matStepperNext>{{'ACTION.Next' | translate}}</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>{{'BOOKING.Create.Step.Finalize' | translate}}</ng-template>
+          <mat-checkbox>{{'BOOKING.Create.TermsAndConditions' | translate}}</mat-checkbox>
+
+          <div class="fxLayoutRow fxFlexGap">
+            <button mat-button matStepperPrevious>{{'ACTION.Back' | translate}}</button>
+            <button mat-stroked-button color="accent">
+              <mat-icon>check</mat-icon>
+              {{'BOOKING.Create.Action.Submit' | translate}}</button>
+            <button mat-stroked-button color="warn" (click)="stepper.reset()">
+              <mat-icon>clear</mat-icon>
+              {{'BOOKING.Create.Action.Reset' | translate}}</button>
+            <button mat-stroked-button color="primary">
+              <mat-icon>arrow_back</mat-icon>
+              {{'BOOKING.Create.Action.Back' | translate}}</button>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </mat-card-content>
+    <mat-card-actions>
+
+    </mat-card-actions>
+  </mat-card>
+</div>
+

@@ -1,15 +1,5 @@
-<mat-toolbar>
-  <div class="fxLayoutRow fxLayoutAlignCenterStretch fxFlexGap">
-    <mat-form-field appearance="fill" class="fxFlex date-range-selector" (selectionchange)="handleSelectionChange()">
-      <mat-label>Enter a date range</mat-label>
-      <mat-date-range-input [rangePicker]="picker" [formGroup]="range">
-        <input matStartDate formControlName="start" placeholder="Start date">
-        <input matEndDate formControlName="end" placeholder="End date">
-      </mat-date-range-input>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
-    <button mat-icon-button (click)="clearSelection()"><mat-icon>cancel</mat-icon></button>
-    <div class="fxFlex"></div>
-  </div>
-</mat-toolbar>
+<div class="fxLayoutRow fxFlexGap fxFlex" style="justify-content: center; align-items: center; padding: 10px;">
+  <app-day-info-range-selection class="fxFlexNoGrow"></app-day-info-range-selection>
+  <app-day-info-booking-selection class="fxFlex"></app-day-info-booking-selection>
+</div>
+<mat-divider></mat-divider>

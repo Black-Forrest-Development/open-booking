@@ -23,7 +23,8 @@
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>Action 1</button>
-    <button mat-button>Action 2</button>
+    <div class="fxFlex"></div>
+    <mat-slide-toggle class="fxFlex" (toggleChange)="toggleSelection()" [(ngModel)]="selected">{{'BOOKING.Entry.Select' | translate}}</mat-slide-toggle>
+    <div class="fxFlex"></div>
   </mat-card-actions>
 </mat-card>
