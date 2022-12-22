@@ -8,6 +8,12 @@ data class DayInfo(
     val date: LocalDate,
     val start: LocalDateTime?,
     val end: LocalDateTime?,
-    val totalAmountOfSpace: Int,
-    val bookedAmountOfSpace: Map<BookingStatus, Int>
+
+    val amountOfOfferTotal: Int,
+    val amountOfOfferAvailable: Int,
+    val amountOfOfferBooked: Int,
+
+    val amountOfSpaceTotal: Int,
+    val amountOfSpaceAvailable: Int,
+    val amountOfSpaceBooked: Int
 )

@@ -1,16 +1,6 @@
-<div class="fxLayoutColumn fxLayoutAlignStartStretch">
-  <mat-toolbar color="primary">
-    <h3>{{'APP.Title' | translate}}</h3>
-  </mat-toolbar>
+<mat-toolbar color="primary">
+  <h3>{{'APP.Title' | translate}}</h3>
+</mat-toolbar>
 
-  <mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<app-day-info-board></app-day-info-board>
 
-  <mat-list>
-    <mat-list-item *ngFor="let day of data">
-      <mat-icon matListItemIcon>folder</mat-icon>
-      <div matListItemTitle>{{day.date | date }} {{day.start | timestamp}} - {{day.end | timestamp}}</div>
-      <div matListItemLine>{{day.totalAmountOfSpace}}</div>
-    </mat-list-item>
-  </mat-list>
-
-</div>

@@ -52,5 +52,9 @@ class OfferService(
         return repository.findOneByStartGreaterThanEqualsOrderByStart(date.atStartOfDay())?.convert()
     }
 
+    fun getLastOffer(date: LocalDate): Offer? {
+        return repository.findOneByStartGreaterThanEqualsOrderByStartDesc(date.atStartOfDay())?.convert()
+    }
+
 
 }
