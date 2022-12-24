@@ -6,18 +6,12 @@
     <mat-divider></mat-divider>
     <mat-card-content>
       <!--      <mat-stepper orientation="vertical" linear="true" #stepper>-->
-      <mat-stepper orientation="vertical" #stepper>
-        <mat-step [stepControl]="firstFormGroup">
-          <form [formGroup]="firstFormGroup">
-            <ng-template matStepLabel>{{'BOOKING.Create.Step.VisitorGroup' | translate}}</ng-template>
-            <app-booking-create-visitor-group></app-booking-create-visitor-group>
-            <div>
-              <button mat-button matStepperNext>{{'ACTION.Next' | translate}}</button>
-            </div>
-          </form>
+      <mat-stepper orientation="vertical" #stepper (selectionChange)="handleStepperSelectionChanged($event)">
+        <mat-step [stepControl]="visitorFormGroup">
+            <app-booking-create-visitor-group [visitorFormGroup]="visitorFormGroup"></app-booking-create-visitor-group>
         </mat-step>
-        <mat-step [stepControl]="secondFormGroup">
-          <form [formGroup]="secondFormGroup">
+        <mat-step [stepControl]="offerFormGroup">
+          <form [formGroup]="offerFormGroup">
             <ng-template matStepLabel>{{'BOOKING.Create.Step.Offer' | translate}}</ng-template>
             <app-booking-create-offer-select></app-booking-create-offer-select>
             <div>

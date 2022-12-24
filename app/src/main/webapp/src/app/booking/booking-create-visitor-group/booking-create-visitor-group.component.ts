@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-booking-create-visitor-group',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./booking-create-visitor-group.component.scss']
 })
 export class BookingCreateVisitorGroupComponent {
+
+  @Input()
+  visitorFormGroup!: FormGroup;
 
 }

@@ -3,6 +3,7 @@ package de.sambalmueslie.openbooking.frontend.user
 
 import de.sambalmueslie.openbooking.frontend.user.api.DayInfo
 import de.sambalmueslie.openbooking.frontend.user.api.DayInfoSelectRequest
+import de.sambalmueslie.openbooking.frontend.user.api.OfferInfoSelectRequest
 import de.sambalmueslie.openbooking.frontend.user.logic.DayInfoService
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
@@ -22,8 +23,7 @@ class UserController(private val service: DayInfoService) {
     @Post("/day/info")
     fun selectDayInfo(@Body request: DayInfoSelectRequest) = service.selectDayInfo(request)
 
-
-    fun getDayInfo(date: LocalDate, amount: Int) = service.getDayInfo(date, amount)
-
+    @Post("/offer/info")
+    fun getOfferInfo(@Body request: OfferInfoSelectRequest) = service.getOfferInfo(request)
 
 }

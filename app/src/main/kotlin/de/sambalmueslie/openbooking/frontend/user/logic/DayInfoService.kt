@@ -8,8 +8,7 @@ import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
-import de.sambalmueslie.openbooking.frontend.user.api.DayInfo
-import de.sambalmueslie.openbooking.frontend.user.api.DayInfoSelectRequest
+import de.sambalmueslie.openbooking.frontend.user.api.*
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -75,6 +74,28 @@ class DayInfoService(
         val confirmed = bookings.filter { it.status == BookingStatus.CONFIRMED}
         val visitors = confirmed.sumOf { visitorGroups[it.visitorGroupId]?.size ?: 0 }
         return visitors < offer.maxPersons
+    }
+
+    fun getOfferInfo(request: OfferInfoSelectRequest): OfferInfoSelectResult {
+        val offerByDate = request.dates.associateWith { offerService.getOffer(it) }
+
+        val offers = offerByDate.mapValues {
+            val offer = it.value.filter { it.active }
+            val bookings = bookingService.getBookings(offer).groupBy { b -> b.offerId }
+
+            offer.associateWith { o -> bookings[o.id] }
+                .map { (o,b) ->
+                    val confirmedBookings = b?.filter { it.status == BookingStatus.CONFIRMED } ?: emptyList()
+                    if(confirmedBookings.isEmpty()){
+                        OfferInfo(o.id, o.start, o.end, o.maxPersons, o.maxPersons, 0)
+                    } else {
+                        val visitorGroups = visitorGroupService.get(confirmedBookings).associateBy { vg -> vg.id }
+                        val amountOfSpaceBooked = confirmedBookings.sumOf { bk -> visitorGroups[bk.visitorGroupId]?.size ?: 0 }
+                        OfferInfo(o.id, o.start, o.end, o.maxPersons, amountOfSpaceBooked, o.maxPersons - amountOfSpaceBooked)
+                    }
+                }
+        }
+        return OfferInfoSelectResult(offers)
     }
 
 
