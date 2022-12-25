@@ -43,3 +43,4 @@ bin/
 .DS_Store
 
 deployment/
+app/src/main/resources/static/

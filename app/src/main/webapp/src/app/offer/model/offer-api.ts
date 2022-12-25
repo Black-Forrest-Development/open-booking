@@ -1,9 +1,20 @@
-export interface OfferInfoSelectResult{
-  offers: OfferInfoSelectEntry[]
+export interface OfferInfoSelectResult {
+  offers: OfferInfoSelectResultEntry[]
 }
 
-export interface OfferInfoSelectEntry {
+export interface OfferInfoSelectResultEntry {
+  date: string,
+  infos: OfferInfo[]
+}
 
+export interface OfferInfo {
+  id: number,
+  start: string,
+  end: string,
+
+  amountOfSpaceTotal: number,
+  amountOfSpaceAvailable: number,
+  amountOfSpaceBooked: number
 }
 
 export class OfferInfoSelectRequest {

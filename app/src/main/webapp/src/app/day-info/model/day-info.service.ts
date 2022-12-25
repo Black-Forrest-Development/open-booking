@@ -26,11 +26,13 @@ export class DayInfoService extends BaseService {
   }
 
   loadDefaultDayInfo() {
+    if(this.reloading.value) return
     this.reloading.next(true)
     this.getDefaultDayInfo().subscribe(d => this.handleData(d))
   }
 
   loadRangeDayInfo(start: Date, end: Date) {
+    if(this.reloading.value) return
     this.reloading.next(true)
     this.selectDayInfo(new DayInfoSelectRequest(start.toISOString(), end.toISOString())).subscribe(d => this.handleData(d))
   }

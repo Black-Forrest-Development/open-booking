@@ -71,7 +71,7 @@ class DayInfoService(
     }
 
     private fun isAvailable(offer: Offer, bookings: List<Booking>, visitorGroups: Map<Long, VisitorGroup>): Boolean {
-        val confirmed = bookings.filter { it.status == BookingStatus.CONFIRMED}
+        val confirmed = bookings.filter { it.status == BookingStatus.CONFIRMED }
         val visitors = confirmed.sumOf { visitorGroups[it.visitorGroupId]?.size ?: 0 }
         return visitors < offer.maxPersons
     }
@@ -80,13 +80,13 @@ class DayInfoService(
         val offerByDate = request.dates.associateWith { offerService.getOffer(it) }
 
         val offers = offerByDate.mapValues {
-            val offer = it.value.filter { it.active }
+            val offer = it.value.filter { o -> o.active }
             val bookings = bookingService.getBookings(offer).groupBy { b -> b.offerId }
 
             offer.associateWith { o -> bookings[o.id] }
-                .map { (o,b) ->
+                .map { (o, b) ->
                     val confirmedBookings = b?.filter { it.status == BookingStatus.CONFIRMED } ?: emptyList()
-                    if(confirmedBookings.isEmpty()){
+                    if (confirmedBookings.isEmpty()) {
                         OfferInfo(o.id, o.start, o.end, o.maxPersons, o.maxPersons, 0)
                     } else {
                         val visitorGroups = visitorGroupService.get(confirmedBookings).associateBy { vg -> vg.id }
@@ -95,7 +95,7 @@ class DayInfoService(
                     }
                 }
         }
-        return OfferInfoSelectResult(offers)
+        return OfferInfoSelectResult(offers.map { OfferInfoSelectResultEntry(it.key, it.value) })
     }
 
 
