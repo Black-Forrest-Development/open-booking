@@ -8,15 +8,15 @@
       <!--      <mat-stepper orientation="vertical" linear="true" #stepper>-->
       <mat-stepper orientation="vertical" #stepper (selectionChange)="handleStepperSelectionChanged($event)">
         <mat-step [stepControl]="visitorFormGroup">
-          <ng-template matStepLabel>{{'BOOKING.Create.Step.VisitorGroup' | translate}}</ng-template>
+          <ng-template matStepLabel>{{'BOOKING.Create.Step.VisitorGroup.Header' | translate}}</ng-template>
           <app-booking-create-visitor-group [visitorFormGroup]="visitorFormGroup"></app-booking-create-visitor-group>
         </mat-step>
         <mat-step [stepControl]="offerFormGroup">
-          <ng-template matStepLabel>{{'BOOKING.Create.Step.Offer' | translate}}</ng-template>
+          <ng-template matStepLabel>{{'BOOKING.Create.Step.Offer.Header' | translate}}</ng-template>
           <app-booking-create-offer-select [offerFormGroup]="offerFormGroup"></app-booking-create-offer-select>
         </mat-step>
         <mat-step>
-          <ng-template matStepLabel>{{'BOOKING.Create.Step.Finalize' | translate}}</ng-template>
+          <ng-template matStepLabel>{{'BOOKING.Create.Step.Finalize.Header' | translate}}</ng-template>
           <mat-checkbox>{{'BOOKING.Create.TermsAndConditions' | translate}}</mat-checkbox>
 
           <div class="fxLayoutRow fxFlexGap">

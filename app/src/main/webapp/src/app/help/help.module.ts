@@ -1,14 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { HelpRoutingModule } from './help-routing.module';
+import {HelpRoutingModule} from './help-routing.module';
+import {HelpDialogComponent} from './help-dialog/help-dialog.component';
+import {MaterialModule} from "../material/material.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    HelpDialogComponent
+  ],
   imports: [
     CommonModule,
-    HelpRoutingModule
+    HelpRoutingModule,
+    MaterialModule,
+    TranslateModule
   ]
 })
-export class HelpModule { }
+export class HelpModule {
+}

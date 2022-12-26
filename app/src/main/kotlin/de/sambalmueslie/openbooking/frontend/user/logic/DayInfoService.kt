@@ -39,8 +39,8 @@ class DayInfoService(
         return getDayInfo(from, days.toInt())
     }
 
-    fun getDayInfo(date: LocalDate, amount: Int): List<DayInfo> {
-        return (0 until amount).mapNotNull { getDayInfo(date.plusDays(it.toLong())) }
+    private fun getDayInfo(date: LocalDate, amount: Int): List<DayInfo> {
+        return (0 .. amount).mapNotNull { getDayInfo(date.plusDays(it.toLong())) }
     }
 
 

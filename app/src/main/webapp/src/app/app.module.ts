@@ -12,6 +12,8 @@ import {MAT_DATE_LOCALE} from "@angular/material/core";
 import {registerLocaleData} from "@angular/common";
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS} from "@angular/material-moment-adapter";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,6 +32,8 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

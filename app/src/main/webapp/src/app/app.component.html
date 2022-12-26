@@ -1,5 +1,18 @@
 <mat-toolbar color="primary">
-  <h3>{{'APP.Title' | translate}}</h3>
+  <a mat-icon-button routerLink="/"><mat-icon>home</mat-icon></a>
+  <h3 class="fxFlexNoGrow">{{'APP.Title' | translate}}</h3>
+  <div class="fxFlex"></div>
+  <div class="fxFlexNoGrow">
+    <mat-form-field appearance="fill">
+      <mat-label>{{'LANGUAGE.Title' | translate}}</mat-label>
+      <mat-select [value]="lang" (selectionChange)="changeLang($event)">
+        <mat-option *ngFor="let l of languages" [value]="l.key">{{l.text | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <button mat-icon-button (click)="showHelp()">
+    <mat-icon>help</mat-icon>
+  </button>
 </mat-toolbar>
 <div class="fxLayoutColumn fxLayoutAlignStartStretch fxFlexFill">
   <router-outlet></router-outlet>

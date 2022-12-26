@@ -1,0 +1,54 @@
+{
+  "APP": {
+    "Title": "Open Booking"
+  },
+  "ACTION": {
+    "Ok": "OK",
+    "Next": "Next",
+    "Back": "Back"
+  },
+  "LANG": {
+    "Title": "Language",
+    "English": "English",
+    "German": "Deutsch"
+  },
+  "DAY_INFO": {
+    "SelectRange": {
+      "Title": "Date Range Filter",
+      "StartDate": "Start Date",
+      "EndDate": "End Date"
+    }
+  },
+  "BOOKING": {
+    "Entry": {
+      "Select": "Select Day"
+    },
+    "Action": {
+      "Create": "Create Booking"
+    },
+    "Create": {
+      "Title": "Create a new booking",
+      "Step": {
+        "VisitorGroup": {
+          "Header": "Visitor Group",
+          "Title": "Title",
+          "Size": "Size",
+          "MinAge": "Minimum Age",
+          "MaxAge": "Maximum Age",
+          "Contact": "Contact",
+          "Street": "Street",
+          "Zip": "Zip",
+          "City": "City",
+          "Phone": "Phone",
+          "Mail": "E-Mail"
+        },
+        "Offer": {
+          "Header": "Offer"
+        },
+        "Finalize": {
+          "Header": "Finalize"
+        }
+      }
+    }
+  }
+}
