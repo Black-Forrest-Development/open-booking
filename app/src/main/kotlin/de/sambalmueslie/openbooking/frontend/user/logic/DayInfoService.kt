@@ -8,6 +8,10 @@ import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
+import de.sambalmueslie.openbooking.backend.request.BookingRequestService
+import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
+import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeRequest
+import de.sambalmueslie.openbooking.error.InvalidRequestException
 import de.sambalmueslie.openbooking.frontend.user.api.*
 import jakarta.inject.Singleton
 import org.slf4j.Logger
@@ -17,7 +21,10 @@ import java.time.temporal.ChronoUnit
 
 @Singleton
 class DayInfoService(
-    private val offerService: OfferService, private val bookingService: BookingService, private val visitorGroupService: VisitorGroupService
+    private val offerService: OfferService,
+    private val bookingService: BookingService,
+    private val visitorGroupService: VisitorGroupService,
+    private val bookingRequestService: BookingRequestService
 ) {
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(DayInfoService::class.java)
@@ -40,11 +47,11 @@ class DayInfoService(
     }
 
     private fun getDayInfo(date: LocalDate, amount: Int): List<DayInfo> {
-        return (0 .. amount).mapNotNull { getDayInfo(date.plusDays(it.toLong())) }
+        return (0..amount).mapNotNull { getDayInfo(date.plusDays(it.toLong())) }
     }
 
 
-    private fun getDayInfo(date: LocalDate): DayInfo? {
+    fun getDayInfo(date: LocalDate): DayInfo? {
         val offer = offerService.getOffer(date).filter { it.active }
         if (offer.isEmpty()) return null
 
@@ -91,11 +98,34 @@ class DayInfoService(
                     } else {
                         val visitorGroups = visitorGroupService.get(confirmedBookings).associateBy { vg -> vg.id }
                         val amountOfSpaceBooked = confirmedBookings.sumOf { bk -> visitorGroups[bk.visitorGroupId]?.size ?: 0 }
-                        OfferInfo(o.id, o.start, o.end, o.maxPersons, amountOfSpaceBooked, o.maxPersons - amountOfSpaceBooked)
+                        OfferInfo(o.id, o.start, o.end, o.maxPersons, o.maxPersons - amountOfSpaceBooked, amountOfSpaceBooked)
                     }
-                }
+                }.filter { o -> o.amountOfSpaceAvailable >= request.groupSize }
         }
         return OfferInfoSelectResult(offers.map { OfferInfoSelectResultEntry(it.key, it.value) })
+    }
+
+    fun getOfferInfo(date: LocalDate): OfferInfoSelectResultEntry {
+        val offer = offerService.getOffer(date).filter { o -> o.active }
+        val bookings = bookingService.getBookings(offer).groupBy { b -> b.offerId }
+
+        val result = offer.associateWith { o -> bookings[o.id] }
+            .map { (o, b) ->
+                val confirmedBookings = b?.filter { it.status == BookingStatus.CONFIRMED } ?: emptyList()
+                if (confirmedBookings.isEmpty()) {
+                    OfferInfo(o.id, o.start, o.end, o.maxPersons, o.maxPersons, 0)
+                } else {
+                    val visitorGroups = visitorGroupService.get(confirmedBookings).associateBy { vg -> vg.id }
+                    val amountOfSpaceBooked = confirmedBookings.sumOf { bk -> visitorGroups[bk.visitorGroupId]?.size ?: 0 }
+                    OfferInfo(o.id, o.start, o.end, o.maxPersons, o.maxPersons - amountOfSpaceBooked, amountOfSpaceBooked)
+                }
+            }
+        return OfferInfoSelectResultEntry(date, result)
+    }
+
+    fun createBooking(request: CreateBookingRequest): BookingRequest {
+        if (!request.termsAndConditions) throw InvalidRequestException("You must accept the termns and conditions")
+        return bookingRequestService.create(BookingRequestChangeRequest(request.visitorGroupChangeRequest, request.offerIds, request.comment))
     }
 
 

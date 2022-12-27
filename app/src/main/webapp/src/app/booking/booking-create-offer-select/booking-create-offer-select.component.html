@@ -18,6 +18,6 @@
   </div>
   <div>
     <button mat-button matStepperPrevious>{{'ACTION.Back' | translate}}</button>
-    <button mat-button matStepperNext>{{'ACTION.Next' | translate}}</button>
+    <button mat-button matStepperNext [disabled]="offerFormGroup.invalid">{{'ACTION.Next' | translate}}</button>
   </div>
 </form>

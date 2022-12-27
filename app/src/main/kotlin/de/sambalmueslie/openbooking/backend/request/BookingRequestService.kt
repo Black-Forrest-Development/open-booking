@@ -3,8 +3,8 @@ package de.sambalmueslie.openbooking.backend.request
 
 import de.sambalmueslie.openbooking.backend.booking.BookingService
 import de.sambalmueslie.openbooking.backend.booking.api.Booking
+import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
-import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeRequest
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestStatus
@@ -13,7 +13,6 @@ import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelation
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelationRepository
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRepository
 import de.sambalmueslie.openbooking.common.BusinessObjectChangeListener
-import de.sambalmueslie.openbooking.common.PageableSequence
 import de.sambalmueslie.openbooking.common.TimeProvider
 import de.sambalmueslie.openbooking.common.findByIdOrNull
 import io.micronaut.data.model.Page
@@ -55,10 +54,10 @@ class BookingRequestService(
     fun create(request: BookingRequestChangeRequest): BookingRequest {
         val visitorGroup = visitorGroupService.create(request.visitorGroupChangeRequest)
 
-        val data = repository.save(BookingRequestData(0, BookingRequestStatus.UNKNOWN, visitorGroup.id,request.comment, timeProvider.now()))
+        val data = repository.save(BookingRequestData(0, BookingRequestStatus.UNKNOWN, visitorGroup.id, request.comment, timeProvider.now()))
 
-        val bookings = request.bookings.mapNotNull { bookingService.create(it) }
-        val relations = bookings.map { BookingRequestRelation(data.id, it.id) }
+        val bookings = request.offerIds.map { bookingService.create(BookingChangeRequest(it, visitorGroup.id)) }
+        val relations = bookings.map { BookingRequestRelation(it.id, data.id) }
         relationRepository.saveAll(relations)
 
         return data.convert()

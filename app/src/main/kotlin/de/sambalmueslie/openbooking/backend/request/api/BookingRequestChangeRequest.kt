@@ -6,6 +6,6 @@ import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupChangeRequest
 
 data class BookingRequestChangeRequest(
     val visitorGroupChangeRequest: VisitorGroupChangeRequest,
+    val offerIds: List<Long>,
     val comment: String,
-    val bookings: List<BookingChangeRequest>
 ) : BusinessObjectChangeRequest

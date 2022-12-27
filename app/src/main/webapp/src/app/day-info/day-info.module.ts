@@ -8,7 +8,9 @@ import {DayInfoBoardContentComponent} from './day-info-board-content/day-info-bo
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DayInfoBoardEntryComponent} from './day-info-board-entry/day-info-board-entry.component';
 import {DayInfoRangeSelectionComponent} from './day-info-range-selection/day-info-range-selection.component';
-import { DayInfoBookingSelectionComponent } from './day-info-booking-selection/day-info-booking-selection.component';
+import {DayInfoBookingSelectionComponent} from './day-info-booking-selection/day-info-booking-selection.component';
+import {DayInfoRoutingModule} from "./day-info-routing.module";
+import { DayInfoDetailsComponent } from './day-info-details/day-info-details.component';
 
 
 @NgModule({
@@ -18,13 +20,15 @@ import { DayInfoBookingSelectionComponent } from './day-info-booking-selection/d
     DayInfoBoardContentComponent,
     DayInfoBoardEntryComponent,
     DayInfoRangeSelectionComponent,
-    DayInfoBookingSelectionComponent
+    DayInfoBookingSelectionComponent,
+    DayInfoDetailsComponent
   ],
   exports: [
     DayInfoBoardComponent
   ],
   imports: [
     CommonModule,
+    DayInfoRoutingModule,
     MaterialModule,
     TranslateModule,
     ReactiveFormsModule,

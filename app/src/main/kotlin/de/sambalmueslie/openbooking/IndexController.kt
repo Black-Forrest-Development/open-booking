@@ -25,6 +25,7 @@ class IndexController(private val res: ResourceResolver) {
     @Produces(MediaType.TEXT_HTML)
     fun refresh(path: String): Optional<StreamedFile> {
 		if(logger.isDebugEnabled) logger.debug("Refresh $path")
+        if(path.startsWith("api")) return Optional.empty()
         return res.getResource("classpath:static/index.html").map { StreamedFile(it) }
     }
 

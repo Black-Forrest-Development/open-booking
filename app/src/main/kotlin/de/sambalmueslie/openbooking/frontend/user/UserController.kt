@@ -1,14 +1,11 @@
 package de.sambalmueslie.openbooking.frontend.user
 
 
-import de.sambalmueslie.openbooking.frontend.user.api.DayInfo
+import de.sambalmueslie.openbooking.frontend.user.api.CreateBookingRequest
 import de.sambalmueslie.openbooking.frontend.user.api.DayInfoSelectRequest
 import de.sambalmueslie.openbooking.frontend.user.api.OfferInfoSelectRequest
 import de.sambalmueslie.openbooking.frontend.user.logic.DayInfoService
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Post
+import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import java.time.LocalDate
@@ -23,7 +20,16 @@ class UserController(private val service: DayInfoService) {
     @Post("/day/info")
     fun selectDayInfo(@Body request: DayInfoSelectRequest) = service.selectDayInfo(request)
 
+    @Get("/day/info/{date}")
+    fun getDayInfo(@PathVariable date: LocalDate) = service.getDayInfo(date)
+
+    @Get("/offer/info/{date}")
+    fun getOfferInfo(@PathVariable date: LocalDate) = service.getOfferInfo(date)
+
     @Post("/offer/info")
     fun getOfferInfo(@Body request: OfferInfoSelectRequest) = service.getOfferInfo(request)
+
+    @Post("/booking")
+    fun createBooking(@Body request: CreateBookingRequest) = service.createBooking(request)
 
 }

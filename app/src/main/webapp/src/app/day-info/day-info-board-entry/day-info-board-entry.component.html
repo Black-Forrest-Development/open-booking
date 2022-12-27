@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-card-header>
+  <mat-card-header  routerLink="/day-info/details/{{data.date}}">
     <mat-card-title>{{data.date | date:'fullDate'}}</mat-card-title>
     <mat-card-subtitle>{{data.start | date:'shortTime' }} - {{data.end | date:'shortTime'}}</mat-card-subtitle>
   </mat-card-header>
