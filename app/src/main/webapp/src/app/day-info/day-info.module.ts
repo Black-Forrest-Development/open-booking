@@ -11,6 +11,7 @@ import {DayInfoRangeSelectionComponent} from './day-info-range-selection/day-inf
 import {DayInfoBookingSelectionComponent} from './day-info-booking-selection/day-info-booking-selection.component';
 import {DayInfoRoutingModule} from "./day-info-routing.module";
 import { DayInfoDetailsComponent } from './day-info-details/day-info-details.component';
+import {NgxEchartsModule} from "ngx-echarts";
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { DayInfoDetailsComponent } from './day-info-details/day-info-details.com
     TranslateModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxEchartsModule,
   ]
 })
 export class DayInfoModule {

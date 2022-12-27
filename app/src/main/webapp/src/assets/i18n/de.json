@@ -5,8 +5,9 @@
   },
   "ACTION": {
     "Ok": "OK",
-    "Next": "Zum nächsten Schritt weiter",
-    "Back": "Zum letzten Schritt zurück"
+    "Next": "Weiter",
+    "Back": "Zurück",
+    "Details": "Details"
   },
   "LANG": {
     "Title": "Sprache",
@@ -18,6 +19,15 @@
       "Title": "Datumsbereichsauswahl",
       "StartDate": "Start-Datum",
       "EndDate": "End-Datum"
+    },
+    "Chart": {
+      "Space": {
+        "Title": "Belegung der jeweiligen Veranstaltungen",
+        "Series": {
+          "Available": "Verfügbare Plätze",
+          "Booked": "Gebuchte Plätze"
+        }
+      }
     }
   },
   "BOOKING": {

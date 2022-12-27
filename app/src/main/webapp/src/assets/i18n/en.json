@@ -6,7 +6,8 @@
   "ACTION": {
     "Ok": "OK",
     "Next": "Next",
-    "Back": "Back"
+    "Back": "Back",
+    "Details": "Details"
   },
   "LANG": {
     "Title": "Language",
@@ -18,6 +19,15 @@
       "Title": "Date Range Filter",
       "StartDate": "Start Date",
       "EndDate": "End Date"
+    },
+    "Chart": {
+      "Space": {
+        "Title": "Space Chart",
+        "Series": {
+          "Available": "Available Space",
+          "Booked": "Booked Space"
+        }
+      }
     }
   },
   "BOOKING": {
