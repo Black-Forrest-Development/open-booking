@@ -1,18 +1,44 @@
 <mat-toolbar color="primary">
-  <a mat-icon-button routerLink="/"><mat-icon>home</mat-icon></a>
-  <h3 class="fxFlexNoGrow">{{'APP.Title' | translate}}</h3>
-  <div class="fxFlex"></div>
-  <div class="fxFlexNoGrow">
-    <mat-form-field appearance="fill">
-      <mat-label>{{'LANGUAGE.Title' | translate}}</mat-label>
-      <mat-select [value]="lang" (selectionChange)="changeLang($event)">
-        <mat-option *ngFor="let l of languages" [value]="l.key">{{l.text | translate}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="d-flex flex-row pt-4 m-0 flex-grow-1 align-items-baseline justify-content-start">
+    <div class="flex-grow-0 px-3">
+      <a mat-icon-button routerLink="/">
+        <mat-icon>home</mat-icon>
+      </a>
+    </div>
+    <div class="px-1">
+      <h3>{{'APP.Title' | translate}}</h3>
+    </div>
+    <div class="ps-5" *ngIf="auth.isAuthenticated$ | async">
+      <h4>{{'APP.Welcome' | translate}} {{(auth.user$ | async)?.name}}</h4>
+    </div>
+    <div class="flex-grow-1"></div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'LANG.Title' | translate}}</mat-label>
+        <mat-select [value]="lang" (selectionChange)="changeLang($event)">
+          <mat-option value="en">English</mat-option>
+          <mat-option value="de">Deutsch</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <button mat-icon-button (click)="showHelp()">
+      <mat-icon>help</mat-icon>
+    </button>
+
+
+    <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+      <button mat-icon-button (click)="auth.logout({ returnTo: document.location.origin })">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </ng-container>
+
+    <ng-template #loggedOut>
+      <button mat-icon-button (click)="auth.loginWithRedirect()">
+        <mat-icon>login</mat-icon>
+      </button>
+    </ng-template>
+
   </div>
-  <button mat-icon-button (click)="showHelp()">
-    <mat-icon>help</mat-icon>
-  </button>
 </mat-toolbar>
 <div class="fxLayoutColumn fxLayoutAlignStartStretch fxFlexFill">
   <router-outlet></router-outlet>

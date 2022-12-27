@@ -1,6 +1,7 @@
 {
   "APP": {
-    "Title": "Open Booking"
+    "Title": "Open Booking",
+    "Welcome": "Welcome"
   },
   "ACTION": {
     "Ok": "OK",
@@ -48,6 +49,28 @@
         "Finalize": {
           "Header": "Finalize"
         }
+      },
+      "Form": {
+        "VisitorGroup": {
+          "Title": "Title",
+          "Size": "Size",
+          "MinAge": "Minimum Age",
+          "MaxAge": "Maximum Age",
+          "Contact": "Contact",
+          "Street": "Street",
+          "Zip": "Zip",
+          "City": "City",
+          "Phone": "Phone",
+          "Mail": "E-Mail"
+        },
+        "Finalize": {
+          "TermsAndConditions": "I read the terms and conditions and accept these.",
+          "Comment": "Comments"
+        }
+      },
+      "Action": {
+        "Submit": "Submit request",
+        "Reset": "Reset Form"
       }
     }
   }

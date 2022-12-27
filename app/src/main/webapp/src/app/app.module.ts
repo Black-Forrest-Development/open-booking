@@ -14,6 +14,7 @@ import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS} from "@angular/material-moment-adapter";
+import {AuthModule} from "@auth0/auth0-angular";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -40,7 +41,11 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    AuthModule.forRoot({
+      domain: 'hlltool.eu.auth0.com',
+      clientId: 'g3jgo0n5INYtc6hsnhbFEaDP9M8lpS5D'
+    }),
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
