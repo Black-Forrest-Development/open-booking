@@ -3,7 +3,7 @@ import {BaseService} from "../../shared/base-service";
 import {HttpClient} from "@angular/common/http";
 import {LoggingService} from "../../shared/logging/logging.service";
 import {BehaviorSubject, Observable} from "rxjs";
-import {DayInfo, DayInfoSelectRequest} from "./day-info-api";
+import {DateRangeSelectionRequest, DayInfo} from "./day-info-api";
 
 @Injectable({
   providedIn: 'root'
@@ -18,32 +18,29 @@ export class DayInfoService extends BaseService {
   data: DayInfo[] = []
 
 
-
   private getDefaultDayInfo(): Observable<DayInfo[]> {
     return super.get('day/info')
   }
 
-  private selectDayInfo(request: DayInfoSelectRequest): Observable<DayInfo[]> {
+  private selectDayInfo(request: DateRangeSelectionRequest): Observable<DayInfo[]> {
     return super.post('day/info', request)
   }
 
-  loadDayInfo(date: string): Observable<DayInfo>{
+  loadDayInfo(date: string): Observable<DayInfo> {
     return super.get('day/info/' + date)
   }
 
   loadDefaultDayInfo() {
-    if(this.reloading.value) return
+    if (this.reloading.value) return
     this.reloading.next(true)
     this.getDefaultDayInfo().subscribe(d => this.handleData(d))
   }
 
   loadRangeDayInfo(start: Date, end: Date) {
-    if(this.reloading.value) return
+    if (this.reloading.value) return
     this.reloading.next(true)
-    this.selectDayInfo(new DayInfoSelectRequest(start.toISOString(), end.toISOString())).subscribe(d => this.handleData(d))
+    this.selectDayInfo(new DateRangeSelectionRequest(start.toISOString(), end.toISOString())).subscribe(d => this.handleData(d))
   }
-
-
 
 
   private handleData(d: DayInfo[]) {

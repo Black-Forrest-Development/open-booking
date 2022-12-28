@@ -26,7 +26,7 @@ export class BookingCreateOfferSelectComponent {
     } else {
       this.selected.splice(index, 1)
     }
-    let offerIds = this.selected.map(i => i.id)
+    let offerIds = this.selected.map(i => i.offer.id)
     this.offerFormGroup.controls['selected'].setValue(offerIds)
   }
 }

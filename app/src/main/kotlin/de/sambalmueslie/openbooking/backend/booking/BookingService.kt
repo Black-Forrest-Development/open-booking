@@ -56,6 +56,10 @@ class BookingService(
         return repository.findByOfferIdIn(offerIds).map { it.convert() }
     }
 
+    fun getBookings(offer: Offer): List<Booking> {
+        return repository.findByOfferId(offer.id).map { it.convert() }
+    }
+
     override fun deleteDependencies(data: BookingData) {
         val amount = repository.countByVisitorGroupId(data.visitorGroupId)
         if(amount <= 1) visitorGroupService.delete(data.visitorGroupId)

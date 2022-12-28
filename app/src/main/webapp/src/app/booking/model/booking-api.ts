@@ -16,3 +16,9 @@ export interface BookingRequest {
   comment: string,
   status: string
 }
+
+
+export interface BookingInfo {
+  size: number,
+  status: string,
+}

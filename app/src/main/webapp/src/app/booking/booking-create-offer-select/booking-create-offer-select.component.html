@@ -9,7 +9,7 @@
         <mat-card-content>
           <div class="fxLayoutRowWrap fxFlexGap" style="padding-top:10px;">
             <div class="fxFlexNoGrow" *ngFor="let info of entry.infos">
-              <button mat-flat-button [color]="selected.indexOf(info) < 0 ? 'primary' : 'accent'" (click)="toggleSelection(info)">{{info.start | date:'shortTime'}}</button>
+              <button mat-flat-button [color]="selected.indexOf(info) < 0 ? 'primary' : 'accent'" (click)="toggleSelection(info)">{{info.offer.start | date:'shortTime'}}</button>
             </div>
           </div>
         </mat-card-content>

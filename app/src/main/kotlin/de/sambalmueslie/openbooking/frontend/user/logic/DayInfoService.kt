@@ -6,6 +6,9 @@ import de.sambalmueslie.openbooking.backend.booking.api.Booking
 import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
+import de.sambalmueslie.openbooking.backend.info.InfoService
+import de.sambalmueslie.openbooking.backend.info.api.DateRangeSelectionRequest
+import de.sambalmueslie.openbooking.backend.info.api.DayInfo
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import de.sambalmueslie.openbooking.backend.request.BookingRequestService
@@ -24,57 +27,27 @@ class DayInfoService(
     private val offerService: OfferService,
     private val bookingService: BookingService,
     private val visitorGroupService: VisitorGroupService,
-    private val bookingRequestService: BookingRequestService
+    private val bookingRequestService: BookingRequestService,
+    private val infoService: InfoService
 ) {
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(DayInfoService::class.java)
-        private const val DEFAULT_DAY_INFO_AMOUNT = 99
+        private const val DEFAULT_DAY_INFO_AMOUNT = 99L
     }
 
     fun getDefaultDayInfo(): List<DayInfo> {
         val first = offerService.getFirstOffer(LocalDate.now()) ?: return emptyList()
-        return getDayInfo(first.start.toLocalDate(), DEFAULT_DAY_INFO_AMOUNT)
+        val from = first.start.toLocalDate()
+        val to = from.plusDays(DEFAULT_DAY_INFO_AMOUNT)
+        return infoService.getDayInfoRange(DateRangeSelectionRequest(from, to))
     }
 
-    fun selectDayInfo(request: DayInfoSelectRequest): List<DayInfo> {
-        val firstOffer = offerService.getFirstOffer(LocalDate.now()) ?: return emptyList()
-        val lastOffer = offerService.getLastOffer(LocalDate.now()) ?: return emptyList()
-        val from = if (firstOffer.start.toLocalDate().isAfter(request.from)) firstOffer.start.toLocalDate() else request.from
-        val to = if (lastOffer.end.toLocalDate().isBefore(request.to)) lastOffer.end.toLocalDate() else request.to
-
-        val days = ChronoUnit.DAYS.between(from, to)
-        return getDayInfo(from, days.toInt())
+    fun selectDayInfo(request: DateRangeSelectionRequest): List<DayInfo> {
+        return infoService.getDayInfoRange(request)
     }
-
-    private fun getDayInfo(date: LocalDate, amount: Int): List<DayInfo> {
-        return (0..amount).mapNotNull { getDayInfo(date.plusDays(it.toLong())) }
-    }
-
 
     fun getDayInfo(date: LocalDate): DayInfo? {
-        val offer = offerService.getOffer(date).filter { it.active }
-        if (offer.isEmpty()) return null
-
-        val first = offer.first()
-        val last = offer.last()
-        val bookings = bookingService.getBookings(offer)
-        val visitorGroups = visitorGroupService.get(bookings).associateBy { it.id }
-
-        val bookingByOffer = bookings.groupBy { it.offerId }
-
-        val amountOfOfferTotal = offer.size
-        val amountOfOfferAvailable = offer.filter { isAvailable(it, bookingByOffer[it.id] ?: emptyList(), visitorGroups) }.size
-        val amountOfOfferBooked = amountOfOfferTotal - amountOfOfferAvailable
-
-
-        val bookingByStatus = bookings.groupBy { it.status }
-            .mapValues { it.value.sumOf { b -> visitorGroups[b.visitorGroupId]?.size ?: 0 } }
-
-        val amountOfSpaceTotal = offer.sumOf { it.maxPersons }
-        val amountOfSpaceBooked = bookingByStatus[BookingStatus.CONFIRMED] ?: 0
-        val amountOfSpaceAvailable = amountOfSpaceTotal - amountOfSpaceBooked
-
-        return DayInfo(date, first.start, last.end, amountOfOfferTotal, amountOfOfferAvailable, amountOfOfferBooked, amountOfSpaceTotal, amountOfSpaceAvailable, amountOfSpaceBooked)
+        return infoService.getDayInfo(date)
     }
 
     private fun isAvailable(offer: Offer, bookings: List<Booking>, visitorGroups: Map<Long, VisitorGroup>): Boolean {
@@ -103,24 +76,6 @@ class DayInfoService(
                 }.filter { o -> o.amountOfSpaceAvailable >= request.groupSize }
         }
         return OfferInfoSelectResult(offers.map { OfferInfoSelectResultEntry(it.key, it.value) })
-    }
-
-    fun getOfferInfo(date: LocalDate): OfferInfoSelectResultEntry {
-        val offer = offerService.getOffer(date).filter { o -> o.active }
-        val bookings = bookingService.getBookings(offer).groupBy { b -> b.offerId }
-
-        val result = offer.associateWith { o -> bookings[o.id] }
-            .map { (o, b) ->
-                val confirmedBookings = b?.filter { it.status == BookingStatus.CONFIRMED } ?: emptyList()
-                if (confirmedBookings.isEmpty()) {
-                    OfferInfo(o.id, o.start, o.end, o.maxPersons, o.maxPersons, 0)
-                } else {
-                    val visitorGroups = visitorGroupService.get(confirmedBookings).associateBy { vg -> vg.id }
-                    val amountOfSpaceBooked = confirmedBookings.sumOf { bk -> visitorGroups[bk.visitorGroupId]?.size ?: 0 }
-                    OfferInfo(o.id, o.start, o.end, o.maxPersons, o.maxPersons - amountOfSpaceBooked, amountOfSpaceBooked)
-                }
-            }
-        return OfferInfoSelectResultEntry(date, result)
     }
 
     fun createBooking(request: CreateBookingRequest): BookingRequest {

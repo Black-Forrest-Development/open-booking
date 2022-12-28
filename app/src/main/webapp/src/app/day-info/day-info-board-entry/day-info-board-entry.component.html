@@ -1,8 +1,9 @@
 <mat-card>
-  <mat-card-header>
+  <mat-card-header class="day-info-card-header">
     <mat-card-title>{{data.date | date:'fullDate'}}</mat-card-title>
     <mat-card-subtitle>{{data.start | date:'shortTime' }} - {{data.end | date:'shortTime'}}</mat-card-subtitle>
   </mat-card-header>
+  <mat-divider></mat-divider>
   <mat-card-content>
     <div echarts [options]="chartOption" class="demo-chart"></div>
   </mat-card-content>

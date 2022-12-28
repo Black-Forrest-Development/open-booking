@@ -66,7 +66,7 @@ export class DayInfoDetailsComponent implements OnInit {
       },
       xAxis: {
         type: 'category',
-        data: d.infos.map(i => i.start.substring(11, 16))
+        data: d.infos.map(i => i.offer.start.substring(11, 16))
       },
       yAxis: {
         type: 'value'
@@ -82,13 +82,22 @@ export class DayInfoDetailsComponent implements OnInit {
           data: d.infos.map(i => i.amountOfSpaceAvailable),
           color: "#91cc75"
         }, {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Booked'),
+          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
           type: 'bar',
           stack: 'total',
           emphasis: {
             focus: 'series'
           },
-          data: d.infos.map(i => i.amountOfSpaceBooked),
+          data: d.infos.map(i => i.amountOfSpaceConfirmed),
+          color: "#ee6666"
+        }, {
+          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
+          type: 'bar',
+          stack: 'total',
+          emphasis: {
+            focus: 'series'
+          },
+          data: d.infos.map(i => i.amountOfSpaceUnconfirmed),
           color: "#ee6666"
         }
       ]

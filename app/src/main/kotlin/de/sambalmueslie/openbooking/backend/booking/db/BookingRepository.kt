@@ -12,6 +12,7 @@ import io.micronaut.data.repository.PageableRepository
 interface BookingRepository : PageableRepository<BookingData, Long> {
 
     fun findByOfferIdIn(offerIds: Set<Long>): List<BookingData>
+    fun findByOfferId(offerId: Long): List<BookingData>
     fun findByOfferId(offerId: Long, pageable: Pageable): Page<BookingData>
 
     fun countByVisitorGroupId(visitorGroupId: Long): Long

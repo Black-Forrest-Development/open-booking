@@ -36,11 +36,11 @@ export class DayInfoBoardEntryComponent implements OnInit {
       },
       animation: false,
       xAxis: {
-        type: 'value',
+        type: 'category',
         show: false
       },
       yAxis: {
-        type: 'category',
+        type: 'value',
         show: false
       },
       series: [
@@ -49,23 +49,19 @@ export class DayInfoBoardEntryComponent implements OnInit {
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
-          data: [
-            this.data.amountOfSpaceAvailable
-          ],
+          data: this.data.offer.map(o => o.amountOfSpaceAvailable),
           color: "#91cc75"
         },
         {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Booked'),
+          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
-          data: [
-            this.data.amountOfSpaceBooked
-          ],
+          data: this.data.offer.map(o => o.amountOfSpaceConfirmed),
           color: "#ee6666"
         }
       ]

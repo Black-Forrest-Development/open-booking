@@ -1,3 +1,5 @@
+import {BookingInfo} from "../../booking/model/booking-api";
+
 export interface OfferInfoSelectResult {
   offers: OfferInfoSelectResultEntry[]
 }
@@ -8,13 +10,12 @@ export interface OfferInfoSelectResultEntry {
 }
 
 export interface OfferInfo {
-  id: number,
-  start: string,
-  end: string,
-
+  offer: Offer,
   amountOfSpaceTotal: number,
   amountOfSpaceAvailable: number,
-  amountOfSpaceBooked: number
+  amountOfSpaceConfirmed: number
+  amountOfSpaceUnconfirmed: number,
+  bookings: BookingInfo[]
 }
 
 export class OfferInfoSelectRequest {
@@ -23,4 +24,13 @@ export class OfferInfoSelectRequest {
     public dates: string[]
   ) {
   }
+}
+
+
+export interface Offer {
+  id: number,
+  start: string,
+  end: string,
+  maxPersons: number,
+  active: boolean
 }
