@@ -6,6 +6,7 @@ import de.sambalmueslie.openbooking.backend.role.api.TourRoleChangeRequest
 import de.sambalmueslie.openbooking.common.TimeProvider
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.annotation.MockBean
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.mockk.every
 import io.mockk.mockk
 import jakarta.inject.Inject
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
+@MicronautTest
 internal class RoleServiceTest {
 
     @Inject

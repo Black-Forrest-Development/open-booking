@@ -31,10 +31,10 @@ internal class StaffServiceTest {
         every { timeProvider.now() } returns now
 
         // create
-        val createRequest = StaffMemberChangeRequest("firstName", "lastName", "email", "mobile", "phone")
+        val createRequest = StaffMemberChangeRequest("firstName", "lastName", "email", "phone", "mobile")
         var result = service.create(createRequest)
 
-        var reference = StaffMember(result.id, createRequest.firstName, createRequest.lastName, createRequest.email, createRequest.mobile, createRequest.phone)
+        var reference = StaffMember(result.id, createRequest.firstName, createRequest.lastName, createRequest.email, createRequest.phone, createRequest.mobile)
         assertEquals(reference, result)
 
         // read
@@ -42,7 +42,7 @@ internal class StaffServiceTest {
         assertEquals(listOf(reference), service.getAll(Pageable.from(0)).content)
 
         // update
-        val updateRequest = StaffMemberChangeRequest("update-firstName", "update-lastName", "update-email", "update-mobile", "update-phone")
+        val updateRequest = StaffMemberChangeRequest("update-firstName", "update-lastName", "update-email", "update-phone", "update-mobile")
         result = service.update(reference.id, updateRequest)
 
         reference = StaffMember(
@@ -50,8 +50,8 @@ internal class StaffServiceTest {
             updateRequest.firstName,
             updateRequest.lastName,
             updateRequest.email,
+            updateRequest.phone,
             updateRequest.mobile,
-            updateRequest.phone
         )
         assertEquals(reference, result)
 
