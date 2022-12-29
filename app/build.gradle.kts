@@ -18,9 +18,6 @@ micronaut {
 
 
 dependencies {
-    // keycloak
-    implementation("org.keycloak:keycloak-common:20.0.1")
-    implementation("org.keycloak:keycloak-core:20.0.1")
 
     // database
     kapt("io.micronaut.data:micronaut-data-processor")
@@ -34,6 +31,15 @@ dependencies {
 }
 
 application {
-    mainClass.set("de.sambalmueslie.openevent.core.CoreApplication")
+    mainClass.set("de.sambalmueslie.openbooking.BookingApplication")
+}
+
+jib {
+    from.image = "eclipse-temurin:18-jre-alpine"
+    to {
+        image = "iee1394/open-booking"
+        tags = setOf(version.toString(), "latest")
+    }
+    container.creationTime.set("USE_CURRENT_TIMESTAMP")
 }
 

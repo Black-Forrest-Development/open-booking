@@ -1,0 +1,10 @@
+<mat-progress-bar mode="indeterminate" *ngIf="dayReloading"></mat-progress-bar>
+<mat-toolbar>
+  <div *ngIf="data">{{data.date | date:'fullDate'}} {{data.start | date:'shortTime' }} - {{data.end | date:'shortTime'}}</div>
+</mat-toolbar>
+<div class="container fxLayoutColumn fxLayoutAlignStretchCenter">
+  <div echarts [options]="spaceChartOption" class="demo-chart"></div>
+  <div>
+    <button mat-flat-button color="primary" routerLink="/home">{{'ACTION.Back' | translate}}</button>
+  </div>
+</div>

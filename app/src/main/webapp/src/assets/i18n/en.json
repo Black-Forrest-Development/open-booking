@@ -1,0 +1,97 @@
+{
+  "APP": {
+    "Title": "Open Booking",
+    "Welcome": "Welcome"
+  },
+  "ACTION": {
+    "Ok": "OK",
+    "Next": "Next",
+    "Back": "Back",
+    "Details": "Details"
+  },
+  "MENU": {
+    "Home": "Home",
+    "Title": "Menu",
+    "Language": "Language",
+    "Help": "Help",
+    "Admin": "Admin",
+    "Login": "Login",
+    "Logout": "Logout"
+  },
+  "LANG": {
+    "Title": "Language",
+    "English": "English",
+    "German": "Deutsch"
+  },
+  "DAY_INFO": {
+    "SelectRange": {
+      "Title": "Date Range Filter",
+      "StartDate": "Start Date",
+      "EndDate": "End Date"
+    },
+    "Chart": {
+      "Space": {
+        "Title": "Space Chart",
+        "Series": {
+          "Available": "Available Space",
+          "Confirmed": "Confirmed Space",
+          "Unconfirmed": "Unconfirmed Space"
+        }
+      }
+    }
+  },
+  "BOOKING": {
+    "Entry": {
+      "Select": "Select Day"
+    },
+    "Action": {
+      "Create": "Create Booking"
+    },
+    "Create": {
+      "Title": "Create a new booking",
+      "Step": {
+        "VisitorGroup": {
+          "Header": "Visitor Group",
+          "Title": "Title",
+          "Size": "Size",
+          "MinAge": "Minimum Age",
+          "MaxAge": "Maximum Age",
+          "Contact": "Contact",
+          "Street": "Street",
+          "Zip": "Zip",
+          "City": "City",
+          "Phone": "Phone",
+          "Mail": "E-Mail"
+        },
+        "Offer": {
+          "Header": "Offer"
+        },
+        "Finalize": {
+          "Header": "Finalize"
+        }
+      },
+      "Form": {
+        "VisitorGroup": {
+          "Title": "Title",
+          "Size": "Size",
+          "MinAge": "Minimum Age",
+          "MaxAge": "Maximum Age",
+          "Contact": "Contact",
+          "Street": "Street",
+          "Zip": "Zip",
+          "City": "City",
+          "Phone": "Phone",
+          "Mail": "E-Mail"
+        },
+        "Finalize": {
+          "TermsAndConditions": "I read the terms and conditions and accept these.",
+          "Comment": "Comments"
+        }
+      },
+      "Action": {
+        "Submit": "Submit request",
+        "Reset": "Reset Form"
+      }
+    }
+  }
+}

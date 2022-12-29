@@ -1,0 +1,9 @@
+<div class="fxLayoutRow fxLayoutAlignCenterStretch fxFlexGap">
+  <button mat-flat-button color="accent" (click)="createBooking()" *ngIf="this.service.selected.length > 0">
+    <mat-icon>create_new_folder</mat-icon>
+    {{'BOOKING.Action.Create' | translate}}</button>
+
+  <mat-chip-listbox (change)="handleSelectionChange($event)">
+    <mat-chip-option *ngFor="let s of this.service.selected" [selected]="this.service.primarySelected == s" color="accent">{{s.date | date:'longDate'}}</mat-chip-option>
+  </mat-chip-listbox>
+</div>

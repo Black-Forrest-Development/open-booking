@@ -1,0 +1,49 @@
+<div class="container fxLayoutColumn fxLayoutAlignStretchCenter">
+  <mat-card>
+    <mat-card-header style="padding-bottom:10px;">
+      <mat-card-title>{{'BOOKING.Create.Title' | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <!--      <mat-stepper orientation="vertical" linear="true" #stepper>-->
+      <mat-stepper orientation="vertical" #stepper (selectionChange)="handleStepperSelectionChanged($event)">
+        <mat-step [stepControl]="visitorFormGroup">
+          <ng-template matStepLabel>{{'BOOKING.Create.Step.VisitorGroup.Header' | translate}}</ng-template>
+          <app-booking-create-visitor-group [visitorFormGroup]="visitorFormGroup"></app-booking-create-visitor-group>
+        </mat-step>
+        <mat-step [stepControl]="offerFormGroup">
+          <ng-template matStepLabel>{{'BOOKING.Create.Step.Offer.Header' | translate}}</ng-template>
+          <app-booking-create-offer-select [offerFormGroup]="offerFormGroup"></app-booking-create-offer-select>
+        </mat-step>
+        <mat-step [stepControl]="finalizeFormGroup">
+          <ng-template matStepLabel>{{'BOOKING.Create.Step.Finalize.Header' | translate}}</ng-template>
+          <form [formGroup]="finalizeFormGroup">
+            <div class="fxLayoutColumn fxLayoutAlignStretchCenter fxFlexGap" style="padding-top:10px;">
+              <div class="fxFlex">
+                <mat-checkbox formControlName="termsAndConditions">{{'BOOKING.Create.Form.Finalize.TermsAndConditions' | translate}}</mat-checkbox>
+              </div>
+              <mat-form-field appearance="outline" class="fxFlex">
+                <mat-label>{{'BOOKING.Create.Form.Finalize.Comment' | translate}}</mat-label>
+                <textarea matInput formControlName="comment"></textarea>
+              </mat-form-field>
+            </div>
+          </form>
+
+          <div class="fxLayoutRow fxFlexGap">
+            <button mat-button matStepperPrevious>{{'ACTION.Back' | translate}}</button>
+            <button mat-stroked-button color="accent" (click)="submit()" [disabled]="finalizeFormGroup.invalid">
+              <mat-icon>check</mat-icon>
+              {{'BOOKING.Create.Action.Submit' | translate}}</button>
+            <button mat-stroked-button color="warn" (click)="stepper.reset()">
+              <mat-icon>clear</mat-icon>
+              {{'BOOKING.Create.Action.Reset' | translate}}</button>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </mat-card-content>
+    <mat-card-actions>
+
+    </mat-card-actions>
+  </mat-card>
+</div>
+
