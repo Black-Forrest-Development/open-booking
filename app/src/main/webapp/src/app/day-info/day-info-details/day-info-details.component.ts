@@ -15,7 +15,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class DayInfoDetailsComponent implements OnInit {
 
   dayReloading: boolean = false
-  offerReloading: boolean = false
+
   data: DayInfo | undefined
 
   infos: OfferInfo[] = []
@@ -35,8 +35,6 @@ export class DayInfoDetailsComponent implements OnInit {
         if (date) {
           this.dayReloading = true
           this.service.loadDayInfo(date).subscribe(d => this.handleDayInfo(d))
-          this.offerReloading = true
-          this.offerService.getOfferInfoDate(date).subscribe(d => this.handleOfferInfo(d))
         }
       }
     )
@@ -45,14 +43,12 @@ export class DayInfoDetailsComponent implements OnInit {
 
   private handleDayInfo(d: DayInfo) {
     this.data = d
-    this.dayReloading = false
-  }
 
-  private handleOfferInfo(d: OfferInfoSelectResultEntry) {
-    this.infos = d.infos
+
     this.spaceChartOption = {
       title: {
         text: this.translate.instant('DAY_INFO.Chart.Space.Title'),
+        left: 'center'
       },
       tooltip: {
         trigger: 'axis',
@@ -62,11 +58,17 @@ export class DayInfoDetailsComponent implements OnInit {
       },
       animation: false,
       legend: {
-        data: [this.translate.instant('DAY_INFO.Chart.Space.Series.Available'), this.translate.instant('DAY_INFO.Chart.Space.Series.Booked'),]
+        data: [
+          this.translate.instant('DAY_INFO.Chart.Space.Series.Available'),
+          this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
+          this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
+        ],
+        bottom: 10,
+        left: 'center',
       },
       xAxis: {
         type: 'category',
-        data: d.infos.map(i => i.offer.start.substring(11, 16))
+        data: d.offer.map(i => i.offer.start.substring(11, 16))
       },
       yAxis: {
         type: 'value'
@@ -79,7 +81,7 @@ export class DayInfoDetailsComponent implements OnInit {
           emphasis: {
             focus: 'series'
           },
-          data: d.infos.map(i => i.amountOfSpaceAvailable),
+          data: d.offer.map(i => i.amountOfSpaceTotal - i.amountOfSpaceConfirmed - i.amountOfSpaceUnconfirmed),
           color: "#91cc75"
         }, {
           name: this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
@@ -88,7 +90,7 @@ export class DayInfoDetailsComponent implements OnInit {
           emphasis: {
             focus: 'series'
           },
-          data: d.infos.map(i => i.amountOfSpaceConfirmed),
+          data: d.offer.map(i => i.amountOfSpaceConfirmed),
           color: "#ee6666"
         }, {
           name: this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
@@ -97,14 +99,12 @@ export class DayInfoDetailsComponent implements OnInit {
           emphasis: {
             focus: 'series'
           },
-          data: d.infos.map(i => i.amountOfSpaceUnconfirmed),
-          color: "#ee6666"
+          data: d.offer.map(i => i.amountOfSpaceUnconfirmed),
+          color: "#fac858"
         }
       ]
     };
-
-
-    this.offerReloading = false
+    this.dayReloading = false
   }
 
 }

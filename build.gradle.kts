@@ -139,7 +139,7 @@ jacoco {
 
 sonar {
     properties {
-        property("sonar.projectKey", "Black-Forrest-Development_open-booking-system")
+        property("sonar.projectKey", "Black-Forrest-Development_open-booking")
         property("sonar.organization", "black-forrest-development")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")

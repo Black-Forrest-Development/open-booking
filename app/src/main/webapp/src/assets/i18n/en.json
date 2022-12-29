@@ -9,6 +9,15 @@
     "Back": "Back",
     "Details": "Details"
   },
+  "MENU": {
+    "Home": "Home",
+    "Title": "Menu",
+    "Language": "Language",
+    "Help": "Help",
+    "Admin": "Admin",
+    "Login": "Login",
+    "Logout": "Logout"
+  },
   "LANG": {
     "Title": "Language",
     "English": "English",
@@ -25,7 +34,8 @@
         "Title": "Space Chart",
         "Series": {
           "Available": "Available Space",
-          "Booked": "Booked Space"
+          "Confirmed": "Confirmed Space",
+          "Unconfirmed": "Unconfirmed Space"
         }
       }
     }

@@ -1,9 +1,5 @@
 import {BookingInfo} from "../../booking/model/booking-api";
 
-export interface OfferInfoSelectResult {
-  offers: OfferInfoSelectResultEntry[]
-}
-
 export interface OfferInfoSelectResultEntry {
   date: string,
   infos: OfferInfo[]

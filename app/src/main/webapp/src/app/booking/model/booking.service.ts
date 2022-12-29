@@ -3,7 +3,7 @@ import {BaseService} from "../../shared/base-service";
 import {HttpClient} from "@angular/common/http";
 import {LoggingService} from "../../shared/logging/logging.service";
 import {BehaviorSubject, Observable} from "rxjs";
-import {OfferInfoSelectRequest, OfferInfoSelectResult, OfferInfoSelectResultEntry} from "../../offer/model/offer-api";
+import {OfferInfoSelectRequest, OfferInfoSelectResultEntry} from "../../offer/model/offer-api";
 import {BookingRequest, CreateBookingRequest} from "./booking-api";
 import {OfferService} from "../../offer/model/offer.service";
 
@@ -36,8 +36,8 @@ export class BookingService extends BaseService {
   }
 
 
-  private handleData(d: OfferInfoSelectResult) {
-    this.offers = d.offers
+  private handleData(d: OfferInfoSelectResultEntry[]) {
+    this.offers = d
     this.reloading.next(false)
   }
 }

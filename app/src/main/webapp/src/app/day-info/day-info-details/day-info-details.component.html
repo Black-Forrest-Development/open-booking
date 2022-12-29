@@ -1,4 +1,4 @@
-<mat-progress-bar mode="indeterminate" *ngIf="dayReloading || offerReloading"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="dayReloading"></mat-progress-bar>
 <mat-toolbar>
   <div *ngIf="data">{{data.date | date:'fullDate'}} {{data.start | date:'shortTime' }} - {{data.end | date:'shortTime'}}</div>
 </mat-toolbar>

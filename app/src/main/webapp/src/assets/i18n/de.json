@@ -9,6 +9,15 @@
     "Back": "Zurück",
     "Details": "Details"
   },
+  "MENU": {
+    "Home": "Startseite",
+    "Title": "Menu",
+    "Language": "Sprache",
+    "Help": "Hilfe",
+    "Admin": "Verwaltung",
+    "Login": "Login",
+    "Logout": "Logout"
+  },
   "LANG": {
     "Title": "Sprache",
     "English": "English",
@@ -25,7 +34,8 @@
         "Title": "Belegung der jeweiligen Veranstaltungen",
         "Series": {
           "Available": "Verfügbare Plätze",
-          "Booked": "Gebuchte Plätze"
+          "Confirmed": "Bestätigte Buchung",
+          "Unconfirmed": "Unbestätigte Buchung"
         }
       }
     }

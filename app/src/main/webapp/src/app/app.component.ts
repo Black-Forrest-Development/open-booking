@@ -33,8 +33,13 @@ export class AppComponent implements OnInit {
   }
 
   changeLang(event: MatSelectChange) {
-    let value = event.value;
-    this.translate.use(value)
+    let value = event.value
+    this.setLanguage(value)
+  }
+
+  setLanguage(language: string) {
+    this.lang = language
+    this.translate.use(language)
   }
 
   showHelp() {

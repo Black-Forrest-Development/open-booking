@@ -41,9 +41,12 @@ export class BookingCreateComponent implements OnInit {
 
   private dates: string[] = []
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute,
-              private service: BookingService, private translationService: TranslateService,
-              private snackBar: MatSnackBar, private router: Router) {
+  constructor(private fb: FormBuilder,
+              private route: ActivatedRoute,
+              private service: BookingService,
+              private translationService: TranslateService,
+              private snackBar: MatSnackBar,
+              private router: Router) {
 
   }
 

@@ -20,7 +20,7 @@ data class BookingData(
 ) : DataObject<Booking> {
     companion object {
         fun create(request: BookingChangeRequest, timestamp: LocalDateTime): BookingData {
-            return BookingData(0, request.offerId, request.visitorGroupId, BookingStatus.UNKNOWN, timestamp)
+            return BookingData(0, request.offerId, request.visitorGroupId, BookingStatus.UNCONFIRMED, timestamp)
         }
     }
 
