@@ -3,7 +3,7 @@ import {DayInfoService} from "../model/day-info.service";
 import {ActivatedRoute} from "@angular/router";
 import {DayInfo} from "../model/day-info-api";
 import {OfferService} from "../../offer/model/offer.service";
-import {OfferInfo, OfferInfoSelectResultEntry} from "../../offer/model/offer-api";
+import {OfferInfo} from "../../offer/model/offer-api";
 import {EChartsOption} from "echarts";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -43,67 +43,7 @@ export class DayInfoDetailsComponent implements OnInit {
 
   private handleDayInfo(d: DayInfo) {
     this.data = d
-
-
-    this.spaceChartOption = {
-      title: {
-        text: this.translate.instant('DAY_INFO.Chart.Space.Title'),
-        left: 'center'
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        }
-      },
-      animation: false,
-      legend: {
-        data: [
-          this.translate.instant('DAY_INFO.Chart.Space.Series.Available'),
-          this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
-          this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
-        ],
-        bottom: 10,
-        left: 'center',
-      },
-      xAxis: {
-        type: 'category',
-        data: d.offer.map(i => i.offer.start.substring(11, 16))
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Available'),
-          type: 'bar',
-          stack: 'total',
-          emphasis: {
-            focus: 'series'
-          },
-          data: d.offer.map(i => i.amountOfSpaceTotal - i.amountOfSpaceConfirmed - i.amountOfSpaceUnconfirmed),
-          color: "#91cc75"
-        }, {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
-          type: 'bar',
-          stack: 'total',
-          emphasis: {
-            focus: 'series'
-          },
-          data: d.offer.map(i => i.amountOfSpaceConfirmed),
-          color: "#ee6666"
-        }, {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
-          type: 'bar',
-          stack: 'total',
-          emphasis: {
-            focus: 'series'
-          },
-          data: d.offer.map(i => i.amountOfSpaceUnconfirmed),
-          color: "#fac858"
-        }
-      ]
-    };
+    this.spaceChartOption = this.service.createDayInfoChart(d)
     this.dayReloading = false
   }
 

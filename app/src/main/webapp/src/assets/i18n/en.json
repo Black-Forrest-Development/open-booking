@@ -7,7 +7,9 @@
     "Ok": "OK",
     "Next": "Next",
     "Back": "Back",
-    "Details": "Details"
+    "Details": "Details",
+    "Edit": "Edit",
+    "Delete": "Delete"
   },
   "MENU": {
     "Home": "Home",
@@ -35,7 +37,8 @@
         "Series": {
           "Available": "Available Space",
           "Confirmed": "Confirmed Space",
-          "Unconfirmed": "Unconfirmed Space"
+          "Unconfirmed": "Unconfirmed Space",
+          "Deactivated": "Canceled"
         }
       }
     }
@@ -92,6 +95,25 @@
         "Submit": "Submit request",
         "Reset": "Reset Form"
       }
+    }
+  },
+  "OFFER": {
+    "Form": {
+      "Id": "Id",
+      "Start": "Start",
+      "End": "End",
+      "MaxPersons": "max Persons",
+      "Active": "Active"
+    },
+    "Action": {
+      "Details": "Details"
+    }
+  },
+  "ADMIN": {
+    "MENU": {
+      "Offer": "Offer Mgt",
+      "Booking": "Booking Mgt",
+      "BookingRequest": "Booking Request Mgt"
     }
   }
 }

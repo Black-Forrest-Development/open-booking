@@ -7,7 +7,9 @@
     "Ok": "OK",
     "Next": "Weiter",
     "Back": "Zurück",
-    "Details": "Details"
+    "Details": "Details",
+    "Edit": "Bearbeiten",
+    "Delete": "Löschen"
   },
   "MENU": {
     "Home": "Startseite",
@@ -35,7 +37,8 @@
         "Series": {
           "Available": "Verfügbare Plätze",
           "Confirmed": "Bestätigte Buchung",
-          "Unconfirmed": "Unbestätigte Buchung"
+          "Unconfirmed": "Unbestätigte Buchung",
+          "Deactivated": "Abgesagt"
         }
       }
     }
@@ -92,6 +95,15 @@
         "Submit": "Anfrage senden",
         "Reset": "Zurücksetzen"
       }
+    }
+  },
+  "OFFER": {
+    "Form": {
+      "Id": "Id",
+      "Start": "Begin",
+      "End": "Ende",
+      "MaxPersons": "Max. Personen",
+      "Active": "Aktiv"
     }
   }
 }

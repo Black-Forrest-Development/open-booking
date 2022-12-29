@@ -4,13 +4,15 @@ import {HttpClient} from "@angular/common/http";
 import {LoggingService} from "../../shared/logging/logging.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {DateRangeSelectionRequest, DayInfo} from "./day-info-api";
+import {EChartsOption} from "echarts";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DayInfoService extends BaseService {
 
-  constructor(http: HttpClient, logging: LoggingService) {
+  constructor(http: HttpClient, logging: LoggingService, private translate: TranslateService) {
     super(http, 'frontend/user', logging)
   }
 
@@ -66,4 +68,77 @@ export class DayInfoService extends BaseService {
       }
     }
   }
+
+  createDayInfoChart(info: DayInfo): EChartsOption{
+    return {
+      title: {
+        text: this.translate.instant('DAY_INFO.Chart.Space.Title'),
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      animation: false,
+      legend: {
+        data: [
+          this.translate.instant('DAY_INFO.Chart.Space.Series.Available'),
+          this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
+          this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
+          this.translate.instant('DAY_INFO.Chart.Space.Series.Deactivated'),
+        ],
+        bottom: 10,
+        left: 'center',
+      },
+      xAxis: {
+        type: 'category',
+        data: info.offer.map(i => i.offer.start.substring(11, 16))
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Available'),
+          type: 'bar',
+          stack: 'total',
+          emphasis: {
+            focus: 'series'
+          },
+          data: info.offer.map(i => (i.offer.active) ? i.amountOfSpaceTotal - i.amountOfSpaceConfirmed - i.amountOfSpaceUnconfirmed : 0),
+          color: "#91cc75"
+        }, {
+          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
+          type: 'bar',
+          stack: 'total',
+          emphasis: {
+            focus: 'series'
+          },
+          data: info.offer.map(i => (i.offer.active) ? i.amountOfSpaceConfirmed : 0),
+          color: "#ee6666"
+        }, {
+          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
+          type: 'bar',
+          stack: 'total',
+          emphasis: {
+            focus: 'series'
+          },
+          data: info.offer.map(i => (i.offer.active) ? i.amountOfSpaceUnconfirmed : 0),
+          color: "#fac858"
+        }, {
+          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Deactivated'),
+          type: 'bar',
+          stack: 'total',
+          emphasis: {
+            focus: 'series'
+          },
+          data: info.offer.map(i => (!i.offer.active) ? i.amountOfSpaceTotal : 0),
+          color: "lightgrey"
+        }
+      ]
+    }
+  }
+
 }

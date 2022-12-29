@@ -73,7 +73,13 @@ export abstract class BaseService {
     const observable = this.http.post<T>(url, body);
     return this.createPipe(observable, url, 'post');
   }
-
+  protected patch<T>(suffix: string, body: any): Observable<T> {
+    this.logger.info("[PATCH] " + JSON.stringify(body));
+    const url = this.createUrl(suffix);
+    console.debug("Patch '" + url + "'")
+    const observable = this.http.patch<T>(url, body);
+    return this.createPipe(observable, url, 'patch');
+  }
   protected delete<T>(suffix: string): Observable<T> {
     const url = this.createUrl(suffix);
     console.debug("Delete '" + url + "'")

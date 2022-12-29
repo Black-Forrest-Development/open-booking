@@ -48,6 +48,20 @@ class InfoService(
                 updateCache(obj)
             }
         })
+
+        offerService.register(object : BusinessObjectChangeListener<Long,Offer> {
+            override fun handleCreated(obj: Offer) {
+                updateCache(obj)
+            }
+
+            override fun handleUpdated(obj: Offer) {
+                updateCache(obj)
+            }
+
+            override fun handleDeleted(obj: Offer) {
+                updateCache(obj)
+            }
+        })
     }
 
     private fun updateCache(booking: Booking) {
@@ -86,7 +100,7 @@ class InfoService(
     }
 
     private fun createDayInfo(date: LocalDate): DayInfo? {
-        val offer = offerService.getOffer(date).filter { it.active }
+        val offer = offerService.getOffer(date)
         if (offer.isEmpty()) return null
 
         val first = offer.first()

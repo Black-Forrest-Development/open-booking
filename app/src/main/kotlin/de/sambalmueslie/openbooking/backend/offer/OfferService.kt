@@ -56,7 +56,9 @@ class OfferService(
         return repository.findOneByStartGreaterThanEqualsOrderByStartDesc(date.atStartOfDay())?.convert()
     }
 
+    fun setActive(id: Long, value: Boolean) = patchData(id) { it.active = value }
 
+    fun setMaxPersons(id: Long, value: Int) = patchData(id) { if (value >= 0) it.maxPersons = value }
 
 
 }

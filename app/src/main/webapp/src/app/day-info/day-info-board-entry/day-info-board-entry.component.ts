@@ -30,42 +30,13 @@ export class DayInfoBoardEntryComponent implements OnInit {
 
 
   ngOnInit() {
-    this.chartOption = {
-      tooltip: {
-        trigger: 'item'
-      },
-      animation: false,
-      xAxis: {
-        type: 'category',
-        show: false
-      },
-      yAxis: {
-        type: 'value',
-        show: false
-      },
-      series: [
-        {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Available'),
-          type: 'bar',
-          stack: 'total',
-          label: {
-            show: false
-          },
-          data: this.data.offer.map(o => o.amountOfSpaceAvailable),
-          color: "#91cc75"
-        },
-        {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
-          type: 'bar',
-          stack: 'total',
-          label: {
-            show: false
-          },
-          data: this.data.offer.map(o => o.amountOfSpaceConfirmed),
-          color: "#ee6666"
-        }
-      ]
-    };
+    let chart = this.service.createDayInfoChart(this.data)
+    chart.legend = undefined
+    chart.title = undefined
+    chart.xAxis = {type: 'category', show: false}
+    chart.yAxis = {type: 'value', show: false}
+    this.chartOption = chart
+
   }
 
 }

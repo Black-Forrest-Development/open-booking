@@ -30,3 +30,14 @@ export interface Offer {
   maxPersons: number,
   active: boolean
 }
+
+
+export class OfferChangeRequest {
+  constructor(
+    public start: string,
+    public finish: string,
+    public maxPersons: number,
+    public active: boolean
+  ) {
+  }
+}

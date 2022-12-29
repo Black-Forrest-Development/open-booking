@@ -41,6 +41,14 @@ abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectCh
 
     protected abstract fun updateData(data: D, request: R): D
 
+    protected fun patchData(id: T, patch: (D) -> Unit): O? {
+        val data = repository.findByIdOrNull(id) ?: return null
+        patch.invoke(data)
+        val result = repository.update(data).convert()
+        notifyUpdated(result)
+        return result
+    }
+
     override fun delete(id: T): O? {
         val data = repository.findByIdOrNull(id) ?: return null
         return delete(data)

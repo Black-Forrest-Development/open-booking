@@ -4,7 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MaterialModule} from "./material/material.module";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
@@ -13,9 +13,9 @@ import {registerLocaleData} from "@angular/common";
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MAT_MOMENT_DATE_ADAPTER_OPTIONS} from "@angular/material-moment-adapter";
-import {AuthModule} from "@auth0/auth0-angular";
+import {AuthHttpInterceptor, AuthModule} from "@auth0/auth0-angular";
 import {NgxEchartsModule} from "ngx-echarts";
+import {IdTokenHttpInterceptor} from "./admin/id-token-http.interceptor";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -45,7 +45,15 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     }),
     AuthModule.forRoot({
       domain: 'hlltool.eu.auth0.com',
-      clientId: 'g3jgo0n5INYtc6hsnhbFEaDP9M8lpS5D'
+      clientId: 'VZgfRUy3OlWuwHABFEJtIkZSafG9qEMg',
+      httpInterceptor: {
+        allowedList: [
+          '/api/backend/*',
+          {
+            uri: 'api/backend/*',
+          }
+        ]
+      }
     }),
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
@@ -53,7 +61,8 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
-    {provide: LOCALE_ID, useValue: 'de-DE'}
+    {provide: LOCALE_ID, useValue: 'de-DE'},
+    {provide: HTTP_INTERCEPTORS, useClass: IdTokenHttpInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })
