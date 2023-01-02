@@ -104,6 +104,17 @@
       "End": "Ende",
       "MaxPersons": "Max. Personen",
       "Active": "Aktiv"
+    },
+    "Action": {
+      "Details": "Details",
+      "Print": "Drucken"
+    }
+  },
+  "ADMIN": {
+    "MENU": {
+      "Offer": "Angebotsverwaltung",
+      "Booking": "Buchungsverwaltung",
+      "BookingRequest": "Anfrageverwaltung"
     }
   }
 }

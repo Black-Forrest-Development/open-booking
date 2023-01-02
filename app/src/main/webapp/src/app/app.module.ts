@@ -13,9 +13,10 @@ import {registerLocaleData} from "@angular/common";
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AuthHttpInterceptor, AuthModule} from "@auth0/auth0-angular";
+import {AuthModule} from "@auth0/auth0-angular";
 import {NgxEchartsModule} from "ngx-echarts";
 import {IdTokenHttpInterceptor} from "./admin/id-token-http.interceptor";
+import {HomeModule} from "./home/home.module";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -58,6 +59,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
+    HomeModule,
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
