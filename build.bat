@@ -1,5 +1,5 @@
 pushd app\src\main\webapp
-cmd /c ng build --output-hashing=all --base-href /open-booking/
+cmd /c ng build --output-hashing=all
 xcopy /y /s dist\open-booking\* ..\resources\static
 popd
 

@@ -106,11 +106,13 @@
       "Active": "Active"
     },
     "Action": {
-      "Details": "Details"
+      "Details": "Details",
+      "Print": "Print"
     }
   },
   "ADMIN": {
     "MENU": {
+      "Dashboard": "Dashboard",
       "Offer": "Offer Mgt",
       "Booking": "Booking Mgt",
       "BookingRequest": "Booking Request Mgt"

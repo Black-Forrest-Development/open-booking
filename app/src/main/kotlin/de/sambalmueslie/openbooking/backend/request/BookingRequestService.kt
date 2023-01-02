@@ -63,14 +63,20 @@ class BookingRequestService(
         return data.convert()
     }
 
-    fun delete(id: Long) {
-        val data = repository.findByIdOrNull(id) ?: return
+    fun update(id: Long, request: BookingRequestChangeRequest): BookingRequest {
+        TODO("Not yet implemented")
+    }
+
+    fun delete(id: Long): BookingRequest? {
+        val data = repository.findByIdOrNull(id) ?: return null
 
         val relations = relationRepository.getByBookingRequestId(data.id)
         relations.forEach { bookingService.delete(it.bookingId) }
 
         relationRepository.deleteByBookingRequestId(data.id)
+        return data.convert()
     }
+
 
 
 }
