@@ -46,7 +46,4 @@ export class AppComponent implements OnInit {
     this.dialog.open(HelpDialogComponent);
   }
 
-  login() {
-
-  }
 }

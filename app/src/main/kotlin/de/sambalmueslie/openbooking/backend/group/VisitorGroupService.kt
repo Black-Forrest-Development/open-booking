@@ -2,14 +2,15 @@ package de.sambalmueslie.openbooking.backend.group
 
 
 import de.sambalmueslie.openbooking.backend.booking.api.Booking
-import de.sambalmueslie.openbooking.common.GenericCrudService
-import de.sambalmueslie.openbooking.error.InvalidRequestException
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupChangeRequest
+import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupStatus
 import de.sambalmueslie.openbooking.backend.group.db.VisitorGroupData
 import de.sambalmueslie.openbooking.backend.group.db.VisitorGroupRepository
-import de.sambalmueslie.openbooking.common.BusinessObjectChangeListener
+import de.sambalmueslie.openbooking.common.GenericCrudService
 import de.sambalmueslie.openbooking.common.TimeProvider
+import de.sambalmueslie.openbooking.common.findByIdOrNull
+import de.sambalmueslie.openbooking.error.InvalidRequestException
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -48,9 +49,24 @@ class VisitorGroupService(
         if (request.email.isEmpty() && request.phone.isEmpty()) throw InvalidRequestException("Either mail or phone contact must be provided")
     }
 
-    fun get(bookings: List<Booking>): List<VisitorGroup>{
+    fun get(bookings: List<Booking>): List<VisitorGroup> {
         val visitorGroupIds = bookings.map { it.visitorGroupId }.toSet()
+        return getVisitorGroups(visitorGroupIds)
+    }
+
+    fun getVisitorGroups(visitorGroupIds: Set<Long>): List<VisitorGroup> {
         return repository.findByIdIn(visitorGroupIds).map { it.convert() }
+    }
+
+    fun confirm(id: Long): VisitorGroup? {
+        val data = repository.findByIdOrNull(id) ?: return null
+
+        if (data.status == VisitorGroupStatus.CONFIRMED) return data.convert()
+
+        data.update(VisitorGroupStatus.CONFIRMED, timeProvider.now())
+        val result = repository.update(data).convert()
+        super.notifyUpdated(result)
+        return result
     }
 
 

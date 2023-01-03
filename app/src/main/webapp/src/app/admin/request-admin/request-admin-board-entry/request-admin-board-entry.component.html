@@ -1,0 +1,42 @@
+<mat-expansion-panel [(expanded)]="expanded">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{'REQUEST.Title'|translate}}
+    </mat-panel-title>
+    <mat-panel-description>
+      {{data.timestamp | date:'medium'}}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-divider></mat-divider>
+  <app-visitor-group-admin-entry [data]="data.visitorGroup"></app-visitor-group-admin-entry>
+  <mat-divider></mat-divider>
+  <form [formGroup]="fg">
+    <div class="container">
+      <div class="row">
+        <div class="col-12"><h3>{{'BOOKING.Create.Step.Offer.Header' | translate}}</h3></div>
+      </div>
+      <mat-radio-group formControlName="offer">
+        <ng-container *ngFor="let booking of data.bookings">
+          <div class="row">
+            <div class="col-8">
+              <mat-radio-button [value]="booking.id">{{booking.offer.start | date:'medium'}}</mat-radio-button>
+            </div>
+            <div class="col-4">{{booking.spaceAvailable}} {{'REQUEST.Form.SpaceAvailable'|translate}}</div>
+          </div>
+        </ng-container>
+      </mat-radio-group>
+      <div class="row">
+        <div class="col-12">
+          <button mat-flat-button [disabled]="fg.invalid" (click)="confirm()" color="accent" class="me-3">
+            <mat-icon>check</mat-icon>
+            {{'REQUEST.Action.RequestConfirm'|translate}}
+          </button>
+          <button mat-flat-button (click)="denial()" color="warn">
+            <mat-icon>cancel</mat-icon>
+            {{'REQUEST.Action.RequestDenial'|translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-expansion-panel>

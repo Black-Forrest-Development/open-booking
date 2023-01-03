@@ -41,7 +41,7 @@ data class VisitorGroupData(
                 request.address.zip,
                 request.phone,
                 request.email,
-                VisitorGroupStatus.UNKNOWN,
+                VisitorGroupStatus.UNCONFIRMED,
                 timestamp
             )
         }

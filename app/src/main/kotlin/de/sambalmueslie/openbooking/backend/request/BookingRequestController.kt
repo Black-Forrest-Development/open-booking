@@ -1,8 +1,6 @@
 package de.sambalmueslie.openbooking.backend.request
 
 
-import de.sambalmueslie.openbooking.backend.booking.api.BookingAPI
-import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI.Companion.PERMISSION_BOOKING_REQUEST_READ
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI.Companion.PERMISSION_BOOKING_REQUEST_WRITE
@@ -34,4 +32,19 @@ class BookingRequestController(private val service: BookingRequestService) : Boo
     override fun delete(auth: Authentication, @PathVariable id: Long) =
         auth.checkPermission(PERMISSION_BOOKING_REQUEST_WRITE) { service.delete(id) }
 
+    @Get("/unconfirmed")
+    override fun getUnconfirmed(auth: Authentication, pageable: Pageable) =
+        auth.checkPermission(PERMISSION_BOOKING_REQUEST_READ) { service.getUnconfirmed(pageable) }
+
+    @Get("/unconfirmed/info")
+    override fun getInfoUnconfirmed(auth: Authentication, pageable: Pageable) =
+        auth.checkPermission(PERMISSION_BOOKING_REQUEST_READ) { service.getInfoUnconfirmed(pageable) }
+
+    @Put("/{id}/confirm/{bookingId}")
+    override fun confirm(auth: Authentication, @PathVariable id: Long, @PathVariable bookingId: Long) =
+        auth.checkPermission(PERMISSION_BOOKING_REQUEST_WRITE) { service.confirm(id, bookingId) }
+
+    @Put("/{id}/denial")
+    override fun denial(auth: Authentication, @PathVariable id: Long) =
+        auth.checkPermission(PERMISSION_BOOKING_REQUEST_WRITE) { service.denial(id) }
 }

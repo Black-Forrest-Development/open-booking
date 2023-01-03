@@ -1,4 +1,5 @@
 import {VisitorGroupChangeRequest} from "../../visitor-group/model/visitor-group-api";
+import {Offer} from "../../offer/model/offer-api";
 
 export class CreateBookingRequest {
   constructor(
@@ -10,15 +11,24 @@ export class CreateBookingRequest {
   }
 }
 
-
-export interface BookingRequest {
-  id: number,
-  comment: string,
-  status: string
+export interface DayInfoBooking {
+  size: number,
+  status: string,
 }
 
 
-export interface BookingInfo {
-  size: number,
+export interface Booking {
+  id: number,
+  offerId: number,
+  visitorGroupId: number,
   status: string,
+}
+
+export interface BookingInfo {
+  id: number,
+  offer: Offer,
+  spaceAvailable: number,
+  spaceConfirmed: number,
+  status: string,
+  timestamp: string
 }

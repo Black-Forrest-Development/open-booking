@@ -1,17 +1,17 @@
-import {BookingInfo} from "../../booking/model/booking-api";
+import {DayInfoBooking} from "../../booking/model/booking-api";
 
 export interface OfferInfoSelectResultEntry {
   date: string,
-  infos: OfferInfo[]
+  infos: DayInfoOffer[]
 }
 
-export interface OfferInfo {
+export interface DayInfoOffer {
   offer: Offer,
   amountOfSpaceTotal: number,
   amountOfSpaceAvailable: number,
   amountOfSpaceConfirmed: number
   amountOfSpaceUnconfirmed: number,
-  bookings: BookingInfo[]
+  bookings: DayInfoBooking[]
 }
 
 export class OfferInfoSelectRequest {

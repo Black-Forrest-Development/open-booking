@@ -1,15 +1,23 @@
 package de.sambalmueslie.openbooking.common
 
 
+import com.github.benmanes.caffeine.cache.Caffeine
+import com.github.benmanes.caffeine.cache.LoadingCache
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.data.repository.PageableRepository
 import org.slf4j.Logger
+import java.util.concurrent.TimeUnit
 
-abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectChangeRequest, D : DataObject<O>>(
+abstract class GenericCrudService<T : Any, O : BusinessObject<T>, R : BusinessObjectChangeRequest, D : DataObject<O>>(
     private val repository: PageableRepository<D, T>,
     logger: Logger
 ) : BaseCrudService<T, O, R>(logger) {
+
+    private val cache: LoadingCache<T, O> = Caffeine.newBuilder()
+        .maximumSize(100)
+        .expireAfterWrite(1, TimeUnit.HOURS)
+        .build { id -> repository.findByIdOrNull(id)?.convert() }
 
     final override fun get(id: T): O? {
         return repository.findByIdOrNull(id)?.convert()
@@ -24,9 +32,10 @@ abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectCh
         val existing = existing(request)
         if (existing != null) return existing.convert()
 
-        val data = repository.save(createData(request)).convert()
-        notifyCreated(data)
-        return data
+        val result = repository.save(createData(request)).convert()
+        cache.put(result.id, result)
+        notifyCreated(result)
+        return result
     }
 
     protected abstract fun createData(request: R): D
@@ -35,6 +44,7 @@ abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectCh
         val data = repository.findByIdOrNull(id) ?: return create(request)
         isValid(request)
         val result = repository.update(updateData(data, request)).convert()
+        cache.put(result.id, result)
         notifyUpdated(result)
         return result
     }
@@ -45,6 +55,7 @@ abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectCh
         val data = repository.findByIdOrNull(id) ?: return null
         patch.invoke(data)
         val result = repository.update(data).convert()
+        cache.put(result.id, result)
         notifyUpdated(result)
         return result
     }
@@ -59,6 +70,7 @@ abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectCh
         val result = data.convert()
         notifyDeleted(result)
         repository.delete(data)
+        cache.invalidate(result.id)
         return result
     }
 
@@ -66,6 +78,7 @@ abstract class GenericCrudService<T, O : BusinessObject<T>, R : BusinessObjectCh
     protected open fun existing(request: R): D? {
         return null
     }
+
     protected open fun deleteDependencies(data: D) {
         // intentionally left empty
     }

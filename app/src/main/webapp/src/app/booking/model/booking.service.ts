@@ -4,8 +4,9 @@ import {HttpClient} from "@angular/common/http";
 import {LoggingService} from "../../shared/logging/logging.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {OfferInfoSelectRequest, OfferInfoSelectResultEntry} from "../../offer/model/offer-api";
-import {BookingRequest, CreateBookingRequest} from "./booking-api";
+import {CreateBookingRequest} from "./booking-api";
 import {OfferService} from "../../offer/model/offer.service";
+import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
 
 @Injectable({
   providedIn: 'root'

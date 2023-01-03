@@ -20,3 +20,35 @@ export class Address {
   ) {
   }
 }
+
+export const defaultAddress: Address = {
+  street: "",
+  city: "",
+  zip: ""
+}
+
+export interface VisitorGroup {
+  id: number,
+  title: string,
+  size: number,
+  minAge: number,
+  maxAge: number,
+  contact: string,
+  address: Address,
+  phone: string,
+  email: string,
+  status: string
+}
+
+export const defaultVisitorGroup: VisitorGroup = {
+  id: -1,
+  title: "",
+  size: -1,
+  minAge: -1,
+  maxAge: -1,
+  contact: "",
+  address: defaultAddress,
+  phone: "",
+  email: "",
+  status: ""
+}

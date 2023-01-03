@@ -48,6 +48,10 @@ class OfferService(
         return repository.findByStartGreaterThanEqualsAndFinishLessThanEqualsOrderByStart(start, finish).map { it.convert() }
     }
 
+    fun getOffer(offerIds: Set<Long>): List<Offer> {
+        return repository.findByIdIn(offerIds).map { it.convert() }
+    }
+
     fun getFirstOffer(date: LocalDate): Offer? {
         return repository.findOneByStartGreaterThanEqualsOrderByStart(date.atStartOfDay())?.convert()
     }
