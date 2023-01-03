@@ -71,8 +71,7 @@ CREATE TABLE booking
     created          TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated          TIMESTAMP WITHOUT TIME ZONE,
 
-    CONSTRAINT fk_booking_offer FOREIGN KEY (offer_id) REFERENCES offer (id),
-    CONSTRAINT fk_booking_visitor_group FOREIGN KEY (visitor_group_id) REFERENCES visitor_group (id)
+    CONSTRAINT fk_booking_offer FOREIGN KEY (offer_id) REFERENCES offer (id)
 );
 
 -- booking request
@@ -86,9 +85,7 @@ CREATE TABLE booking_request
     visitor_group_id BIGINT                      NOT NULL,
 
     created          TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated          TIMESTAMP WITHOUT TIME ZONE,
-
-    CONSTRAINT fk_booking_visitor_group FOREIGN KEY (visitor_group_id) REFERENCES visitor_group (id)
+    updated          TIMESTAMP WITHOUT TIME ZONE
 );
 
 CREATE TABLE booking_request_booking

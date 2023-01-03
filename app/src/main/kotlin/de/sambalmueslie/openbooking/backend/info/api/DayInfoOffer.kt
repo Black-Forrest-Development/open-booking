@@ -3,7 +3,8 @@ package de.sambalmueslie.openbooking.backend.info.api
 
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
 
-data class OfferInfo(
+
+data class DayInfoOffer(
     val offer: Offer,
 
     val amountOfSpaceTotal: Int,
@@ -11,5 +12,5 @@ data class OfferInfo(
     val amountOfSpaceConfirmed: Int,
     val amountOfSpaceUnconfirmed: Int,
 
-    val bookings: List<BookingInfo>
+    val bookings: List<DayInfoBooking>
 )

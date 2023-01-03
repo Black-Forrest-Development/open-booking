@@ -8,5 +8,5 @@ data class DayInfo(
     val start: LocalDateTime,
     val end: LocalDateTime,
 
-    val offer: List<OfferInfo>
+    val offer: List<DayInfoOffer>
 )

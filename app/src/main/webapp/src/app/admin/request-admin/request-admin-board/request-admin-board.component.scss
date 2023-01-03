@@ -1,0 +1,10 @@
+.booking-request-container {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 10px 10px;
+}
+
+.booking-request-card {
+  flex: 1 1 calc(33% - 10px);
+  max-width: 550px;
+}

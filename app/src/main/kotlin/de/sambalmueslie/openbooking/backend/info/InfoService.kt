@@ -8,10 +8,10 @@ import de.sambalmueslie.openbooking.backend.booking.api.Booking
 import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
-import de.sambalmueslie.openbooking.backend.info.api.BookingInfo
+import de.sambalmueslie.openbooking.backend.info.api.DayInfoBooking
 import de.sambalmueslie.openbooking.backend.info.api.DateRangeSelectionRequest
 import de.sambalmueslie.openbooking.backend.info.api.DayInfo
-import de.sambalmueslie.openbooking.backend.info.api.OfferInfo
+import de.sambalmueslie.openbooking.backend.info.api.DayInfoOffer
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import de.sambalmueslie.openbooking.common.BusinessObjectChangeListener
@@ -114,7 +114,7 @@ class InfoService(
     }
 
 
-    private fun createOfferInfo(offer: Offer, bookingsByOffer: Map<Long, List<Booking>>): OfferInfo {
+    private fun createOfferInfo(offer: Offer, bookingsByOffer: Map<Long, List<Booking>>): DayInfoOffer {
         val bookings = bookingsByOffer[offer.id] ?: emptyList()
         val visitorGroups = visitorGroupService.get(bookings).associateBy { it.id }
 
@@ -127,13 +127,13 @@ class InfoService(
         val amountOfSpaceUnconfirmed = bookingSpace[BookingStatus.UNCONFIRMED] ?: 0
         val amountOfSpaceAvailable = amountOfSpaceTotal - amountOfSpaceConfirmed - amountOfSpaceUnconfirmed
 
-        return OfferInfo(offer, amountOfSpaceTotal, amountOfSpaceAvailable, amountOfSpaceConfirmed, amountOfSpaceUnconfirmed, bookingInfo)
+        return DayInfoOffer(offer, amountOfSpaceTotal, amountOfSpaceAvailable, amountOfSpaceConfirmed, amountOfSpaceUnconfirmed, bookingInfo)
     }
 
 
-    private fun createBookingInfo(booking: Booking, visitorGroup: VisitorGroup?): BookingInfo? {
+    private fun createBookingInfo(booking: Booking, visitorGroup: VisitorGroup?): DayInfoBooking? {
         if(visitorGroup == null) return null
-        return BookingInfo(visitorGroup.size, booking.status)
+        return DayInfoBooking(visitorGroup.size, booking.status)
     }
 
 }

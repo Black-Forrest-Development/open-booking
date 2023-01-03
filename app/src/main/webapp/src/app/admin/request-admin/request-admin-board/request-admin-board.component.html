@@ -1,1 +1,16 @@
-<p>request-admin-board works!</p>
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<div class="container-fluid fxLayoutColumn fxLayoutAlignStretchCenter py-3">
+  <div class="d-flex flex-row flex-wrap gap-3">
+    <ng-container *ngFor="let info of data; index as i">
+      <app-request-admin-board-entry [data]="info" [expanded]="i == 0" (change)="handleEntryChanged()" class="booking-request-card"></app-request-admin-board-entry>
+    </ng-container>
+  </div>
+  <mat-paginator [length]="totalElements"
+                 [pageIndex]="pageNumber"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="[25, 50, 100, 250]"
+                 (page)="reload()"
+                 *ngIf="isPaginatorVisible()"
+  >
+  </mat-paginator>
+</div>

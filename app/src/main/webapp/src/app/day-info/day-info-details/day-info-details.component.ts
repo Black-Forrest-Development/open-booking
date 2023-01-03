@@ -3,7 +3,7 @@ import {DayInfoService} from "../model/day-info.service";
 import {ActivatedRoute} from "@angular/router";
 import {DayInfo} from "../model/day-info-api";
 import {OfferService} from "../../offer/model/offer.service";
-import {OfferInfo} from "../../offer/model/offer-api";
+import {DayInfoOffer} from "../../offer/model/offer-api";
 import {EChartsOption} from "echarts";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -18,7 +18,7 @@ export class DayInfoDetailsComponent implements OnInit {
 
   data: DayInfo | undefined
 
-  infos: OfferInfo[] = []
+  infos: DayInfoOffer[] = []
 
   spaceChartOption: EChartsOption = {};
 

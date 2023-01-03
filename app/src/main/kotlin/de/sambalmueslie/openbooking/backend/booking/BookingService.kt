@@ -3,15 +3,14 @@ package de.sambalmueslie.openbooking.backend.booking
 
 import de.sambalmueslie.openbooking.backend.booking.api.Booking
 import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
+import de.sambalmueslie.openbooking.backend.booking.api.BookingInfo
+import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
 import de.sambalmueslie.openbooking.backend.booking.db.BookingData
 import de.sambalmueslie.openbooking.backend.booking.db.BookingRepository
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
-import de.sambalmueslie.openbooking.common.BusinessObjectChangeListener
-import de.sambalmueslie.openbooking.common.GenericCrudService
-import de.sambalmueslie.openbooking.common.PageableSequence
-import de.sambalmueslie.openbooking.common.TimeProvider
+import de.sambalmueslie.openbooking.common.*
 import de.sambalmueslie.openbooking.error.InvalidRequestException
 import jakarta.inject.Singleton
 import org.slf4j.Logger
@@ -60,8 +59,43 @@ class BookingService(
         return repository.findByOfferId(offer.id).map { it.convert() }
     }
 
+    fun getBookings(bookingIds: Set<Long>): List<Booking> {
+        return repository.findByIdIn(bookingIds).map { it.convert() }
+    }
+
+    fun getBookingInfos(bookingIds: Set<Long>): List<BookingInfo> {
+        val data = repository.findByIdIn(bookingIds)
+        val offerIds = data.map { it.offerId }.toSet()
+        val offer = offerService.getOffer(offerIds).associateBy { it.id }
+        val confirmedBookings = repository.findByOfferIdInAndStatus(offerIds, BookingStatus.CONFIRMED).groupBy { it.offerId }
+        return data.mapNotNull { info(it, offer[it.offerId], confirmedBookings[it.offerId] ?: emptyList()) }
+    }
+
+    private fun info(data: BookingData, offer: Offer?, confirmedBookings: List<BookingData>): BookingInfo? {
+        if (offer == null) return null
+        val spaceConfirmed = confirmedBookings.sumOf { visitorGroupService.get(it.visitorGroupId)?.size ?: 0 }
+        val spaceAvailable = offer.maxPersons - spaceConfirmed
+
+        val timestamp = data.updated ?: data.created
+        return BookingInfo(data.id, offer, spaceAvailable, spaceConfirmed, data.status, timestamp)
+    }
+
     override fun deleteDependencies(data: BookingData) {
         val amount = repository.countByVisitorGroupId(data.visitorGroupId)
-        if(amount <= 1) visitorGroupService.delete(data.visitorGroupId)
+        if (amount <= 1) visitorGroupService.delete(data.visitorGroupId)
+    }
+
+    fun confirm(bookingId: Long) {
+        val data = repository.findByIdOrNull(bookingId) ?: return
+        val result = repository.update(data.update(BookingStatus.CONFIRMED, timeProvider.now())).convert()
+        notifyUpdated(result)
+    }
+
+    fun denial(bookingId: Long) {
+        val data = repository.findByIdOrNull(bookingId) ?: return
+        repository.delete(data)
+
+        val result = data.convert()
+        notifyDeleted(result)
     }
 }

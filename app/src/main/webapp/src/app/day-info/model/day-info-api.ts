@@ -1,10 +1,10 @@
-import {OfferInfo} from "../../offer/model/offer-api";
+import {DayInfoOffer} from "../../offer/model/offer-api";
 
 export interface DayInfo {
   date: string,
   start: string,
   end: string,
-  offer: OfferInfo[]
+  offer: DayInfoOffer[]
 }
 
 export const defaultDayInfo: DayInfo = {

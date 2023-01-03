@@ -4,9 +4,10 @@ import {StepperSelectionEvent} from "@angular/cdk/stepper";
 import {BookingService} from "../model/booking.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Address, VisitorGroupChangeRequest} from "../../visitor-group/model/visitor-group-api";
-import {BookingRequest, CreateBookingRequest} from "../model/booking-api";
+import {CreateBookingRequest} from "../model/booking-api";
 import {TranslateService} from "@ngx-translate/core";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
+import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
 
 @Component({
   selector: 'app-booking-create',

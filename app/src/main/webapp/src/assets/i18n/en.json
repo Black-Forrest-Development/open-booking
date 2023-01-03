@@ -117,5 +117,19 @@
       "Booking": "Booking Mgt",
       "BookingRequest": "Booking Request Mgt"
     }
+  },
+  "REQUEST": {
+    "Title": "Booking Request",
+    "Action": {
+      "MailConfirm": "Confirm Mail",
+      "RequestConfirm": "Confirm Offer",
+      "RequestDenial": "Denial Offer"
+    },
+    "Form": {
+      "SpaceAvailable": "Places available"
+    }
+  },
+  "VISITOR_GROUP": {
+    "Title": "Visitor Group"
   }
 }

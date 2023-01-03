@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {BookingService} from "../model/booking.service";
 import {FormGroup} from "@angular/forms";
-import {OfferInfo} from "../../offer/model/offer-api";
+import {DayInfoOffer} from "../../offer/model/offer-api";
 
 @Component({
   selector: 'app-booking-create-offer-select',
@@ -14,12 +14,12 @@ export class BookingCreateOfferSelectComponent {
   @Input()
   offerFormGroup!: FormGroup;
 
-  selected: OfferInfo[] = []
+  selected: DayInfoOffer[] = []
 
   constructor(public service: BookingService) {
   }
 
-  toggleSelection(info: OfferInfo) {
+  toggleSelection(info: DayInfoOffer) {
     let index = this.selected.indexOf(info)
     if (index < 0) {
       this.selected.push(info)
