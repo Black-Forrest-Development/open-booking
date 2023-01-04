@@ -6,5 +6,6 @@ data class Booking(
     override val id: Long,
     val offerId: Long,
     val visitorGroupId: Long,
+    val size: Int,
     val status: BookingStatus,
 ) : BusinessObject<Long>

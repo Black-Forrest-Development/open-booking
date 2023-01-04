@@ -1,9 +1,11 @@
 package de.sambalmueslie.openbooking.frontend.user.logic
 
 
+import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
 import de.sambalmueslie.openbooking.backend.info.InfoService
 import de.sambalmueslie.openbooking.backend.info.api.DateRangeSelectionRequest
 import de.sambalmueslie.openbooking.backend.info.api.DayInfo
+import de.sambalmueslie.openbooking.backend.info.api.DayInfoOffer
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.request.BookingRequestService
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
@@ -51,10 +53,17 @@ class DayInfoService(
             if (info == null) {
                 null
             } else {
-                val offer = info.offer.filter { o -> o.amountOfSpaceAvailable >= request.groupSize }
+                val offer = info.offer.filter { isSpaceAvailable(it, request) }
                 OfferInfoSelectResultEntry(date, offer)
             }
         }
+    }
+
+    private fun isSpaceAvailable(offer: DayInfoOffer, request: OfferInfoSelectRequest): Boolean {
+        val confirmedSpace = offer.space[BookingStatus.CONFIRMED] ?: 0
+        val totalSpace = offer.offer.maxPersons
+        val availableSpace = totalSpace - confirmedSpace
+        return availableSpace >= request.groupSize
     }
 
     fun createBooking(request: CreateBookingRequest): BookingRequest {

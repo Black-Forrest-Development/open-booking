@@ -8,6 +8,7 @@ import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
 import de.sambalmueslie.openbooking.backend.booking.db.BookingData
 import de.sambalmueslie.openbooking.backend.booking.db.BookingRepository
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
+import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import de.sambalmueslie.openbooking.common.*
@@ -35,14 +36,39 @@ class BookingService(
                 sequence.forEach { delete(it) }
             }
         })
+
+        visitorGroupService.register(object : BusinessObjectChangeListener<Long, VisitorGroup> {
+
+            override fun handleCreated(obj: VisitorGroup) {
+                handleVisitorGroupChanged(obj)
+            }
+
+            override fun handleUpdated(obj: VisitorGroup) {
+                handleVisitorGroupChanged(obj)
+            }
+
+            override fun handleDeleted(obj: VisitorGroup) {
+                val sequence = PageableSequence() { repository.findByVisitorGroupId(obj.id, it) }
+                sequence.forEach { delete(it) }
+            }
+        })
+    }
+
+    private fun handleVisitorGroupChanged(visitorGroup: VisitorGroup) {
+        val sequence = PageableSequence() { repository.findByVisitorGroupId(visitorGroup.id, it) }
+        sequence.forEach {
+            if (it.size != visitorGroup.size) patchData(it) { data -> data.update(visitorGroup, timeProvider.now()) }
+        }
     }
 
     override fun createData(request: BookingChangeRequest): BookingData {
-        return BookingData.create(request, timeProvider.now())
+        val visitorGroup = visitorGroupService.get(request.visitorGroupId)!!
+        return BookingData.create(request, visitorGroup, timeProvider.now())
     }
 
     override fun updateData(data: BookingData, request: BookingChangeRequest): BookingData {
-        return data.update(request, timeProvider.now())
+        val visitorGroup = visitorGroupService.get(request.visitorGroupId)!!
+        return data.update(request, visitorGroup, timeProvider.now())
     }
 
     override fun isValid(request: BookingChangeRequest) {

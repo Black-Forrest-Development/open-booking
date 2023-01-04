@@ -13,6 +13,7 @@ interface OfferAPI : AuthCrudAPI<Long, Offer, OfferChangeRequest> {
     }
 
     fun createSeries(auth: Authentication, request: OfferSeriesRequest): GenericRequestResult
+    fun createRange(auth: Authentication, request: OfferRangeRequest): GenericRequestResult
 
     fun findByDate(auth: Authentication, date: LocalDate): List<Offer>
 

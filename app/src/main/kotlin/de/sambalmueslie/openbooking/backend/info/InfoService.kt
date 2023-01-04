@@ -6,16 +6,14 @@ import com.github.benmanes.caffeine.cache.LoadingCache
 import de.sambalmueslie.openbooking.backend.booking.BookingService
 import de.sambalmueslie.openbooking.backend.booking.api.Booking
 import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
-import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
-import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.info.api.DateRangeSelectionRequest
 import de.sambalmueslie.openbooking.backend.info.api.DayInfo
 import de.sambalmueslie.openbooking.backend.info.api.DayInfoBooking
 import de.sambalmueslie.openbooking.backend.info.api.DayInfoOffer
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
-import de.sambalmueslie.openbooking.backend.request.BookingRequestService
 import de.sambalmueslie.openbooking.common.BusinessObjectChangeListener
+import de.sambalmueslie.openbooking.common.measureTimeMillisWithReturn
 import io.micronaut.scheduling.annotation.Scheduled
 import jakarta.inject.Singleton
 import org.slf4j.Logger
@@ -28,9 +26,7 @@ import java.util.concurrent.TimeUnit
 @Singleton
 class InfoService(
     private val offerService: OfferService,
-    private val bookingService: BookingService,
-    private val visitorGroupService: VisitorGroupService,
-    private val bookingRequestService: BookingRequestService,
+    private val bookingService: BookingService
 ) {
 
     companion object {
@@ -75,7 +71,9 @@ class InfoService(
 
     private fun updateCache(offer: Offer) {
         logger.info("Update cache for offer ${offer.id}")
-        addCacheKey(offer.start.toLocalDate())
+        val key = offer.start.toLocalDate()
+        cache.refresh(key)
+        addCacheKey(key)
     }
 
     private val cacheKeysToRefresh = mutableSetOf<LocalDate>()
@@ -125,40 +123,33 @@ class InfoService(
     }
 
     private fun createDayInfo(date: LocalDate): DayInfo? {
-        val offer = offerService.getOffer(date)
-        if (offer.isEmpty()) return null
+        val (duration, data) = measureTimeMillisWithReturn {
+            val offer = offerService.getOffer(date)
+            if (offer.isEmpty()) return null
 
-        val first = offer.first()
-        val last = offer.last()
+            val first = offer.first()
+            val last = offer.last()
 
-        val bookingsByOffer = bookingService.getBookings(offer).groupBy { it.offerId }
+            val bookingsByOffer = bookingService.getBookings(offer).groupBy { it.offerId }
+            val offerInfo = offer.map { createOfferInfo(it, bookingsByOffer) }
 
-        val offerInfo = offer.map { createOfferInfo(it, bookingsByOffer) }
-
-        return DayInfo(date, first.start, last.end, offerInfo)
+            DayInfo(date, first.start, last.end, offerInfo)
+        }
+        logger.info("Cache refresh for $date done within $duration ms.")
+        return data
     }
 
 
     private fun createOfferInfo(offer: Offer, bookingsByOffer: Map<Long, List<Booking>>): DayInfoOffer {
         val bookings = bookingsByOffer[offer.id] ?: emptyList()
-        val visitorGroups = visitorGroupService.get(bookings).associateBy { it.id }
 
-        val bookingInfo = bookings.mapNotNull { createBookingInfo(it, visitorGroups[it.visitorGroupId]) }
+        val bookingInfo = bookings.map { DayInfoBooking(it.size, it.status) }
 
-        val bookingSpace = bookingInfo.groupBy { it.status }.mapValues { it.value.sumOf { b -> b.size } }
+        val bookingSpace = bookingInfo.groupBy { it.status }.mapValues { it.value.sumOf { b -> b.size } }.toMutableMap()
+        BookingStatus.values().forEach { status -> if (!bookingSpace.containsKey(status)) bookingSpace[status] = 0 }
 
-        val amountOfSpaceTotal = offer.maxPersons
-        val amountOfSpaceConfirmed = bookingSpace[BookingStatus.CONFIRMED] ?: 0
-        val amountOfSpaceUnconfirmed = bookingSpace[BookingStatus.UNCONFIRMED] ?: 0
-        val amountOfSpaceAvailable = amountOfSpaceTotal - amountOfSpaceConfirmed - amountOfSpaceUnconfirmed
-
-        return DayInfoOffer(offer, amountOfSpaceTotal, amountOfSpaceAvailable, amountOfSpaceConfirmed, amountOfSpaceUnconfirmed, bookingInfo)
+        return DayInfoOffer(offer, bookingSpace, bookingInfo)
     }
 
-
-    private fun createBookingInfo(booking: Booking, visitorGroup: VisitorGroup?): DayInfoBooking? {
-        if (visitorGroup == null) return null
-        return DayInfoBooking(visitorGroup.size, booking.status)
-    }
 
 }
