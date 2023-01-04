@@ -8,13 +8,15 @@ import de.sambalmueslie.openbooking.backend.booking.api.Booking
 import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
-import de.sambalmueslie.openbooking.backend.info.api.DayInfoBooking
 import de.sambalmueslie.openbooking.backend.info.api.DateRangeSelectionRequest
 import de.sambalmueslie.openbooking.backend.info.api.DayInfo
+import de.sambalmueslie.openbooking.backend.info.api.DayInfoBooking
 import de.sambalmueslie.openbooking.backend.info.api.DayInfoOffer
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
+import de.sambalmueslie.openbooking.backend.request.BookingRequestService
 import de.sambalmueslie.openbooking.common.BusinessObjectChangeListener
+import io.micronaut.scheduling.annotation.Scheduled
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -27,7 +29,8 @@ import java.util.concurrent.TimeUnit
 class InfoService(
     private val offerService: OfferService,
     private val bookingService: BookingService,
-    private val visitorGroupService: VisitorGroupService
+    private val visitorGroupService: VisitorGroupService,
+    private val bookingRequestService: BookingRequestService,
 ) {
 
     companion object {
@@ -49,7 +52,7 @@ class InfoService(
             }
         })
 
-        offerService.register(object : BusinessObjectChangeListener<Long,Offer> {
+        offerService.register(object : BusinessObjectChangeListener<Long, Offer> {
             override fun handleCreated(obj: Offer) {
                 updateCache(obj)
             }
@@ -72,12 +75,34 @@ class InfoService(
 
     private fun updateCache(offer: Offer) {
         logger.info("Update cache for offer ${offer.id}")
-        cache.refresh(offer.start.toLocalDate())
+        addCacheKey(offer.start.toLocalDate())
     }
+
+    private val cacheKeysToRefresh = mutableSetOf<LocalDate>()
+
+    @Synchronized
+    private fun getCacheKeys(): List<LocalDate> {
+        val keys = cacheKeysToRefresh.toList()
+        cacheKeysToRefresh.clear()
+        return keys
+    }
+
+    @Synchronized
+    private fun addCacheKey(key: LocalDate) {
+        cacheKeysToRefresh.add(key)
+    }
+
+    @Scheduled(cron = "0/10 * * * * ?")
+    fun evictCache() {
+        val keys = getCacheKeys()
+        keys.forEach { cache.refresh(it) }
+    }
+
 
     private val cache: LoadingCache<LocalDate, DayInfo> = Caffeine.newBuilder()
         .maximumSize(100)
         .expireAfterWrite(1, TimeUnit.HOURS)
+        .refreshAfterWrite(15, TimeUnit.MINUTES)
         .build { date -> createDayInfo(date) }
 
 
@@ -108,7 +133,7 @@ class InfoService(
 
         val bookingsByOffer = bookingService.getBookings(offer).groupBy { it.offerId }
 
-        val offerInfo = offer.map { createOfferInfo(it,bookingsByOffer) }
+        val offerInfo = offer.map { createOfferInfo(it, bookingsByOffer) }
 
         return DayInfo(date, first.start, last.end, offerInfo)
     }
@@ -120,7 +145,7 @@ class InfoService(
 
         val bookingInfo = bookings.mapNotNull { createBookingInfo(it, visitorGroups[it.visitorGroupId]) }
 
-        val bookingSpace = bookingInfo.groupBy { it.status }.mapValues { it.value.sumOf { b-> b.size } }
+        val bookingSpace = bookingInfo.groupBy { it.status }.mapValues { it.value.sumOf { b -> b.size } }
 
         val amountOfSpaceTotal = offer.maxPersons
         val amountOfSpaceConfirmed = bookingSpace[BookingStatus.CONFIRMED] ?: 0
@@ -132,7 +157,7 @@ class InfoService(
 
 
     private fun createBookingInfo(booking: Booking, visitorGroup: VisitorGroup?): DayInfoBooking? {
-        if(visitorGroup == null) return null
+        if (visitorGroup == null) return null
         return DayInfoBooking(visitorGroup.size, booking.status)
     }
 

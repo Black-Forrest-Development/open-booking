@@ -1,4 +1,5 @@
 import {DayInfoBooking} from "../../booking/model/booking-api";
+import {Offer} from "../../admin/offer-admin/model/offer-admin-api";
 
 export interface OfferInfoSelectResultEntry {
   date: string,
@@ -22,22 +23,3 @@ export class OfferInfoSelectRequest {
   }
 }
 
-
-export interface Offer {
-  id: number,
-  start: string,
-  end: string,
-  maxPersons: number,
-  active: boolean
-}
-
-
-export class OfferChangeRequest {
-  constructor(
-    public start: string,
-    public finish: string,
-    public maxPersons: number,
-    public active: boolean
-  ) {
-  }
-}

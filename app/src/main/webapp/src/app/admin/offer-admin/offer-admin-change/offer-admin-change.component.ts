@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Offer, OfferChangeRequest} from "../../../offer/model/offer-api";
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {Location} from "@angular/common";
@@ -8,6 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import * as moment from "moment/moment";
 import {Moment} from "moment/moment";
 import {OfferAdminService} from "../model/offer-admin.service";
+import {Offer, OfferChangeRequest} from "../model/offer-admin-api";
 
 @Component({
   selector: 'app-offer-admin-change',

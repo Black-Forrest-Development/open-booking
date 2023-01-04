@@ -34,7 +34,3 @@ export const defaultBookingRequestInfo: BookingRequestInfo = {
   timestamp: ""
 }
 
-export interface BookingRequestChangeResult {
-  success: boolean,
-  msg: string
-}

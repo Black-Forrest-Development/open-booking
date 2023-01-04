@@ -1,5 +1,5 @@
 import {VisitorGroupChangeRequest} from "../../visitor-group/model/visitor-group-api";
-import {Offer} from "../../offer/model/offer-api";
+import {Offer} from "../../admin/offer-admin/model/offer-admin-api";
 
 export class CreateBookingRequest {
   constructor(

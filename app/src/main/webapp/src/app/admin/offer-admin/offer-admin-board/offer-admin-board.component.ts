@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {DayInfoService} from "../../../day-info/model/day-info.service";
-import {AdminService} from "../../model/admin.service";
-import {DayInfo} from "../../../day-info/model/day-info-api";
-import {EChartsOption} from "echarts";
+import {MatDialog} from "@angular/material/dialog";
+import {OfferAdminChangeDialogComponent} from "../offer-admin-change-dialog/offer-admin-change-dialog.component";
+import {OfferAdminService} from "../model/offer-admin.service";
+import {OfferAdminCreateSeriesDialogComponent} from "../offer-admin-create-series-dialog/offer-admin-create-series-dialog.component";
 
 @Component({
   selector: 'app-offer-admin-board',
@@ -12,19 +13,21 @@ import {EChartsOption} from "echarts";
 export class OfferAdminBoardComponent {
   reloading: boolean = false;
 
-  constructor(public dayInfoService: DayInfoService, public service: AdminService) {
+  constructor(public dayInfoService: DayInfoService, public service: OfferAdminService, private dialog: MatDialog) {
+
   }
 
   ngOnInit(): void {
     this.dayInfoService.loadDefaultDayInfo()
   }
 
-  getChartOptions(data: DayInfo): EChartsOption {
-    let chart = this.dayInfoService.createDayInfoChart(data)
-    chart.legend = undefined
-    chart.title = undefined
-    chart.xAxis = {type: 'category', show: false}
-    chart.yAxis = {type: 'value', show: false}
-    return chart
+  create() {
+    const dialogRef = this.dialog.open(OfferAdminChangeDialogComponent)
+    dialogRef.afterClosed().subscribe(() => this.dayInfoService.loadDefaultDayInfo());
+  }
+
+  createSeries() {
+    const dialogRef = this.dialog.open(OfferAdminCreateSeriesDialogComponent)
+    dialogRef.afterClosed().subscribe(() => this.dayInfoService.loadDefaultDayInfo());
   }
 }

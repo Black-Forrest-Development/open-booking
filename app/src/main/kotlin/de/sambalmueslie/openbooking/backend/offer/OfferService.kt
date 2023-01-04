@@ -3,9 +3,11 @@ package de.sambalmueslie.openbooking.backend.offer
 
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import de.sambalmueslie.openbooking.backend.offer.api.OfferChangeRequest
+import de.sambalmueslie.openbooking.backend.offer.api.OfferSeriesRequest
 import de.sambalmueslie.openbooking.backend.offer.db.OfferData
 import de.sambalmueslie.openbooking.backend.offer.db.OfferRepository
 import de.sambalmueslie.openbooking.common.GenericCrudService
+import de.sambalmueslie.openbooking.common.GenericRequestResult
 import de.sambalmueslie.openbooking.common.PageableSequence
 import de.sambalmueslie.openbooking.common.TimeProvider
 import de.sambalmueslie.openbooking.error.InvalidRequestException
@@ -29,12 +31,17 @@ class OfferService(
         return OfferData.create(request, timeProvider.now())
     }
 
+    override fun existing(request: OfferChangeRequest): OfferData? {
+        return repository.findOneByStart(request.start)
+    }
+
     override fun updateData(data: OfferData, request: OfferChangeRequest): OfferData {
         return data.update(request, timeProvider.now())
     }
 
     override fun isValid(request: OfferChangeRequest) {
         if (request.maxPersons <= 0) throw InvalidRequestException("Max Person for offer cannot be below or equals 0")
+
     }
 
     fun deleteAll() {
@@ -63,6 +70,30 @@ class OfferService(
     fun setActive(id: Long, value: Boolean) = patchData(id) { it.active = value }
 
     fun setMaxPersons(id: Long, value: Int) = patchData(id) { if (value >= 0) it.maxPersons = value }
+    fun createSeries(request: OfferSeriesRequest): GenericRequestResult {
+        if (!request.duration.isPositive) return GenericRequestResult(false, "REQUEST.OFFER.SERIES.FAIL")
+        if (!request.interval.isPositive) return GenericRequestResult(false, "REQUEST.OFFER.SERIES.FAIL")
+        if (request.quantity <= 0) return GenericRequestResult(false, "REQUEST.OFFER.SERIES.FAIL")
+
+        var start = request.start
+        (0 until request.quantity).forEach { _ ->
+            val finish = start.plus(request.duration)
+            val finishTime = finish.toLocalTime()
+            if (finishTime.isAfter(request.maxTime)) {
+                start = start.with(request.minTime).plusDays(1)
+                create(OfferChangeRequest(start, start.plus(request.duration), request.maxPersons, true))
+            } else {
+                create(OfferChangeRequest(start, finish, request.maxPersons, true))
+            }
+
+            start = start.plus(request.interval)
+            val startTime = start.toLocalTime()
+            if (startTime.isAfter(request.maxTime)) {
+                start = start.with(request.minTime).plusDays(1)
+            }
+        }
+        return GenericRequestResult(true, "REQUEST.OFFER.SERIES.SUCCESS")
+    }
 
 
 }

@@ -4,7 +4,8 @@ import {HttpClient} from "@angular/common/http";
 import {LoggingService} from "../../../shared/logging/logging.service";
 import {Observable} from "rxjs";
 import {Page} from "../../../shared/page/page";
-import {BookingRequest, BookingRequestChangeRequest, BookingRequestChangeResult, BookingRequestInfo} from "./request-admin-api";
+import {BookingRequest, BookingRequestChangeRequest, BookingRequestInfo} from "./request-admin-api";
+import {GenericRequestResult} from "../../../shared/shared-api";
 
 
 @Injectable({
@@ -40,11 +41,11 @@ export class RequestAdminService extends BaseService {
     return this.delete('' + id)
   }
 
-  confirmBookingRequest(id: number, bookingId: number): Observable<BookingRequestChangeResult> {
+  confirmBookingRequest(id: number, bookingId: number): Observable<GenericRequestResult> {
     return this.put('' + id + '/confirm/' + bookingId, {})
   }
 
-  denialBookingRequest(id: number): Observable<BookingRequestChangeResult> {
+  denialBookingRequest(id: number): Observable<GenericRequestResult> {
     return this.put('' + id + '/denial', {})
   }
 

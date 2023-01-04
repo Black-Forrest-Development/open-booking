@@ -4,7 +4,10 @@ import {Observable} from 'rxjs';
 import {BaseService} from "../../../shared/base-service";
 import {LoggingService} from "../../../shared/logging/logging.service";
 import {Page} from "../../../shared/page/page";
-import {Offer, OfferChangeRequest} from "../../../offer/model/offer-api";
+import {Offer, OfferChangeRequest, OfferSeriesRequest} from "./offer-admin-api";
+import {GenericRequestResult} from "../../../shared/shared-api";
+import {Moment} from "moment/moment";
+import * as moment from "moment/moment";
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +48,19 @@ export class OfferAdminService extends BaseService {
 
   setMaxPersons(id: number, maxPersons: number): Observable<Offer> {
     return this.patch('' + id + '/max_persons', {value: maxPersons})
+  }
+
+  createOfferSeries(request: OfferSeriesRequest): Observable<GenericRequestResult> {
+    return this.post('series', request)
+  }
+  createDateTime(timeStr: string, date: any): Moment | null {
+    let mDate = moment(date)
+    let time = timeStr.split(":");
+    if (time.length == 2 && mDate.isValid()) {
+      mDate.hours(parseInt(time[0]));
+      mDate.minutes(parseInt(time[1]));
+      return mDate
+    }
+    return null;
   }
 }
