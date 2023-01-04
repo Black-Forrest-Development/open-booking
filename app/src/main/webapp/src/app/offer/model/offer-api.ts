@@ -7,11 +7,9 @@ export interface OfferInfoSelectResultEntry {
 }
 
 export interface DayInfoOffer {
+
   offer: Offer,
-  amountOfSpaceTotal: number,
-  amountOfSpaceAvailable: number,
-  amountOfSpaceConfirmed: number
-  amountOfSpaceUnconfirmed: number,
+  space: any,
   bookings: DayInfoBooking[]
 }
 
@@ -22,4 +20,5 @@ export class OfferInfoSelectRequest {
   ) {
   }
 }
+
 
