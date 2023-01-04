@@ -1,6 +1,7 @@
 package de.sambalmueslie.openbooking.backend.request.api
 
 import de.sambalmueslie.openbooking.common.AuthCrudAPI
+import de.sambalmueslie.openbooking.common.GenericRequestResult
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication
@@ -14,7 +15,7 @@ interface BookingRequestAPI : AuthCrudAPI<Long, BookingRequest, BookingRequestCh
     fun getUnconfirmed(auth: Authentication, pageable: Pageable): Page<BookingRequest>
 
     fun getInfoUnconfirmed(auth: Authentication, pageable: Pageable): Page<BookingRequestInfo>
-    fun confirm(auth: Authentication, id: Long, bookingId: Long): BookingRequestChangeResult
-    fun denial(auth: Authentication, id: Long): BookingRequestChangeResult
+    fun confirm(auth: Authentication, id: Long, bookingId: Long): GenericRequestResult
+    fun denial(auth: Authentication, id: Long): GenericRequestResult
 
 }

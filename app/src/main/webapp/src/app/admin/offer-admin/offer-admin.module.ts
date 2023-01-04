@@ -12,6 +12,8 @@ import { OfferAdminDayBoardComponent } from './offer-admin-day-board/offer-admin
 import { OfferAdminPrintBoardComponent } from './offer-admin-print-board/offer-admin-print-board.component';
 import { OfferAdminChangeComponent } from './offer-admin-change/offer-admin-change.component';
 import { OfferAdminDetailsComponent } from './offer-admin-details/offer-admin-details.component';
+import { OfferAdminChangeDialogComponent } from './offer-admin-change-dialog/offer-admin-change-dialog.component';
+import { OfferAdminCreateSeriesDialogComponent } from './offer-admin-create-series-dialog/offer-admin-create-series-dialog.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { OfferAdminDetailsComponent } from './offer-admin-details/offer-admin-de
     OfferAdminDayBoardComponent,
     OfferAdminPrintBoardComponent,
     OfferAdminChangeComponent,
-    OfferAdminDetailsComponent
+    OfferAdminDetailsComponent,
+    OfferAdminChangeDialogComponent,
+    OfferAdminCreateSeriesDialogComponent
   ],
   imports: [
     CommonModule,

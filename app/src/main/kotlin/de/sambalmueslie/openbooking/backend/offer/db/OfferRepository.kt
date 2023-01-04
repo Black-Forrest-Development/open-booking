@@ -15,4 +15,5 @@ interface OfferRepository : PageableRepository<OfferData, Long> {
     fun findOneByStartGreaterThanEqualsOrderByStart(start: LocalDateTime): OfferData?
     fun findOneByStartGreaterThanEqualsOrderByStartDesc(start: LocalDateTime): OfferData?
     fun findByIdIn(offerIds: Set<Long>): List<OfferData>
+    fun findOneByStart(start: LocalDateTime): OfferData?
 }

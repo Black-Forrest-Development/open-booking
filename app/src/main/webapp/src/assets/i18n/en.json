@@ -9,7 +9,9 @@
     "Back": "Back",
     "Details": "Details",
     "Edit": "Edit",
-    "Delete": "Delete"
+    "Delete": "Delete",
+    "Submit": "Submit",
+    "Cancel": "Cancel"
   },
   "MENU": {
     "Home": "Home",
@@ -100,14 +102,33 @@
   "OFFER": {
     "Form": {
       "Id": "Id",
+      "Date": "Date",
+      "StartTime": "Start Time",
+      "EndTime": "End Time",
       "Start": "Start",
       "End": "End",
       "MaxPersons": "max Persons",
       "Active": "Active"
     },
+    "Series": {
+      "Date": "Date",
+      "Time": "Time",
+      "Duration": "Duration",
+      "Interval": "Interval",
+      "Quantity": "Quantity",
+      "MaxPersons": "max Persons",
+      "MinTime": "Min Time",
+      "MaxTime": "Max Time"
+    },
     "Action": {
       "Details": "Details",
-      "Print": "Print"
+      "Print": "Print",
+      "CreateSingle": "Create (Single)",
+      "CreateSeries": "Create (Series)"
+    },
+    "Operation": {
+      "Create": "Create Offer",
+      "Edit": "Edit Offer"
     }
   },
   "ADMIN": {

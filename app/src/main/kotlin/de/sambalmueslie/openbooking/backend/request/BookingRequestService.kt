@@ -7,12 +7,16 @@ import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
 import de.sambalmueslie.openbooking.backend.booking.api.BookingInfo
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
-import de.sambalmueslie.openbooking.backend.request.api.*
+import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
+import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeRequest
+import de.sambalmueslie.openbooking.backend.request.api.BookingRequestInfo
+import de.sambalmueslie.openbooking.backend.request.api.BookingRequestStatus
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestData
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelation
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelationRepository
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRepository
 import de.sambalmueslie.openbooking.common.BusinessObjectChangeListener
+import de.sambalmueslie.openbooking.common.GenericRequestResult
 import de.sambalmueslie.openbooking.common.TimeProvider
 import de.sambalmueslie.openbooking.common.findByIdOrNull
 import io.micronaut.data.model.Page
@@ -114,11 +118,11 @@ class BookingRequestService(
 
 
     private fun getUnconfirmedData(pageable: Pageable) = repository.findByStatusIn(listOf(BookingRequestStatus.UNKNOWN, BookingRequestStatus.UNCONFIRMED), pageable)
-    fun confirm(id: Long, bookingId: Long): BookingRequestChangeResult {
-        val data = repository.findByIdOrNull(id) ?: return BookingRequestChangeResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
+    fun confirm(id: Long, bookingId: Long): GenericRequestResult {
+        val data = repository.findByIdOrNull(id) ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
 
         val relations = relationRepository.getByBookingRequestId(data.id)
-        if(!relations.any { it.bookingId == bookingId }) return BookingRequestChangeResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
+        if (!relations.any { it.bookingId == bookingId }) return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
 
         relationRepository.deleteByBookingRequestId(data.id)
         repository.delete(data)
@@ -132,12 +136,12 @@ class BookingRequestService(
         }
 
 
-        return BookingRequestChangeResult(true, "REQUEST.MESSAGE.CONFIRM.SUCCESS")
+        return GenericRequestResult(true, "REQUEST.MESSAGE.CONFIRM.SUCCESS")
     }
 
-    fun denial(id: Long): BookingRequestChangeResult {
+    fun denial(id: Long): GenericRequestResult {
         delete(id)
-        return BookingRequestChangeResult(true, "REQUEST.MESSAGE.DENIAL.SUCCESS")
+        return GenericRequestResult(true, "REQUEST.MESSAGE.DENIAL.SUCCESS")
     }
 
 

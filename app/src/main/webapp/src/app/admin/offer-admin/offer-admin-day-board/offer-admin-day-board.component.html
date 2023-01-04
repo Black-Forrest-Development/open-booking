@@ -33,7 +33,7 @@
     <ng-container matColumnDef="cmd">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let offer">
-        <a mat-stroked-button class="mx-2" color="accent" routerLink="/admin/offer/edit/{{offer.id}}"><mat-icon>edit</mat-icon>{{'ACTION.Edit' | translate}}</a>
+        <a mat-stroked-button class="mx-2" color="accent" (click)="update(offer)"><mat-icon>edit</mat-icon>{{'ACTION.Edit' | translate}}</a>
         <a mat-stroked-button class="mx-2" color="warn"><mat-icon>delete</mat-icon>{{'ACTION.Delete' | translate}}</a>
       </td>
     </ng-container>

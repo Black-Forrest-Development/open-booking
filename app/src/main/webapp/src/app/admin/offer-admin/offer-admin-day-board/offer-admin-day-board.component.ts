@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
-import {Offer} from "../../../offer/model/offer-api";
 import {ActivatedRoute} from "@angular/router";
 import {OfferAdminService} from "../model/offer-admin.service";
+import {Offer} from "../model/offer-admin-api";
+import {OfferAdminChangeDialogComponent} from "../offer-admin-change-dialog/offer-admin-change-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-offer-admin-day-board',
@@ -14,7 +16,7 @@ export class OfferAdminDayBoardComponent {
   displayedColumns: string[] = ['id', 'start', 'end', 'maxPersons', 'active', 'cmd'];
   data: Offer[] = [];
 
-  constructor(private route: ActivatedRoute, private service: OfferAdminService) {
+  constructor(private route: ActivatedRoute, private service: OfferAdminService, private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -65,5 +67,10 @@ export class OfferAdminDayBoardComponent {
     if (index > -1) {
       this.updateOfferOngoing.splice(index, 1);
     }
+  }
+
+  update(offer: Offer) {
+    const dialogRef = this.dialog.open(OfferAdminChangeDialogComponent, {data: offer})
+    dialogRef.afterClosed().subscribe((result: Offer) => this.updateOffer(result));
   }
 }
