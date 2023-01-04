@@ -11,6 +11,20 @@ export class OfferSeriesRequest {
   }
 }
 
+export class OfferRangeRequest {
+  constructor(
+    public maxPersons: number,
+    public dateFrom: string,
+    public dateTo: string,
+    public timeFrom: string,
+    public timeTo: string,
+    public duration: string,
+    public interval: string
+  ) {
+  }
+}
+
+
 export interface Offer {
   id: number,
   start: string,

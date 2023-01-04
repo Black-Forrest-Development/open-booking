@@ -124,7 +124,8 @@
       "Details": "Details",
       "Print": "Print",
       "CreateSingle": "Create (Single)",
-      "CreateSeries": "Create (Series)"
+      "CreateSeries": "Create (Series)",
+      "CreateRange": "Create (Range)"
     },
     "Operation": {
       "Create": "Create Offer",

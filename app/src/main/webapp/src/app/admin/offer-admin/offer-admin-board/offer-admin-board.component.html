@@ -4,9 +4,12 @@
   <button mat-stroked-button class="me-2" (click)="create()">
     <mat-icon>add</mat-icon>
     {{'OFFER.Action.CreateSingle' | translate}}</button>
-  <button mat-stroked-button (click)="createSeries()">
+  <button mat-stroked-button class="me-2" (click)="createSeries()">
     <mat-icon>playlist_add</mat-icon>
     {{'OFFER.Action.CreateSeries' | translate}}</button>
+  <button mat-stroked-button class="me-2" (click)="createRange()">
+    <mat-icon>format_list_bulleted_add</mat-icon>
+    {{'OFFER.Action.CreateRange' | translate}}</button>
 </mat-toolbar>
 
 <div class="d-flex p-2 container-fluid">

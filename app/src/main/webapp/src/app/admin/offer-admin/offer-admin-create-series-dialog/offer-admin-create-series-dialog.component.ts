@@ -16,7 +16,6 @@ import {GenericRequestResult} from "../../../shared/shared-api";
 export class OfferAdminCreateSeriesDialogComponent {
 
   loading: boolean = false
-  title: string = ""
 
   form: FormGroup = this.fb.group({
       date: ['', Validators.required],

@@ -4,10 +4,10 @@ import {Observable} from 'rxjs';
 import {BaseService} from "../../../shared/base-service";
 import {LoggingService} from "../../../shared/logging/logging.service";
 import {Page} from "../../../shared/page/page";
-import {Offer, OfferChangeRequest, OfferSeriesRequest} from "./offer-admin-api";
+import {Offer, OfferChangeRequest, OfferRangeRequest, OfferSeriesRequest} from "./offer-admin-api";
 import {GenericRequestResult} from "../../../shared/shared-api";
-import {Moment} from "moment/moment";
 import * as moment from "moment/moment";
+import {Moment} from "moment/moment";
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +53,11 @@ export class OfferAdminService extends BaseService {
   createOfferSeries(request: OfferSeriesRequest): Observable<GenericRequestResult> {
     return this.post('series', request)
   }
+
+  createOfferRange(request: OfferRangeRequest): Observable<GenericRequestResult> {
+    return this.post('range', request)
+  }
+
   createDateTime(timeStr: string, date: any): Moment | null {
     let mDate = moment(date)
     let time = timeStr.split(":");

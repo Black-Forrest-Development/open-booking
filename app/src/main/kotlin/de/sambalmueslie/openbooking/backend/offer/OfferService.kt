@@ -3,6 +3,7 @@ package de.sambalmueslie.openbooking.backend.offer
 
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import de.sambalmueslie.openbooking.backend.offer.api.OfferChangeRequest
+import de.sambalmueslie.openbooking.backend.offer.api.OfferRangeRequest
 import de.sambalmueslie.openbooking.backend.offer.api.OfferSeriesRequest
 import de.sambalmueslie.openbooking.backend.offer.db.OfferData
 import de.sambalmueslie.openbooking.backend.offer.db.OfferRepository
@@ -15,6 +16,8 @@ import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @Singleton
 class OfferService(
@@ -93,6 +96,32 @@ class OfferService(
             }
         }
         return GenericRequestResult(true, "REQUEST.OFFER.SERIES.SUCCESS")
+    }
+
+    fun createRange(request: OfferRangeRequest): GenericRequestResult {
+        if (!request.duration.isPositive) return GenericRequestResult(false, "REQUEST.OFFER.RANGE.FAIL")
+        if (!request.interval.isPositive) return GenericRequestResult(false, "REQUEST.OFFER.RANGE.FAIL")
+        if (request.dateTo.isBefore(request.dateFrom)) return GenericRequestResult(false, "REQUEST.OFFER.RANGE.FAIL")
+        if (request.timeTo.isBefore(request.timeFrom)) return GenericRequestResult(false, "REQUEST.OFFER.RANGE.FAIL")
+
+        var date = request.dateFrom
+        val days = ChronoUnit.DAYS.between(request.dateFrom, request.dateTo)
+
+        (0..days).forEach {
+            var startTime = request.timeFrom
+            var finishTime = startTime.plus(request.duration)
+            while (!finishTime.isAfter(request.timeTo)) {
+                val start = LocalDateTime.of(date, startTime)
+                val finish = LocalDateTime.of(date, finishTime)
+                create(OfferChangeRequest(start, finish, request.maxPersons, true))
+
+                startTime = startTime.plus(request.interval)
+                finishTime = startTime.plus(request.duration)
+            }
+
+            date = date.plusDays(1)
+        }
+        return GenericRequestResult(true, "REQUEST.OFFER.RANGE.SUCCESS")
     }
 
 

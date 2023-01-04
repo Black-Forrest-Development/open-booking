@@ -14,6 +14,7 @@ import { OfferAdminChangeComponent } from './offer-admin-change/offer-admin-chan
 import { OfferAdminDetailsComponent } from './offer-admin-details/offer-admin-details.component';
 import { OfferAdminChangeDialogComponent } from './offer-admin-change-dialog/offer-admin-change-dialog.component';
 import { OfferAdminCreateSeriesDialogComponent } from './offer-admin-create-series-dialog/offer-admin-create-series-dialog.component';
+import { OfferAdminCreateRangeDialogComponent } from './offer-admin-create-range-dialog/offer-admin-create-range-dialog.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { OfferAdminCreateSeriesDialogComponent } from './offer-admin-create-seri
     OfferAdminChangeComponent,
     OfferAdminDetailsComponent,
     OfferAdminChangeDialogComponent,
-    OfferAdminCreateSeriesDialogComponent
+    OfferAdminCreateSeriesDialogComponent,
+    OfferAdminCreateRangeDialogComponent
   ],
   imports: [
     CommonModule,

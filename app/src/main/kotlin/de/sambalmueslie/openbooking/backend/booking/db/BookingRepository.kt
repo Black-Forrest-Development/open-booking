@@ -21,4 +21,6 @@ interface BookingRepository : PageableRepository<BookingData, Long> {
     fun countByVisitorGroupId(visitorGroupId: Long): Long
     fun findByIdIn(bookingIds: Set<Long>): List<BookingData>
 
+    fun findByVisitorGroupId(visitorGroupId: Long, pageable: Pageable): Page<BookingData>
+
 }
