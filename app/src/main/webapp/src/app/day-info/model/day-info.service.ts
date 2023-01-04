@@ -69,7 +69,7 @@ export class DayInfoService extends BaseService {
     }
   }
 
-  createDayInfoChart(info: DayInfo): EChartsOption{
+  createDayInfoChart(info: DayInfo): EChartsOption {
     return {
       title: {
         text: this.translate.instant('DAY_INFO.Chart.Space.Title'),
@@ -107,7 +107,7 @@ export class DayInfoService extends BaseService {
           emphasis: {
             focus: 'series'
           },
-          data: info.offer.map(i => (i.offer.active) ? i.amountOfSpaceTotal - i.amountOfSpaceConfirmed - i.amountOfSpaceUnconfirmed : 0),
+          data: info.offer.map(i => (i.offer.active) ?i.offer.maxPersons - i.space.CONFIRMED - i.space.UNCONFIRMED : 0),
           color: "#91cc75"
         }, {
           name: this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
@@ -116,7 +116,7 @@ export class DayInfoService extends BaseService {
           emphasis: {
             focus: 'series'
           },
-          data: info.offer.map(i => (i.offer.active) ? i.amountOfSpaceConfirmed : 0),
+          data: info.offer.map(i => (i.offer.active) ? i.space.CONFIRMED : 0),
           color: "#ee6666"
         }, {
           name: this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
@@ -125,7 +125,7 @@ export class DayInfoService extends BaseService {
           emphasis: {
             focus: 'series'
           },
-          data: info.offer.map(i => (i.offer.active) ? i.amountOfSpaceUnconfirmed : 0),
+          data: info.offer.map(i => (i.offer.active) ? i.space.UNCONFIRMED : 0),
           color: "#fac858"
         }, {
           name: this.translate.instant('DAY_INFO.Chart.Space.Series.Deactivated'),
@@ -134,7 +134,7 @@ export class DayInfoService extends BaseService {
           emphasis: {
             focus: 'series'
           },
-          data: info.offer.map(i => (!i.offer.active) ? i.amountOfSpaceTotal : 0),
+          data: info.offer.map(i => (!i.offer.active) ? i.offer.maxPersons : 0),
           color: "lightgrey"
         }
       ]
