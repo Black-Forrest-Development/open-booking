@@ -17,12 +17,6 @@ export interface DayInfoBooking {
 }
 
 
-export interface Booking {
-  id: number,
-  offerId: number,
-  visitorGroupId: number,
-  status: string,
-}
 
 export interface BookingInfo {
   id: number,

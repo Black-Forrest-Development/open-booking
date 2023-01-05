@@ -18,16 +18,16 @@ export class BookingCreateComponent implements OnInit {
 
 
   visitorFormGroup = this.fb.group({
-    title: ['Title', Validators.required],
+    title: ['Default Title', Validators.required],
     size: ['20', Validators.required],
     minAge: ['1', Validators.required],
     maxAge: ['99', Validators.required],
     contact: ['Contact', Validators.required],
     street: ['Street', Validators.required],
-    zip: ['Zip', Validators.required],
+    zip: ['987654', Validators.required],
     city: ['City', Validators.required],
-    phone: ['Phone', Validators.required],
-    mail: ['Mail', Validators.required],
+    phone: ['012456789', Validators.required],
+    mail: ['test@mailtest.com', Validators.required],
   });
 
 

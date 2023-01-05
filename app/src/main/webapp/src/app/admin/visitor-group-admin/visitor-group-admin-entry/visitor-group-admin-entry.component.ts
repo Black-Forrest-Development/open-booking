@@ -11,6 +11,8 @@ import {VisitorGroupInfoDialogComponent} from "../visitor-group-info-dialog/visi
 })
 export class VisitorGroupAdminEntryComponent {
   @Input() data: VisitorGroup = defaultVisitorGroup
+  @Input() statusVisible: boolean = true
+  @Input() infoVisible: boolean = true
 
   confirming: boolean = false
 

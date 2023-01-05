@@ -11,7 +11,8 @@
     "Edit": "Edit",
     "Delete": "Delete",
     "Submit": "Submit",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "Close": "Close"
   },
   "MENU": {
     "Home": "Home",
@@ -47,10 +48,21 @@
   },
   "BOOKING": {
     "Entry": {
-      "Select": "Select Day"
+      "Select": "Select Day",
+      "Empty": "No values found"
     },
     "Action": {
-      "Create": "Create Booking"
+      "Create": "Create Booking",
+      "Search": "Search Booking"
+    },
+    "Dialog": {
+      "InfoTitle": "Booking Info"
+    },
+    "Status": {
+      "Title": "Booking Status",
+      "CONFIRMED": "Confirmed",
+      "UNCONFIRMED": "Unconfirmed",
+      "UNKNOWN": "Unknown"
     },
     "Create": {
       "Title": "Create a new booking",
@@ -125,7 +137,8 @@
       "Print": "Print",
       "CreateSingle": "Create (Single)",
       "CreateSeries": "Create (Series)",
-      "CreateRange": "Create (Range)"
+      "CreateRange": "Create (Range)",
+      "ShowBookings": "Bookings"
     },
     "Operation": {
       "Create": "Create Offer",
@@ -137,7 +150,8 @@
       "Dashboard": "Dashboard",
       "Offer": "Offer Mgt",
       "Booking": "Booking Mgt",
-      "BookingRequest": "Booking Request Mgt"
+      "BookingRequest": "Booking Request Mgt",
+      "SearchBooking": "Search Booking"
     }
   },
   "REQUEST": {
