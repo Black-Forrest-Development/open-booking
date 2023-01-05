@@ -5,6 +5,9 @@ import {OfferAdminChangeDialogComponent} from "../offer-admin-change-dialog/offe
 import {OfferAdminService} from "../model/offer-admin.service";
 import {OfferAdminCreateSeriesDialogComponent} from "../offer-admin-create-series-dialog/offer-admin-create-series-dialog.component";
 import {OfferAdminCreateRangeDialogComponent} from '../offer-admin-create-range-dialog/offer-admin-create-range-dialog.component';
+import {DayInfo} from "../../../day-info/model/day-info-api";
+import {ExportService} from "../../export/model/export.service";
+import {HotToastService} from "@ngneat/hot-toast";
 
 @Component({
   selector: 'app-offer-admin-board',
@@ -14,7 +17,12 @@ import {OfferAdminCreateRangeDialogComponent} from '../offer-admin-create-range-
 export class OfferAdminBoardComponent {
   reloading: boolean = false;
 
-  constructor(public dayInfoService: DayInfoService, public service: OfferAdminService, private dialog: MatDialog) {
+  constructor(public dayInfoService: DayInfoService,
+              public service: OfferAdminService,
+              private dialog: MatDialog,
+              private exportService: ExportService,
+              private toast: HotToastService
+  ) {
 
   }
 
@@ -37,4 +45,17 @@ export class OfferAdminBoardComponent {
     dialogRef.afterClosed().subscribe(() => this.dayInfoService.loadDefaultDayInfo())
   }
 
+
+  exportPdf(data: DayInfo) {
+    let reference = this.toast.loading("Download started...")
+    this.exportService.createDailyReportPdf(data.date)
+      .subscribe({
+          error: (e) => {
+            reference.close()
+            this.toast.error("Failed to generate PDF for " + data.date)
+          },
+          complete: () => reference.close()
+        }
+      )
+  }
 }
