@@ -18,7 +18,6 @@ micronaut {
 
 
 dependencies {
-
     // database
     kapt("io.micronaut.data:micronaut-data-processor")
     implementation("io.micronaut.data:micronaut-data-jdbc")
@@ -28,6 +27,16 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
+
+    // velocity
+    implementation("org.apache.velocity:velocity-engine-core:2.3")
+    implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
+    // FOP
+    implementation("org.apache.xmlgraphics:fop:2.8")
+    // POI
+    implementation("org.apache.poi:poi:5.2.3")
+    implementation("org.apache.poi:poi-ooxml:5.2.3")
+
 }
 
 application {

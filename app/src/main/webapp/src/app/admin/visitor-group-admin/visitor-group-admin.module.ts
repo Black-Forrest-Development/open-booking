@@ -8,15 +8,18 @@ import {TranslateModule} from "@ngx-translate/core";
 import {NgxEchartsModule} from "ngx-echarts";
 import {ReactiveFormsModule} from "@angular/forms";
 import { VisitorGroupInfoDialogComponent } from './visitor-group-info-dialog/visitor-group-info-dialog.component';
+import { VisitorGroupInfoComponent } from './visitior-group-info/visitor-group-info.component';
 
 
 @NgModule({
   declarations: [
     VisitorGroupAdminEntryComponent,
-    VisitorGroupInfoDialogComponent
+    VisitorGroupInfoDialogComponent,
+    VisitorGroupInfoComponent
   ],
   exports: [
-    VisitorGroupAdminEntryComponent
+    VisitorGroupAdminEntryComponent,
+    VisitorGroupInfoComponent
   ],
   imports: [
     CommonModule,

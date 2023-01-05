@@ -2,10 +2,10 @@
   <div class="row align-items-center">
     <div class="col-7"><h3>{{'BOOKING.Create.Step.VisitorGroup.Header' | translate}}</h3></div>
     <div class="col-4">
-      <mat-chip [highlighted]="true">{{data.status}}</mat-chip>
+      <mat-chip [highlighted]="true" *ngIf="statusVisible">{{data.status}}</mat-chip>
     </div>
     <div class="col-1">
-      <button mat-icon-button (click)="showDetails()">
+      <button mat-icon-button (click)="showDetails()" *ngIf="infoVisible">
         <mat-icon>info</mat-icon>
       </button>
     </div>

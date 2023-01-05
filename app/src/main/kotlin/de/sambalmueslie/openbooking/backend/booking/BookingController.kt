@@ -34,4 +34,10 @@ class BookingController(private val service: BookingService) : BookingAPI {
     override fun delete(auth: Authentication, @PathVariable id: Long) =
         auth.checkPermission(PERMISSION_BOOKING_WRITE) { service.delete(id) }
 
+
+    @Get("/by/offer/{offerId}")
+    override fun findByOffer(auth: Authentication, @PathVariable offerId: Long) = auth.checkPermission(PERMISSION_BOOKING_READ) { service.findByOffer(offerId) }
+
+    @Get("/by/offer/{offerId}/details")
+    override fun findDetailsByOffer(auth: Authentication, @PathVariable offerId: Long) = auth.checkPermission(PERMISSION_BOOKING_READ) { service.findDetailsByOffer(offerId) }
 }

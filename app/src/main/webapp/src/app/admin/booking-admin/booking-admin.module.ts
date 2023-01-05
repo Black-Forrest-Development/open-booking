@@ -1,17 +1,28 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { BookingAdminRoutingModule } from './booking-admin-routing.module';
-import { BookingAdminBoardComponent } from './booking-admin-board/booking-admin-board.component';
+import {BookingAdminRoutingModule} from './booking-admin-routing.module';
+import {BookingAdminBoardComponent} from './booking-admin-board/booking-admin-board.component';
 import {MaterialModule} from "../../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {NgxEchartsModule} from "ngx-echarts";
 import {ReactiveFormsModule} from "@angular/forms";
+import {BookingAdminDayBoardComponent} from './booking-admin-day-board/booking-admin-day-board.component';
+import {BookingAdminDayEntryComponent} from './booking-admin-day-entry/booking-admin-day-entry.component';
+import {BookingDetailsInfoDialogComponent} from './booking-details-info-dialog/booking-details-info-dialog.component';
+import {VisitorGroupAdminModule} from "../visitor-group-admin/visitor-group-admin.module";
+import {BookingDetailsInfoComponent} from './booking-details-info/booking-details-info.component';
+import {OfferBookingDetailsComponent} from './offer-booking-details/offer-booking-details.component';
 
 
 @NgModule({
   declarations: [
-    BookingAdminBoardComponent
+    BookingAdminBoardComponent,
+    BookingAdminDayBoardComponent,
+    BookingAdminDayEntryComponent,
+    BookingDetailsInfoDialogComponent,
+    BookingDetailsInfoComponent,
+    OfferBookingDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -20,6 +31,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     TranslateModule,
     NgxEchartsModule,
     ReactiveFormsModule,
+    VisitorGroupAdminModule,
   ]
 })
-export class BookingAdminModule { }
+export class BookingAdminModule {
+}

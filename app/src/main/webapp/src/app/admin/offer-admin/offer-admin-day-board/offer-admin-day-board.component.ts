@@ -4,6 +4,7 @@ import {OfferAdminService} from "../model/offer-admin.service";
 import {Offer} from "../model/offer-admin-api";
 import {OfferAdminChangeDialogComponent} from "../offer-admin-change-dialog/offer-admin-change-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-offer-admin-day-board',
@@ -15,14 +16,21 @@ export class OfferAdminDayBoardComponent {
   reloading: boolean = false
   displayedColumns: string[] = ['id', 'start', 'end', 'maxPersons', 'active', 'cmd'];
   data: Offer[] = [];
+  date: string = ""
 
-  constructor(private route: ActivatedRoute, private service: OfferAdminService, private dialog: MatDialog) {
+  constructor(
+    private route: ActivatedRoute,
+    private service: OfferAdminService,
+    private dialog: MatDialog,
+    private location: Location
+  ) {
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(value => {
         let date = value.get('date')
         if (date) {
+          this.date = date
           this.reloading = true
           this.service.findOfferByDate(date).subscribe(d => this.handleData(d))
         }
@@ -72,5 +80,9 @@ export class OfferAdminDayBoardComponent {
   update(offer: Offer) {
     const dialogRef = this.dialog.open(OfferAdminChangeDialogComponent, {data: offer})
     dialogRef.afterClosed().subscribe((result: Offer) => this.updateOffer(result));
+  }
+
+  back() {
+    this.location.back()
   }
 }

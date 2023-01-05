@@ -1,10 +1,7 @@
 package de.sambalmueslie.openbooking.backend.booking
 
 
-import de.sambalmueslie.openbooking.backend.booking.api.Booking
-import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
-import de.sambalmueslie.openbooking.backend.booking.api.BookingInfo
-import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
+import de.sambalmueslie.openbooking.backend.booking.api.*
 import de.sambalmueslie.openbooking.backend.booking.db.BookingData
 import de.sambalmueslie.openbooking.backend.booking.db.BookingRepository
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
@@ -16,6 +13,7 @@ import de.sambalmueslie.openbooking.error.InvalidRequestException
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.time.LocalDate
 
 @Singleton
 class BookingService(
@@ -123,5 +121,22 @@ class BookingService(
 
         val result = data.convert()
         notifyDeleted(result)
+    }
+
+    fun findByOffer(offerId: Long): List<Booking> {
+        return repository.findByOfferId(offerId).map { it.convert() }
+    }
+
+    fun findDetailsByOffer(offerId: Long): List<BookingDetails> {
+        val data = repository.findByOfferId(offerId)
+        val visitorGroupIds = data.map { it.visitorGroupId }.toSet()
+        val visitorGroups = visitorGroupService.getVisitorGroups(visitorGroupIds).associateBy { it.id }
+
+        return data.mapNotNull { detail(it, visitorGroups[it.visitorGroupId]) }
+    }
+
+    private fun detail(data: BookingData, visitorGroup: VisitorGroup?): BookingDetails? {
+        if (visitorGroup == null) return null
+        return BookingDetails(data.convert(), visitorGroup)
     }
 }

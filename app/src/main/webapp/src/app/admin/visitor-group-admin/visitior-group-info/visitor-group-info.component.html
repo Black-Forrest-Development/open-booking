@@ -1,0 +1,48 @@
+<div class="fxLayoutColumn fxLayoutAlignStretchCenter fxFlexGap" style="padding-top:10px;">
+  <mat-form-field appearance="outline" class="fxFlex">
+    <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Title' | translate}}</mat-label>
+    <input matInput type="text" [value]="data.title" [readonly]="true">
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="fxFlex">
+    <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Size' | translate}}</mat-label>
+    <input matInput type="number" [value]="data.size.toString()" [readonly]="true">
+  </mat-form-field>
+  <div class="fxLayoutRow fxLayoutAlignStretchCenter fxFlexGap">
+    <mat-form-field appearance="outline" class="fxFlex">
+      <mat-label>{{'BOOKING.Create.Form.VisitorGroup.MinAge' | translate}}</mat-label>
+      <input matInput type="number" [value]="data.minAge.toString()" [readonly]="true">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="fxFlex">
+      <mat-label>{{'BOOKING.Create.Form.VisitorGroup.MaxAge' | translate}}</mat-label>
+      <input matInput type="number" [value]="data.maxAge.toString()" [readonly]="true">
+    </mat-form-field>
+  </div>
+  <mat-form-field appearance="outline" class="fxFlex">
+    <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Contact' | translate}}</mat-label>
+    <input matInput type="text" [value]="data.contact" [readonly]="true">
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="fxFlex">
+    <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Street' | translate}}</mat-label>
+    <input matInput type="text" [value]="data.address.street" [readonly]="true">
+  </mat-form-field>
+
+  <div class="fxLayoutRow fxLayoutAlignStretchCenter fxFlexGap">
+    <mat-form-field appearance="outline" class="fxFlexNoGrow">
+      <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Zip' | translate}}</mat-label>
+      <input matInput type="text" [value]="data.address.zip" [readonly]="true">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="fxFlex">
+      <mat-label>{{'BOOKING.Create.Form.VisitorGroup.City' | translate}}</mat-label>
+      <input matInput type="text" [value]="data.address.city" [readonly]="true">
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="fxFlex">
+    <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Phone' | translate}}</mat-label>
+    <input matInput type="text" [value]="data.phone" [readonly]="true">
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="fxFlex">
+    <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Mail' | translate}}</mat-label>
+    <input matInput type="text" [value]="data.email" [readonly]="true">
+  </mat-form-field>
+</div>

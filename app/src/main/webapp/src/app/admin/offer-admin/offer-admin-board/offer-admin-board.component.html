@@ -1,5 +1,3 @@
-<mat-progress-bar mode="indeterminate" *ngIf="this.dayInfoService.reloading | async"></mat-progress-bar>
-
 <mat-toolbar>
   <button mat-stroked-button class="me-2" (click)="create()">
     <mat-icon>add</mat-icon>
@@ -11,7 +9,7 @@
     <mat-icon>format_list_bulleted_add</mat-icon>
     {{'OFFER.Action.CreateRange' | translate}}</button>
 </mat-toolbar>
-
+<mat-progress-bar mode="indeterminate" *ngIf="this.dayInfoService.reloading | async"></mat-progress-bar>
 <div class="d-flex p-2 container-fluid">
   <div class="day-info-container col-12">
     <ng-container *ngFor="let data of this.dayInfoService.data">
@@ -22,11 +20,15 @@
         </mat-card-header>
         <mat-card-actions>
           <div class="fxFlex"></div>
-          <a mat-stroked-button color="primary" routerLink="./day/{{data.date}}" class="me-2">
+          <a mat-flat-button color="primary" routerLink="./day/{{data.date}}" class="me-2">
             <mat-icon>info</mat-icon>
             {{'OFFER.Action.Details' | translate}}
           </a>
-          <a mat-stroked-button color="primary" routerLink="./print/{{data.date}}">
+          <a mat-flat-button color="primary" routerLink="../booking/day/{{data.date}}" class="me-2">
+            <mat-icon>bookmarks</mat-icon>
+            {{'OFFER.Action.ShowBookings' | translate}}
+          </a>
+          <a mat-flat-button color="primary" routerLink="./print/{{data.date}}">
             <mat-icon>print</mat-icon>
             {{'OFFER.Action.Print' | translate}}
           </a>

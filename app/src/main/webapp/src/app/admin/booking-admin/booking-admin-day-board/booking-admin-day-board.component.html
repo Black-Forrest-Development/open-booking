@@ -1,0 +1,19 @@
+<mat-toolbar>
+  <button mat-icon-button (click)="back()">
+    <mat-icon>arrow_back_ios</mat-icon>
+  </button>
+  <div>{{date | date:'fullDate'}}</div>
+</mat-toolbar>
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<div class="container-fluid mat-elevation-z4 booking-list">
+  <ng-container *ngFor="let o of offer">
+    <div class="row booking-list-row align-items-center justify-content-start">
+      <div class="col-auto">
+        <mat-icon>event_available</mat-icon>
+      </div>
+      <div class="col-1">{{o.start | date:'shortTime'}} - {{o.end | date:'shortTime'}}</div>
+      <app-offer-booking-details [offer]="o" class="col-10"></app-offer-booking-details>
+    </div>
+  </ng-container>
+</div>
+
