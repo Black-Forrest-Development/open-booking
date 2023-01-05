@@ -138,7 +138,9 @@
       "CreateSingle": "Create (Single)",
       "CreateSeries": "Create (Series)",
       "CreateRange": "Create (Range)",
-      "ShowBookings": "Bookings"
+      "ShowBookings": "Bookings",
+      "Export_PDF": "PDF",
+      "Export_Excel": "Excel"
     },
     "Operation": {
       "Create": "Create Offer",

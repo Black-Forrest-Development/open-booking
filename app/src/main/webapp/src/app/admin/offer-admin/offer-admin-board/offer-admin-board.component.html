@@ -28,9 +28,9 @@
             <mat-icon>bookmarks</mat-icon>
             {{'OFFER.Action.ShowBookings' | translate}}
           </a>
-          <a mat-flat-button color="primary" routerLink="./print/{{data.date}}">
-            <mat-icon>print</mat-icon>
-            {{'OFFER.Action.Print' | translate}}
+          <a mat-flat-button color="primary" (click)="exportPdf(data)">
+            <mat-icon>picture_as_pdf</mat-icon>
+            {{'OFFER.Action.Export_PDF' | translate}}
           </a>
           <div class="fxFlex"></div>
         </mat-card-actions>
