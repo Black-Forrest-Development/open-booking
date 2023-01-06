@@ -13,6 +13,8 @@ import {BookingDetailsInfoDialogComponent} from './booking-details-info-dialog/b
 import {VisitorGroupAdminModule} from "../visitor-group-admin/visitor-group-admin.module";
 import {BookingDetailsInfoComponent} from './booking-details-info/booking-details-info.component';
 import {OfferBookingDetailsComponent} from './offer-booking-details/offer-booking-details.component';
+import { BookingDetailsComponent } from './booking-details/booking-details.component';
+import { BookingChangeComponent } from './booking-change/booking-change.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import {OfferBookingDetailsComponent} from './offer-booking-details/offer-bookin
     BookingAdminDayEntryComponent,
     BookingDetailsInfoDialogComponent,
     BookingDetailsInfoComponent,
-    OfferBookingDetailsComponent
+    OfferBookingDetailsComponent,
+    BookingDetailsComponent,
+    BookingChangeComponent
   ],
   imports: [
     CommonModule,

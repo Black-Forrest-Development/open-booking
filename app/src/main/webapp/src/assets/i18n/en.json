@@ -64,6 +64,9 @@
       "UNCONFIRMED": "Unconfirmed",
       "UNKNOWN": "Unknown"
     },
+    "Details": {
+      "Title": "Booking Details"
+    },
     "Create": {
       "Title": "Create a new booking",
       "Step": {

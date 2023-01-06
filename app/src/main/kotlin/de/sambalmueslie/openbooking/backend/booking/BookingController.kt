@@ -5,6 +5,7 @@ import de.sambalmueslie.openbooking.backend.booking.api.BookingAPI
 import de.sambalmueslie.openbooking.backend.booking.api.BookingAPI.Companion.PERMISSION_BOOKING_READ
 import de.sambalmueslie.openbooking.backend.booking.api.BookingAPI.Companion.PERMISSION_BOOKING_WRITE
 import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
+import de.sambalmueslie.openbooking.backend.booking.api.BookingSearchRequest
 import de.sambalmueslie.openbooking.common.checkPermission
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
@@ -36,8 +37,14 @@ class BookingController(private val service: BookingService) : BookingAPI {
 
 
     @Get("/by/offer/{offerId}")
-    override fun findByOffer(auth: Authentication, @PathVariable offerId: Long) = auth.checkPermission(PERMISSION_BOOKING_READ) { service.findByOffer(offerId) }
+    override fun findByOffer(auth: Authentication, @PathVariable offerId: Long) =
+        auth.checkPermission(PERMISSION_BOOKING_READ) { service.findByOffer(offerId) }
 
     @Get("/by/offer/{offerId}/details")
-    override fun findDetailsByOffer(auth: Authentication, @PathVariable offerId: Long) = auth.checkPermission(PERMISSION_BOOKING_READ) { service.findDetailsByOffer(offerId) }
+    override fun findDetailsByOffer(auth: Authentication, @PathVariable offerId: Long) =
+        auth.checkPermission(PERMISSION_BOOKING_READ) { service.findDetailsByOffer(offerId) }
+
+    @Post("/search")
+    override fun searchDetails(auth: Authentication, @Body request: BookingSearchRequest, pageable: Pageable) =
+        auth.checkPermission(PERMISSION_BOOKING_READ) { service.searchDetails(request, pageable) }
 }
