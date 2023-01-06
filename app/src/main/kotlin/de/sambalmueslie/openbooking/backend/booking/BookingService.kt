@@ -10,10 +10,11 @@ import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import de.sambalmueslie.openbooking.common.*
 import de.sambalmueslie.openbooking.error.InvalidRequestException
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.time.LocalDate
 
 @Singleton
 class BookingService(
@@ -138,5 +139,16 @@ class BookingService(
     private fun detail(data: BookingData, visitorGroup: VisitorGroup?): BookingDetails? {
         if (visitorGroup == null) return null
         return BookingDetails(data.convert(), visitorGroup)
+    }
+
+    fun searchDetails(request: BookingSearchRequest, pageable: Pageable): Page<BookingSearchResult> {
+        val query = "%${request.query}%"
+        val page = repository.search(query, pageable)
+        val visitorGroupIds = page.content.map { it.visitorGroupId }.toSet()
+        val visitorGroups = visitorGroupService.getVisitorGroups(visitorGroupIds).associateBy { it.id }
+        val offerIds = page.content.map { it.offerId }.toSet()
+        val offers = offerService.getOffer(offerIds).associateBy { it.id }
+
+        return page.map { BookingSearchResult(offers[it.offerId]!!, it.convert(), visitorGroups[it.visitorGroupId]!!) }
     }
 }

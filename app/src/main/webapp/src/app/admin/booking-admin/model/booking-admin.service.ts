@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {LoggingService} from "../../../shared/logging/logging.service";
 import {Observable} from "rxjs";
 import {Page} from "../../../shared/page/page";
-import {Booking, BookingChangeRequest, BookingDetails} from "./booking-admin-api";
+import {Booking, BookingChangeRequest, BookingDetails, BookingSearchRequest, BookingSearchResult} from "./booking-admin-api";
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,12 @@ export class BookingAdminService extends BaseService {
   findBookingsByOffer(offerId: number): Observable<Booking[]> {
     return this.get('by/offer/' + offerId)
   }
+
   findBookingDetailsByOffer(offerId: number): Observable<BookingDetails[]> {
     return this.get('by/offer/' + offerId + '/details')
+  }
+
+  searchBookingDetails(request: BookingSearchRequest, page: number, size: number): Observable<Page<BookingSearchResult>> {
+    return this.postPaged('search', request, page, size)
   }
 }
