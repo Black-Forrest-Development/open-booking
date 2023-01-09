@@ -10,8 +10,7 @@ fun <T> Authentication.checkPermission(permission: String, function: () -> T): T
         val values = permissions as List<*>
         if (values.contains(permission)) return function.invoke()
     }
-    return function.invoke()
-//    throw InsufficientPermissionsException("No permission to access resource")
+    throw InsufficientPermissionsException("No permission to access resource")
 }
 
 

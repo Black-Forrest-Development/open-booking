@@ -5,4 +5,5 @@ enum class BookingRequestStatus {
     UNCONFIRMED,
     CONFIRMED,
     DENIED,
+    EXPIRED
 }

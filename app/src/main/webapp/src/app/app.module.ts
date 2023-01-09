@@ -13,9 +13,8 @@ import {registerLocaleData} from "@angular/common";
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AuthModule} from "@auth0/auth0-angular";
+import {AuthHttpInterceptor, AuthModule} from "@auth0/auth0-angular";
 import {NgxEchartsModule} from "ngx-echarts";
-import {IdTokenHttpInterceptor} from "./admin/id-token-http.interceptor";
 import {HomeModule} from "./home/home.module";
 import {HotToastModule} from '@ngneat/hot-toast';
 
@@ -48,11 +47,12 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     AuthModule.forRoot({
       domain: 'hlltool.eu.auth0.com',
       clientId: 'VZgfRUy3OlWuwHABFEJtIkZSafG9qEMg',
+      audience: 'HLL Adapter API',
       httpInterceptor: {
         allowedList: [
           '/api/backend/*',
           {
-            uri: 'api/backend/*',
+            uri: 'api/backend/*'
           }
         ]
       }
@@ -69,7 +69,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
     {provide: LOCALE_ID, useValue: 'de-DE'},
-    {provide: HTTP_INTERCEPTORS, useClass: IdTokenHttpInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })

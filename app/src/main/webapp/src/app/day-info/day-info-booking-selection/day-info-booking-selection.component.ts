@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
 import {MatChipListboxChange} from '@angular/material/chips';
 import {DayInfoService} from "../model/day-info.service";
-import {DayInfo} from "../model/day-info-api";
-import {ActivatedRoute, Router} from '@angular/router';
+import {OfferSelectionEntry} from "../model/day-info-api";
+import {Router} from '@angular/router';
+import {HotToastService} from "@ngneat/hot-toast";
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -12,14 +14,26 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class DayInfoBookingSelectionComponent {
 
-  constructor(public service: DayInfoService, private router: Router, private route: ActivatedRoute) {
+  constructor(public service: DayInfoService,
+              private router: Router,
+              private toastService: HotToastService,
+              private translate: TranslateService
+  ) {
   }
 
   handleSelectionChange(event: MatChipListboxChange) {
-    this.service.primarySelected = event.value as DayInfo
+    this.service.changePrimarySelected(event.value as OfferSelectionEntry)
   }
 
   createBooking() {
-    this.router.navigate(['/booking/create', {primary: this.service.primarySelected?.date, selected: this.service.selected.map(d => d.date)}]).then( )
+    if (this.service.selected.length <= 0) {
+      this.toastService.error(this.translate.instant("ERROR.NoDaySelectedForBooking"))
+      return
+    }
+    this.router.navigate(['/home/booking/create']).then()
+  }
+
+  removeSelectedItem(s: OfferSelectionEntry) {
+    this.service.removeSelected(s)
   }
 }

@@ -1,8 +1,8 @@
 package de.sambalmueslie.openbooking.backend.request.db
 
-import de.sambalmueslie.openbooking.common.DataObject
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestStatus
+import de.sambalmueslie.openbooking.common.DataObject
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -21,6 +21,13 @@ data class BookingRequestData(
 
 
     override fun convert() = BookingRequest(id, comment, status)
+
+
+    fun setStatus(status: BookingRequestStatus, timestamp: LocalDateTime): BookingRequestData {
+        this.status = status
+        this.updated = timestamp
+        return this
+    }
 
 }
 

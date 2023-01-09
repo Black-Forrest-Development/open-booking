@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {BookingService} from "../model/booking.service";
 import {FormGroup} from "@angular/forms";
-import {DayInfoOffer} from "../../offer/model/offer-api";
+import {Offer} from "../../admin/offer-admin/model/offer-admin-api";
 
 @Component({
   selector: 'app-booking-create-offer-select',
@@ -14,19 +14,26 @@ export class BookingCreateOfferSelectComponent {
   @Input()
   offerFormGroup!: FormGroup;
 
-  selected: DayInfoOffer[] = []
+  selected: Offer[] = []
 
   constructor(public service: BookingService) {
   }
 
-  toggleSelection(info: DayInfoOffer) {
-    let index = this.selected.indexOf(info)
+  ngOnInit() {
+    this.service.entries.forEach(e => this.toggleSelection(e.offer))
+  }
+
+  toggleSelection(offer: Offer | undefined) {
+    if (!offer) return
+    let index = this.selected.indexOf(offer)
     if (index < 0) {
-      this.selected.push(info)
+      this.selected.push(offer)
     } else {
       this.selected.splice(index, 1)
     }
-    let offerIds = this.selected.map(i => i.offer.id)
+    let offerIds = this.selected.map(i => i.id)
     this.offerFormGroup.controls['selected'].setValue(offerIds)
   }
+
+
 }

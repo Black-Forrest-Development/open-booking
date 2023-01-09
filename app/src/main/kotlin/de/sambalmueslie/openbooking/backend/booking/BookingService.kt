@@ -118,10 +118,8 @@ class BookingService(
 
     fun denial(bookingId: Long) {
         val data = repository.findByIdOrNull(bookingId) ?: return
-        repository.delete(data)
-
-        val result = data.convert()
-        notifyDeleted(result)
+        val result = repository.update(data.update(BookingStatus.DENIED, timeProvider.now())).convert()
+        notifyUpdated(result)
     }
 
     fun findByOffer(offerId: Long): List<Booking> {
