@@ -124,8 +124,7 @@ class BookingRequestService(
         val relations = relationRepository.getByBookingRequestId(data.id)
         if (!relations.any { it.bookingId == bookingId }) return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
 
-        relationRepository.deleteByBookingRequestId(data.id)
-        repository.delete(data)
+        repository.update(data.setStatus(BookingRequestStatus.CONFIRMED, timeProvider.now()))
 
         relations.forEach {
             if (it.bookingId == bookingId) {
@@ -135,12 +134,12 @@ class BookingRequestService(
             }
         }
 
-
         return GenericRequestResult(true, "REQUEST.MESSAGE.CONFIRM.SUCCESS")
     }
 
     fun denial(id: Long): GenericRequestResult {
-        delete(id)
+        val data = repository.findByIdOrNull(id) ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
+        repository.update(data.setStatus(BookingRequestStatus.DENIED, timeProvider.now()))
         return GenericRequestResult(true, "REQUEST.MESSAGE.DENIAL.SUCCESS")
     }
 

@@ -2,9 +2,10 @@
 <mat-toolbar>
   <div *ngIf="data">{{data.date | date:'fullDate'}} {{data.start | date:'shortTime' }} - {{data.end | date:'shortTime'}}</div>
 </mat-toolbar>
-<div class="container fxLayoutColumn fxLayoutAlignStretchCenter">
-  <div echarts [options]="spaceChartOption" class="demo-chart"></div>
+<div class="container fxLayoutColumn fxLayoutAlignStretchCenter" *ngIf="data">
+  <div echarts [options]="spaceChartOption" class="demo-chart" (chartClick)="onChartClick.bind(this)($event)"></div>
   <div>
-    <button mat-flat-button color="primary" routerLink="/home">{{'ACTION.Back' | translate}}</button>
+    <button mat-flat-button color="primary" (click)="back()">{{'ACTION.Back' | translate}}</button>
   </div>
 </div>
+

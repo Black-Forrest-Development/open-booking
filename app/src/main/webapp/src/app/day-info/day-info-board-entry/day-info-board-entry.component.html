@@ -8,9 +8,13 @@
     <div echarts [options]="chartOption" class="demo-chart"></div>
   </mat-card-content>
   <mat-card-actions>
-    <div class="fxFlex"></div>
-    <mat-slide-toggle class="fxFlex" (toggleChange)="toggleSelection()" [(ngModel)]="selected">{{'BOOKING.Entry.Select' | translate}}</mat-slide-toggle>
-    <a mat-icon-button color="primary" routerLink="/day-info/details/{{data.date}}"><mat-icon>info</mat-icon></a>
-    <div class="fxFlex"></div>
+    <button mat-stroked-button (click)="selectDay()" class="me-2 flex-grow-1">
+      <mat-icon>check</mat-icon>
+      {{'BOOKING.Entry.Select' | translate}}
+    </button>
+    <a mat-stroked-button color="primary" routerLink="./details/{{data.date}}" class="flex-grow-1">
+      <mat-icon>info</mat-icon>
+      {{'ACTION.Details' | translate}}
+    </a>
   </mat-card-actions>
 </mat-card>

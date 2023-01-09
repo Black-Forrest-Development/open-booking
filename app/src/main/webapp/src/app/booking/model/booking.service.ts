@@ -7,6 +7,7 @@ import {OfferInfoSelectRequest, OfferInfoSelectResultEntry} from "../../offer/mo
 import {CreateBookingRequest} from "./booking-api";
 import {OfferService} from "../../offer/model/offer.service";
 import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
+import {OfferSelectionEntry} from "../../day-info/model/day-info-api";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class BookingService extends BaseService {
   reloading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
 
   offers: OfferInfoSelectResultEntry[] = []
+  entries: OfferSelectionEntry[] = []
 
   constructor(http: HttpClient, logging: LoggingService, private offerService: OfferService) {
     super(http, 'frontend/user', logging)
@@ -24,12 +26,17 @@ export class BookingService extends BaseService {
   }
 
 
-  loadOfferInfo(size: number, dates: string[]) {
+  loadOfferInfo(size: number, entries: OfferSelectionEntry[]) {
     if (this.reloading.value) return
-    this.reloading.next(true)
 
-    let request = new OfferInfoSelectRequest(size, dates)
-    this.offerService.getOfferInfo(request).subscribe(d => this.handleData(d))
+    this.entries = entries
+    let dates = entries.filter(e => !e.offer).map(e => e.date)
+
+    if (dates.length > 0) {
+      this.reloading.next(true)
+      let request = new OfferInfoSelectRequest(size, dates)
+      this.offerService.getOfferInfo(request).subscribe(d => this.handleData(d))
+    }
   }
 
   createBooking(request: CreateBookingRequest): Observable<BookingRequest> {

@@ -4,6 +4,15 @@
     {{'BOOKING.Action.Create' | translate}}</button>
 
   <mat-chip-listbox (change)="handleSelectionChange($event)">
-    <mat-chip-option *ngFor="let s of this.service.selected" [selected]="this.service.primarySelected == s" color="accent">{{s.date | date:'longDate'}}</mat-chip-option>
+    <mat-chip-option *ngFor="let s of this.service.selected" [selected]="this.service.primarySelected == s" color="accent">
+      <ng-container *ngIf="s.offer; else onlyDaySelected">
+        {{s.offer.start | date:'short'}}
+      </ng-container>
+      <ng-template #onlyDaySelected>{{s.date | date:'shortDate'}}</ng-template>
+
+      <button matChipRemove (click)="removeSelectedItem(s)">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-option>
   </mat-chip-listbox>
 </div>

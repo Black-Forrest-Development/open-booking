@@ -3,9 +3,9 @@ import {DayInfoService} from "../model/day-info.service";
 import {ActivatedRoute} from "@angular/router";
 import {DayInfo} from "../model/day-info-api";
 import {OfferService} from "../../offer/model/offer.service";
-import {DayInfoOffer} from "../../offer/model/offer-api";
 import {EChartsOption} from "echarts";
 import {TranslateService} from "@ngx-translate/core";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-day-info-details',
@@ -18,12 +18,11 @@ export class DayInfoDetailsComponent implements OnInit {
 
   data: DayInfo | undefined
 
-  infos: DayInfoOffer[] = []
-
   spaceChartOption: EChartsOption = {};
 
   constructor(private route: ActivatedRoute,
               private service: DayInfoService,
+              private location: Location,
               private offerService: OfferService,
               private translate: TranslateService,
   ) {
@@ -31,7 +30,7 @@ export class DayInfoDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(value => {
-        let date = value.get('id')
+        let date = value.get('date')
         if (date) {
           this.dayReloading = true
           this.service.loadDayInfo(date).subscribe(d => this.handleDayInfo(d))
@@ -47,4 +46,18 @@ export class DayInfoDetailsComponent implements OnInit {
     this.dayReloading = false
   }
 
+  onChartClick($event: any) {
+    let index = $event.dataIndex as number | undefined
+    if (!index) return
+
+    if (!this.data) return
+    let info = this.data.offer[index]
+    if (!info) return
+    this.service.selectionAddDayInfoOffer(this.data, info)
+  }
+
+
+  back() {
+    this.location.back()
+  }
 }

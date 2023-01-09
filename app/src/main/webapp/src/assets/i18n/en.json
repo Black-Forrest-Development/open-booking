@@ -172,5 +172,8 @@
   },
   "VISITOR_GROUP": {
     "Title": "Visitor Group"
+  },
+  "ERROR": {
+    "NoDaySelectedForBooking": "You must select at least one day to start the booking"
   }
 }

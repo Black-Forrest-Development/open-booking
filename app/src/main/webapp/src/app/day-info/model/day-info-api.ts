@@ -1,4 +1,5 @@
 import {DayInfoOffer} from "../../offer/model/offer-api";
+import {Offer} from "../../admin/offer-admin/model/offer-admin-api";
 
 export interface DayInfo {
   date: string,
@@ -18,6 +19,15 @@ export class DateRangeSelectionRequest {
   public constructor(
     public from: string,
     public to: string
+  ) {
+  }
+}
+
+
+export class OfferSelectionEntry {
+  public constructor(
+    public date: string,
+    public offer: Offer | undefined
   ) {
   }
 }

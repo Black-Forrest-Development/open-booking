@@ -8,6 +8,7 @@ import {CreateBookingRequest} from "../model/booking-api";
 import {TranslateService} from "@ngx-translate/core";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
+import {DayInfoService} from "../../day-info/model/day-info.service";
 
 @Component({
   selector: 'app-booking-create',
@@ -40,11 +41,11 @@ export class BookingCreateComponent implements OnInit {
     comment: [''],
   });
 
-  private dates: string[] = []
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private service: BookingService,
+              private dayInfoService: DayInfoService,
               private translationService: TranslateService,
               private snackBar: MatSnackBar,
               private router: Router) {
@@ -52,21 +53,14 @@ export class BookingCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    let snapshot = this.route.snapshot
-    let primary = snapshot.paramMap.get("primary")
-    if (primary) this.dates.push(primary)
-    let selected = snapshot.paramMap.get("selected")
-    if (selected) {
-      let data = selected.split(",").filter(s => s != primary)
-      this.dates.push(...data)
-    }
+
   }
 
   handleStepperSelectionChanged(event: StepperSelectionEvent) {
     if (event.selectedIndex != 1) return
     let size = this.visitorFormGroup.get('size')?.value
     if (size == null) return
-    this.service.loadOfferInfo(+size, this.dates)
+    this.service.loadOfferInfo(+size, this.dayInfoService.selected)
   }
 
   submit() {
@@ -107,6 +101,7 @@ export class BookingCreateComponent implements OnInit {
           .afterDismissed()
       )
     } else {
+      this.dayInfoService.selected = []
       this.translationService.get("BOOKING.MESSAGE.INFO.CREATION_SUCCEED").subscribe(
         msg => this.snackBar.open(msg, 'OK', this.snackbarConfig)
           .afterDismissed()
@@ -114,4 +109,5 @@ export class BookingCreateComponent implements OnInit {
       )
     }
   }
+
 }
