@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  align-content: stretch;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.booking-list {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  align-content: stretch;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.booking-list-entry {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  align-content: stretch;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.booking-list-entry-date {
+  flex: 0 1 auto;
+}
+
+.booking-list-entry-size {
+  flex: 1 1 auto;
+}
+
+
+.actions {
+  flex: 0 1 auto;
+}

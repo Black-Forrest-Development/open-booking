@@ -1,0 +1,25 @@
+<form [formGroup]="fg">
+  <div class="container">
+    <div class="booking-list">
+      <mat-radio-group formControlName="offer">
+        <div class="booking-list-entry" *ngFor="let booking of data.bookings">
+          <div class="booking-list-entry-date">
+            <mat-radio-button [value]="booking.id">{{booking.offer.start | date:'medium'}}</mat-radio-button>
+          </div>
+          <div class="booking-list-entry-size">
+            {{data.visitorGroup.size}} / {{booking.spaceAvailable}}
+          </div>
+        </div>
+      </mat-radio-group>
+    </div>
+    <div class="actions">
+      <button mat-icon-button color="accent" [disabled]="fg.invalid" (click)="confirm()">
+        <mat-icon>thumb_up</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="denial()">
+        <mat-icon>thumb_down</mat-icon>
+      </button>
+    </div>
+  </div>
+</form>
+

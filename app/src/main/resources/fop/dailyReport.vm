@@ -48,10 +48,11 @@
         </fo:static-content>
         <!-- BODY -->
         <fo:flow flow-name="page-body" font-size="9pt">
-
+            #set( $empty = true )
             #if(!$offer.empty)
                 #foreach($entry in $offer)
                     #if(!$entry.bookings.empty)
+                        #set( $empty = false )
                         <fo:table space-before="3mm">
                             <fo:table-body>
                                 <fo:table-row background-color="#F5F5F5" border="thin solid #CCCCCC">
@@ -118,12 +119,12 @@
                         </fo:table>
                     #end
                 #end
-            #else
+            #end
+            #if($empty)
                 <fo:block border-bottom="thin solid #777777" font-size="60%">
                     <fo:inline font-size="12pt">Keine Daten für ausgewählten Zeitraum</fo:inline>
                 </fo:block>
             #end
-
         </fo:flow>
     </fo:page-sequence>
 </fo:root>

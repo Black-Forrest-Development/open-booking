@@ -30,6 +30,7 @@
     "file-saver": "^2.0.5",
     "moment": "^2.29.4",
     "ngx-echarts": "^15.0.1",
+    "ngx-editor": "^15.1.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

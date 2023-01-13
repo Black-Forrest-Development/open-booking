@@ -164,10 +164,17 @@
     "Action": {
       "MailConfirm": "Confirm Mail",
       "RequestConfirm": "Confirm Offer",
-      "RequestDenial": "Denial Offer"
+      "RequestDenial": "Denial Offer",
+      "Search": "Search Request"
     },
     "Form": {
       "SpaceAvailable": "Places available"
+    },
+    "Status": {
+      "Title": "Status",
+      "UNKNOWN": "Unknown",
+      "UNCONFIRMED": "Unconfirmed",
+      "CONFIRMED": "Confirmed"
     }
   },
   "VISITOR_GROUP": {

@@ -1,7 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {RequestAdminService} from '../model/request-admin.service';
 import {Page} from "../../../shared/page/page";
 import {BookingRequestInfo} from "../model/request-admin-api";
+import {VisitorGroup} from "../../../visitor-group/model/visitor-group-api";
+import {VisitorGroupInfoDialogComponent} from "../../visitor-group-admin/visitor-group-info-dialog/visitor-group-info-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {VisitorGroupAdminService} from "../../visitor-group-admin/model/visitor-group-admin.service";
+import {debounceTime, distinctUntilChanged} from "rxjs";
+import {HotToastService} from "@ngneat/hot-toast";
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {RequestCommentDialogComponent} from "../request-comment-dialog/request-comment-dialog.component";
 
 @Component({
   selector: 'app-request-admin-board',
@@ -11,19 +19,30 @@ import {BookingRequestInfo} from "../model/request-admin-api";
 export class RequestAdminBoardComponent implements OnInit {
 
   reloading: boolean = false
-
+  keyUp: EventEmitter<string> = new EventEmitter<string>()
   data: BookingRequestInfo[] = []
+  displayedColumns: string[] = ['timestamp', 'visitorGroup', 'bookings', 'note'];
 
-  pageNumber = 0;
-  pageSize = 20;
-  totalElements = 0;
+  pageNumber = 0
+  pageSize = 20
+  totalElements = 0
 
+  showVisitorGroupDetails: boolean = true
 
-  constructor(private service: RequestAdminService) {
+  constructor(
+    private service: RequestAdminService,
+    private visitorGroupService: VisitorGroupAdminService,
+    private dialog: MatDialog,
+    private toastService: HotToastService
+  ) {
   }
 
   ngOnInit(): void {
     this.reload()
+    this.keyUp.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe(data => this.search(data))
   }
 
   reload() {
@@ -56,5 +75,21 @@ export class RequestAdminBoardComponent implements OnInit {
     if (this.reloading) return
     this.reloading = true
     this.service.getAllBookingRequestInfoUnconfirmed(0, 20).subscribe(d => this.handleData(d))
+  }
+
+  showDetails(visitorGroup: VisitorGroup) {
+    this.dialog.open(VisitorGroupInfoDialogComponent, {data: visitorGroup});
+  }
+
+  private search(data: string) {
+    this.toastService.error("Sorry searching '" + data + "' is not supported yet")
+  }
+
+  showVisitorGroupDetailsChanged($event: MatSlideToggleChange) {
+    this.showVisitorGroupDetails = $event.checked
+  }
+
+  showNote(request: BookingRequestInfo) {
+    this.dialog.open(RequestCommentDialogComponent, {data: request});
   }
 }
