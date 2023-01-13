@@ -58,7 +58,7 @@ class BookingRequestService(
     fun create(request: BookingRequestChangeRequest): BookingRequest {
         val visitorGroup = visitorGroupService.create(request.visitorGroupChangeRequest)
 
-        val data = repository.save(BookingRequestData(0, BookingRequestStatus.UNKNOWN, visitorGroup.id, request.comment, timeProvider.now()))
+        val data = repository.save(BookingRequestData(0, BookingRequestStatus.UNCONFIRMED, visitorGroup.id, request.comment, timeProvider.now()))
 
         val bookings = request.offerIds.map { bookingService.create(BookingChangeRequest(it, visitorGroup.id)) }
         val relations = bookings.map { BookingRequestRelation(it.id, data.id) }

@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  align-content: stretch;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.description-column {
+  flex: 1 1 calc(50%);
+}
+
+.status-column {
+  flex: 1 1 calc(30%);
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.action-column {
+  flex: 0 1 auto;
+}
