@@ -8,8 +8,8 @@ import io.micronaut.security.authentication.Authentication
 
 interface BookingRequestAPI : AuthCrudAPI<Long, BookingRequest, BookingRequestChangeRequest> {
     companion object {
-        const val PERMISSION_BOOKING_REQUEST_READ = "openbooking.bookingrequest.read"
-        const val PERMISSION_BOOKING_REQUEST_WRITE = "openbooking.bookingrequest.write"
+        const val PERMISSION_READ = "openbooking.bookingrequest.read"
+        const val PERMISSION_WRITE = "openbooking.bookingrequest.write"
     }
 
     fun getUnconfirmed(auth: Authentication, pageable: Pageable): Page<BookingRequest>

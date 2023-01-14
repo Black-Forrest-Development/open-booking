@@ -2,8 +2,8 @@ package de.sambalmueslie.openbooking.backend.booking
 
 
 import de.sambalmueslie.openbooking.backend.booking.api.BookingAPI
-import de.sambalmueslie.openbooking.backend.booking.api.BookingAPI.Companion.PERMISSION_BOOKING_READ
-import de.sambalmueslie.openbooking.backend.booking.api.BookingAPI.Companion.PERMISSION_BOOKING_WRITE
+import de.sambalmueslie.openbooking.backend.booking.api.BookingAPI.Companion.PERMISSION_READ
+import de.sambalmueslie.openbooking.backend.booking.api.BookingAPI.Companion.PERMISSION_WRITE
 import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
 import de.sambalmueslie.openbooking.backend.booking.api.BookingSearchRequest
 import de.sambalmueslie.openbooking.common.checkPermission
@@ -18,33 +18,33 @@ class BookingController(private val service: BookingService) : BookingAPI {
 
 
     @Get()
-    override fun getAll(auth: Authentication, pageable: Pageable) = auth.checkPermission(PERMISSION_BOOKING_READ) { service.getAll(pageable) }
+    override fun getAll(auth: Authentication, pageable: Pageable) = auth.checkPermission(PERMISSION_READ) { service.getAll(pageable) }
 
     @Get("/{id}")
-    override fun get(auth: Authentication, @PathVariable id: Long) = auth.checkPermission(PERMISSION_BOOKING_READ) { service.get(id) }
+    override fun get(auth: Authentication, @PathVariable id: Long) = auth.checkPermission(PERMISSION_READ) { service.get(id) }
 
     @Post()
     override fun create(auth: Authentication, @Body request: BookingChangeRequest) =
-        auth.checkPermission(PERMISSION_BOOKING_WRITE) { service.create(request) }
+        auth.checkPermission(PERMISSION_WRITE) { service.create(request) }
 
     @Put("/{id}")
     override fun update(auth: Authentication, @PathVariable id: Long, @Body request: BookingChangeRequest) =
-        auth.checkPermission(PERMISSION_BOOKING_WRITE) { service.update(id, request) }
+        auth.checkPermission(PERMISSION_WRITE) { service.update(id, request) }
 
     @Delete("/{id}")
     override fun delete(auth: Authentication, @PathVariable id: Long) =
-        auth.checkPermission(PERMISSION_BOOKING_WRITE) { service.delete(id) }
+        auth.checkPermission(PERMISSION_WRITE) { service.delete(id) }
 
 
     @Get("/by/offer/{offerId}")
     override fun findByOffer(auth: Authentication, @PathVariable offerId: Long) =
-        auth.checkPermission(PERMISSION_BOOKING_READ) { service.findByOffer(offerId) }
+        auth.checkPermission(PERMISSION_READ) { service.findByOffer(offerId) }
 
     @Get("/by/offer/{offerId}/details")
     override fun findDetailsByOffer(auth: Authentication, @PathVariable offerId: Long) =
-        auth.checkPermission(PERMISSION_BOOKING_READ) { service.findDetailsByOffer(offerId) }
+        auth.checkPermission(PERMISSION_READ) { service.findDetailsByOffer(offerId) }
 
     @Post("/search")
     override fun searchDetails(auth: Authentication, @Body request: BookingSearchRequest, pageable: Pageable) =
-        auth.checkPermission(PERMISSION_BOOKING_READ) { service.searchDetails(request, pageable) }
+        auth.checkPermission(PERMISSION_READ) { service.searchDetails(request, pageable) }
 }

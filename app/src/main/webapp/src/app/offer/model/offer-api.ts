@@ -13,6 +13,20 @@ export interface DayInfoOffer {
   bookings: DayInfoBooking[]
 }
 
+export class DayInfoHelper {
+  static getSpaceAvailable(info: DayInfoOffer): number {
+    return (info.offer.active) ? info.offer.maxPersons - info.space.CONFIRMED - info.space.UNCONFIRMED : 0
+  }
+
+  static getSpaceConfirmed(info: DayInfoOffer): number {
+    return (info.offer.active) ? info.space.CONFIRMED : 0
+  }
+
+  static getSpaceUnconfirmed(info: DayInfoOffer): number {
+    return (info.offer.active) ? info.space.UNCONFIRMED : 0
+  }
+}
+
 export class OfferInfoSelectRequest {
   public constructor(
     public groupSize: number,

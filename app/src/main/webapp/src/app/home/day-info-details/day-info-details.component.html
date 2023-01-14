@@ -1,0 +1,20 @@
+<mat-progress-bar mode="indeterminate" *ngIf="dayReloading"></mat-progress-bar>
+<mat-toolbar>
+  <div class="container d-flex flex-row align-items-baseline">
+    <div class="pe-5">
+      <button mat-mini-fab (click)="back()" color="primary">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    <h3>{{data.date | date:'fullDate'}} {{data.start | date:'shortTime' }} - {{data.end | date:'shortTime'}}</h3>
+  </div>
+</mat-toolbar>
+<div class="container d-flex flex-column gap-3">
+  <div class="fxFlex">
+    <app-day-info-details-chart [data]="data"></app-day-info-details-chart>
+  </div>
+  <div  class="fxFlex">
+    <app-day-info-details-list [data]="data"></app-day-info-details-list>
+  </div>
+</div>
+

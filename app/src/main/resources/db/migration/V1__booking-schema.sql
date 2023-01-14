@@ -131,3 +131,44 @@ CREATE TABLE tour_booking
     CONSTRAINT fk_relation_tour_tour FOREIGN KEY (tour_id) REFERENCES tour (id),
     CONSTRAINT fk_relation_tour_booking FOREIGN KEY (booking_id) REFERENCES booking (id)
 );
+
+-- response
+CREATE SEQUENCE response_seq;
+CREATE TABLE response
+(
+    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('response_seq'::regclass),
+    lang    VARCHAR(255)                NOT NULL,
+    type    VARCHAR(255)                NOT NULL,
+    title   VARCHAR(255)                NOT NULL,
+    content TEXT                        NOT NULL,
+
+    created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- notification
+CREATE SEQUENCE notification_template_seq;
+CREATE TABLE notification_template
+(
+    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_template_seq'::regclass),
+    lang    VARCHAR(255)                NOT NULL,
+    type    VARCHAR(255)                NOT NULL,
+    subject VARCHAR(255)                NOT NULL,
+    content TEXT                        NOT NULL,
+
+    created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- audit
+CREATE SEQUENCE audit_log_entry_seq;
+CREATE TABLE audit_log_entry
+(
+    id        BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('audit_log_entry_seq'::regclass),
+    timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    actor      VARCHAR(255)                NOT NULL,
+    level     VARCHAR(255)                NOT NULL,
+    message   TEXT                        NOT NULL,
+    reference TEXT                        NOT NULL,
+    source    VARCHAR(255)                NOT NULL
+);

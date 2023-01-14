@@ -67,8 +67,16 @@ class DayInfoService(
     }
 
     fun createBooking(request: CreateBookingRequest): BookingRequest {
-        if (!request.termsAndConditions) throw InvalidRequestException("You must accept the termns and conditions")
+        if (!request.termsAndConditions) throw InvalidRequestException("You must accept the terms and conditions")
         return bookingRequestService.create(BookingRequestChangeRequest(request.visitorGroupChangeRequest, request.offerIds, request.comment))
+    }
+
+    fun getOffer(offerId: Long): DayInfoOffer? {
+        val offer = offerService.get(offerId) ?: return null
+        val date = offer.start.toLocalDate()
+        val dayInfo = infoService.getDayInfo(date) ?: return null
+
+        return dayInfo.offer.find { it.offer.id == offer.id }
     }
 
 
