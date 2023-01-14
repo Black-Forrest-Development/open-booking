@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DayInfoService} from "../model/day-info.service";
 import {ActivatedRoute} from "@angular/router";
-import {DayInfo} from "../model/day-info-api";
+import {DayInfo, defaultDayInfo} from "../model/day-info-api";
 import {OfferService} from "../../offer/model/offer.service";
 import {EChartsOption} from "echarts";
 import {TranslateService} from "@ngx-translate/core";
@@ -16,15 +16,13 @@ export class DayInfoDetailsComponent implements OnInit {
 
   dayReloading: boolean = false
 
-  data: DayInfo | undefined
+  data: DayInfo  = defaultDayInfo
 
   spaceChartOption: EChartsOption = {};
 
   constructor(private route: ActivatedRoute,
               private service: DayInfoService,
-              private location: Location,
-              private offerService: OfferService,
-              private translate: TranslateService,
+              private location: Location
   ) {
   }
 

@@ -15,6 +15,7 @@ const routes: Routes = [
       {path: 'booking', loadChildren: () => import('./booking-admin/booking-admin.module').then(m => m.BookingAdminModule)},
       {path: 'request', loadChildren: () => import('./request-admin/request-admin.module').then(m => m.RequestAdminModule)},
       {path: 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule)},
+      {path: 'text', loadChildren: () => import('./text-admin/text-admin.module').then(m => m.TextAdminModule)},
     ]
 
   },

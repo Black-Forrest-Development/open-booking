@@ -8,8 +8,8 @@ import java.time.LocalDate
 
 interface OfferAPI : AuthCrudAPI<Long, Offer, OfferChangeRequest> {
     companion object {
-        const val PERMISSION_OFFER_READ = "openbooking.offer.read"
-        const val PERMISSION_OFFER_WRITE = "openbooking.offer.write"
+        const val PERMISSION_READ = "openbooking.offer.read"
+        const val PERMISSION_WRITE = "openbooking.offer.write"
     }
 
     fun createSeries(auth: Authentication, request: OfferSeriesRequest): GenericRequestResult

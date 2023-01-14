@@ -6,7 +6,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {DateRangeSelectionRequest, DayInfo, OfferSelectionEntry} from "./day-info-api";
 import {EChartsOption} from "echarts";
 import {TranslateService} from "@ngx-translate/core";
-import {DayInfoOffer} from "../../offer/model/offer-api";
+import {DayInfoHelper, DayInfoOffer} from "../../offer/model/offer-api";
 
 @Injectable({
   providedIn: 'root'
@@ -109,10 +109,6 @@ export class DayInfoService extends BaseService {
 
   createDayInfoChart(info: DayInfo): EChartsOption {
     return {
-      title: {
-        text: this.translate.instant('DAY_INFO.Chart.Space.Title'),
-        left: 'center'
-      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -145,7 +141,7 @@ export class DayInfoService extends BaseService {
           emphasis: {
             focus: 'series'
           },
-          data: info.offer.map(i => (i.offer.active) ? i.offer.maxPersons - i.space.CONFIRMED  : 0),
+          data: info.offer.map(i => DayInfoHelper.getSpaceAvailable(i)),
           color: "#91cc75"
         }, {
           name: this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
@@ -154,7 +150,7 @@ export class DayInfoService extends BaseService {
           emphasis: {
             focus: 'series'
           },
-          data: info.offer.map(i => (i.offer.active) ? i.space.CONFIRMED : 0),
+          data: info.offer.map(i => DayInfoHelper.getSpaceConfirmed(i)),
           color: "#ee6666"
         }, {
           name: this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
@@ -163,7 +159,7 @@ export class DayInfoService extends BaseService {
           emphasis: {
             focus: 'series'
           },
-          data: info.offer.map(i => (i.offer.active) ? i.space.UNCONFIRMED : 0),
+          data: info.offer.map(i => DayInfoHelper.getSpaceUnconfirmed(i)),
           color: "#fac858"
         }, {
           name: this.translate.instant('DAY_INFO.Chart.Space.Series.Deactivated'),

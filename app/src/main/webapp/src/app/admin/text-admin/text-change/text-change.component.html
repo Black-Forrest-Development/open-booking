@@ -1,0 +1,32 @@
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="d-flex flex-column p-2 mt-5 container">
+    <mat-form-field appearance="outline">
+      <mat-label>{{'TEXT.Form.Lang' | translate}}</mat-label>
+      <mat-select formControlName="lang" required>
+        <mat-option *ngFor="let lang of languages" [value]="lang">
+          {{'LANG.' + lang | translate}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{'TEXT.Form.Type' | translate}}</mat-label>
+      <input matInput type="text" formControlName="type" required>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{'TEXT.Form.Content' | translate}}</mat-label>
+      <textarea matInput type="text" formControlName="content" required></textarea>
+    </mat-form-field>
+
+    <div class="d-flex flex-row align-self-stretch">
+      <button mat-raised-button color="primary" type="submit" class="flex-grow-1 me-3">
+        <mat-icon>save</mat-icon>
+        {{"ACTION.Submit" | translate}}
+      </button>
+      <button mat-stroked-button color="warn" (click)="cancel()" class="flex-grow-1">
+        <mat-icon>cancel</mat-icon>
+        {{'ACTION.Cancel' | translate}}</button>
+    </div>
+  </div>
+</form>
+

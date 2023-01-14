@@ -20,7 +20,7 @@ export class ExportService extends BaseService {
   createDailyReportPdf(date: string): Observable<boolean> {
     if (this.reloading.value) return of(false)
     this.reloading.next(true)
-    return this.getBlob('/daily/' + date + '/pdf')
+    return this.getBlob('daily/' + date + '/pdf')
       .pipe(
         map(response => this.handleFileDownload(response)),
         catchError((err, caught) => {

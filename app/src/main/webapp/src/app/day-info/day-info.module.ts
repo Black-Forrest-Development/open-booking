@@ -12,6 +12,8 @@ import {DayInfoBookingSelectionComponent} from './day-info-booking-selection/day
 import {DayInfoRoutingModule} from "./day-info-routing.module";
 import { DayInfoDetailsComponent } from './day-info-details/day-info-details.component';
 import {NgxEchartsModule} from "ngx-echarts";
+import { DayInfoDetailsOfferListComponent } from './day-info-details-offer-list/day-info-details-offer-list.component';
+import { DayInfoDetailsOfferListEntryComponent } from './day-info-details-offer-list-entry/day-info-details-offer-list-entry.component';
 
 
 @NgModule({
@@ -22,11 +24,14 @@ import {NgxEchartsModule} from "ngx-echarts";
     DayInfoBoardEntryComponent,
     DayInfoRangeSelectionComponent,
     DayInfoBookingSelectionComponent,
-    DayInfoDetailsComponent
+    DayInfoDetailsComponent,
+    DayInfoDetailsOfferListComponent,
+    DayInfoDetailsOfferListEntryComponent
   ],
-  exports: [
-    DayInfoBoardComponent
-  ],
+    exports: [
+        DayInfoBoardComponent,
+        DayInfoDetailsOfferListComponent
+    ],
   imports: [
     CommonModule,
     DayInfoRoutingModule,

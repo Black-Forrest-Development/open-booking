@@ -26,7 +26,9 @@
   "LANG": {
     "Title": "Language",
     "English": "English",
-    "German": "Deutsch"
+    "German": "Deutsch",
+    "en": "English",
+    "de": "Deutsch"
   },
   "DAY_INFO": {
     "SelectRange": {
@@ -94,6 +96,7 @@
         "VisitorGroup": {
           "Title": "Title",
           "Size": "Size",
+          "School": "School-class or kindergarten group",
           "MinAge": "Minimum Age",
           "MaxAge": "Maximum Age",
           "Contact": "Contact",
@@ -138,6 +141,7 @@
     "Action": {
       "Details": "Details",
       "Print": "Print",
+      "Select": "Select Offer",
       "CreateSingle": "Create (Single)",
       "CreateSeries": "Create (Series)",
       "CreateRange": "Create (Range)",
@@ -148,6 +152,9 @@
     "Operation": {
       "Create": "Create Offer",
       "Edit": "Edit Offer"
+    },
+    "Info": {
+      "SpaceAvailable": "There are {{value}} places available"
     }
   },
   "ADMIN": {
@@ -156,7 +163,8 @@
       "Offer": "Offer Mgt",
       "Booking": "Booking Mgt",
       "BookingRequest": "Booking Request Mgt",
-      "SearchBooking": "Search Booking"
+      "SearchBooking": "Search Booking",
+      "Texts": "Text Mgt"
     }
   },
   "REQUEST": {

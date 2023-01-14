@@ -29,4 +29,7 @@ class UserController(private val service: DayInfoService) {
     @Post("/booking")
     fun createBooking(@Body request: CreateBookingRequest) = service.createBooking(request)
 
+    @Get("/offer/{offerId}")
+    fun getOffer(@PathVariable offerId: Long) = service.getOffer(offerId)
+
 }

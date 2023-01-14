@@ -6,8 +6,8 @@ import java.time.LocalDate
 
 interface ExportAPI {
     companion object {
-        const val PERMISSION_EXPORT_READ = "openbooking.export.read"
-        const val PERMISSION_EXPORT_WRITE = "openbooking.export.write"
+        const val PERMISSION_READ = "openbooking.export.read"
+        const val PERMISSION_WRITE = "openbooking.export.write"
     }
 
     fun createDailyReportPdf(auth: Authentication, date: LocalDate): SystemFile?
