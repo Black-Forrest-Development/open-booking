@@ -1,6 +1,5 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ResponseService} from "../model/response.service";
 import {Response} from "../model/response-api";
 
 @Component({
@@ -14,7 +13,6 @@ export class ResponseDeleteDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ResponseDeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Response,
-
   ) {
 
   }
