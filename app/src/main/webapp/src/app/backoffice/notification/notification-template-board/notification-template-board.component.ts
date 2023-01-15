@@ -7,6 +7,7 @@ import {Page} from "../../../shared/page/page";
 import {NotificationTemplateService} from "../model/notification-template.service";
 import {NotificationTemplate} from "../model/notification-template-api";
 import {NotificationTemplateDeleteDialogComponent} from "../notification-template-delete-dialog/notification-template-delete-dialog.component";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-notification-template-board',
@@ -78,4 +79,9 @@ export class NotificationTemplateBoardComponent {
     this.toastService.error("Not implemented yet to search for '" + query + "'")
   }
 
+  handlePageChange(event: PageEvent) {
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.loadPage(event.pageIndex)
+  }
 }

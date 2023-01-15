@@ -56,5 +56,12 @@
   </table>
 </div>
 
-<mat-paginator [length]="totalElements" [pageSize]="pageSize" [pageIndex]="pageNumber" [pageSizeOptions]="[25, 50, 100, 200]" showFirstLastButtons [disabled]="reloading">
+<mat-paginator
+  [length]="totalElements"
+  [pageSize]="pageSize"
+  [pageIndex]="pageNumber"
+  [pageSizeOptions]="[10, 25, 50, 100]"
+  showFirstLastButtons [disabled]="reloading"
+  (page)="handlePageChange($event)"
+>
 </mat-paginator>

@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 data class Offer(
     override val id: Long,
     val start: LocalDateTime,
-    val end: LocalDateTime,
+    val finish: LocalDateTime,
     val maxPersons: Int,
     val active: Boolean
 ) : BusinessObject<Long>
