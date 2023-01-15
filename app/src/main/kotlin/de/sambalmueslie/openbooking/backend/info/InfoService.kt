@@ -109,7 +109,7 @@ class InfoService(
         val lastOffer = offerService.getLastOffer(LocalDate.now()) ?: return emptyList()
 
         val from = if (firstOffer.start.toLocalDate().isAfter(request.from)) firstOffer.start.toLocalDate() else request.from
-        val to = if (lastOffer.end.toLocalDate().isBefore(request.to)) lastOffer.end.toLocalDate() else request.to
+        val to = if (lastOffer.finish.toLocalDate().isBefore(request.to)) lastOffer.finish.toLocalDate() else request.to
         val days = ChronoUnit.DAYS.between(from, to)
         return getDayInfo(from, days.toInt())
     }
@@ -133,7 +133,7 @@ class InfoService(
             val bookingsByOffer = bookingService.getBookings(offer).groupBy { it.offerId }
             val offerInfo = offer.map { createOfferInfo(it, bookingsByOffer) }
 
-            DayInfo(date, first.start, last.end, offerInfo)
+            DayInfo(date, first.start, last.finish, offerInfo)
         }
         logger.info("Cache refresh for $date done within $duration ms.")
         return data

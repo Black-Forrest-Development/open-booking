@@ -18,26 +18,29 @@ import { OfferAdminCreateRangeDialogComponent } from './offer-admin-create-range
 
 
 @NgModule({
-  declarations: [
-    OfferAdminBoardComponent,
-    OfferAdminDayBoardComponent,
-    OfferAdminPrintBoardComponent,
-    OfferAdminChangeComponent,
-    OfferAdminDetailsComponent,
-    OfferAdminChangeDialogComponent,
-    OfferAdminCreateSeriesDialogComponent,
-    OfferAdminCreateRangeDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    OfferAdminRoutingModule,
-    LayoutModule,
-    MaterialModule,
-    TranslateModule,
-    NgxEchartsModule,
-    ReactiveFormsModule,
-    HomeModule
-  ]
+    declarations: [
+        OfferAdminBoardComponent,
+        OfferAdminDayBoardComponent,
+        OfferAdminPrintBoardComponent,
+        OfferAdminChangeComponent,
+        OfferAdminDetailsComponent,
+        OfferAdminChangeDialogComponent,
+        OfferAdminCreateSeriesDialogComponent,
+        OfferAdminCreateRangeDialogComponent
+    ],
+    exports: [
+        OfferAdminChangeComponent
+    ],
+    imports: [
+        CommonModule,
+        OfferAdminRoutingModule,
+        LayoutModule,
+        MaterialModule,
+        TranslateModule,
+        NgxEchartsModule,
+        ReactiveFormsModule,
+        HomeModule
+    ]
 })
 export class OfferAdminModule {
 }

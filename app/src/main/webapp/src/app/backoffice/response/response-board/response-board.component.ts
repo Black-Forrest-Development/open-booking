@@ -7,6 +7,7 @@ import {HotToastService} from "@ngneat/hot-toast";
 import {MatDialog} from "@angular/material/dialog";
 import {ResponseDeleteDialogComponent} from "../response-delete-dialog/response-delete-dialog.component";
 import {TranslateService} from "@ngx-translate/core";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-response-board',
@@ -77,5 +78,9 @@ export class ResponseBoardComponent {
   search(query: string) {
     this.toastService.error("Not implemented yet to search for '" + query + "'")
   }
-
+  handlePageChange(event: PageEvent) {
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.loadPage(event.pageIndex)
+  }
 }
