@@ -1,5 +1,5 @@
 export interface Pageable {
   offset: number;
-  pageNumber: number;
-  pageSize: number;
+  number: number;
+  size: number;
 }

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, Validators} from "@angular/forms";
-import {HomeServiceService} from "../model/home-service.service";
+import {HomeService} from "../model/home.service";
 import {DayInfoHelper, DayInfoOffer} from "../../offer/model/offer-api";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {Address, VisitorGroupChangeRequest} from "../../visitor-group/model/visitor-group-api";
@@ -10,6 +10,7 @@ import {BookingRequest} from "../../admin/request-admin/model/request-admin-api"
 import {MatDialog} from '@angular/material/dialog';
 import {CreateBookingConfirmationDialogComponent} from "../create-booking-confirmation-dialog/create-booking-confirmation-dialog.component";
 import {Location} from "@angular/common";
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 @Component({
   selector: 'app-create-booking-request',
@@ -23,6 +24,8 @@ export class CreateBookingRequestComponent {
 
   reloading = false
   offer: DayInfoOffer | undefined = undefined
+  groupBookingPossible = false
+  groupBookingSelected = false
 
   formGroup = this.fb.group({
     title: ['Default Title', Validators.required],
@@ -45,7 +48,7 @@ export class CreateBookingRequestComponent {
               private route: ActivatedRoute,
               private router: Router,
               private location: Location,
-              private service: HomeServiceService,
+              private service: HomeService,
               private dialog: MatDialog
   ) {
   }
@@ -65,12 +68,18 @@ export class CreateBookingRequestComponent {
     this.location.back()
   }
 
+  get size() {
+    return this.formGroup.get('size')
+  }
+
   private handleOffer(d: DayInfoOffer) {
     this.offer = d
+    let spaceAvailable = DayInfoHelper.getSpaceAvailable(d);
+
+    this.groupBookingPossible = spaceAvailable >= d.offer.maxPersons
     let size = this.formGroup.get('size')
     if (size) {
       let value = +(size.value ?? "0")
-      let spaceAvailable = DayInfoHelper.getSpaceAvailable(d);
       if (value > spaceAvailable) {
         size.setValue(spaceAvailable + '')
       }
@@ -83,10 +92,13 @@ export class CreateBookingRequestComponent {
   submit() {
     if (this.formGroup.invalid) return
     let value = this.formGroup.value
+    let size = ((value.group) ? this.offer?.offer.maxPersons : +value.size!!)
+    if (!size) return;
 
     let visitorGroupRequest = new VisitorGroupChangeRequest(
       value.title!!,
-      +value.size!!,
+      size,
+      value.group!!,
       +value.minAge!!,
       +value.maxAge!!,
       value.contact!!,
@@ -105,11 +117,24 @@ export class CreateBookingRequestComponent {
       value.comment!!,
       value.termsAndConditions!!
     )
-    this.service.createBooking(request).subscribe(d => this.handleResult(request, d))
+    this.service.createBooking(request).subscribe(d => this.handleResult(d))
   }
 
-  private handleResult(request: CreateBookingRequest, d: BookingRequest) {
-    let dialogRef = this.dialog.open(CreateBookingConfirmationDialogComponent, {data: request})
+  private handleResult(d: BookingRequest) {
+    let dialogRef = this.dialog.open(CreateBookingConfirmationDialogComponent, {data: d})
     dialogRef.afterClosed().subscribe(() => this.router.navigate(['']))
+  }
+
+  handleGroupBookingChange(event: MatSlideToggleChange) {
+    this.groupBookingSelected = event.checked
+    if (this.groupBookingSelected) {
+      this.formGroup.controls['size'].disable()
+      let offer = this.offer?.offer
+      if (offer) {
+        this.size?.setValue(offer.maxPersons + '')
+      }
+    } else {
+      this.formGroup.controls['size'].enable()
+    }
   }
 }

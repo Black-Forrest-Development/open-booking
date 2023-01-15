@@ -12,7 +12,10 @@
     "Delete": "Delete",
     "Submit": "Submit",
     "Cancel": "Cancel",
-    "Close": "Close"
+    "Close": "Close",
+    "Save": "Save",
+    "Yes": "Yes",
+    "No": "No"
   },
   "MENU": {
     "Home": "Home",
@@ -188,7 +191,62 @@
   "VISITOR_GROUP": {
     "Title": "Visitor Group"
   },
+  "BACKOFFICE": {
+    "MENU": {
+      "Dashboard": "Dashboard",
+      "Offer": "Offer Mgt",
+      "Booking": "Booking Mgt",
+      "BookingRequest": "Booking Request Mgt",
+      "SearchBooking": "Search Booking",
+      "Notification": "Notification Mgt",
+      "Response": "Response Mgt",
+      "AuditLog": "Audit Log"
+    }
+  },
+  "RESPONSE": {
+    "Action": {
+      "Create": "Create Response",
+      "Search": "Searches Response"
+    },
+    "Message": {
+      "DeleteSuccess": "The response {{type}} was deleted successfully",
+      "CreateSuccess": "The response was created successfully",
+      "CreateFailure": "Creation of the response failed",
+      "FormInvalid": "Something went wrong with the form"
+    },
+    "Field": {
+      "Id": {
+        "Title": "Id",
+        "Hint": ""
+      },
+      "Lang": {
+        "Title": "Language",
+        "Hint": ""
+      },
+      "Type": {
+        "Title": "Type",
+        "Hint": "",
+        "BOOKING_CONFIRMATION_DIALOG": "Booking Confirmation Dialog"
+      },
+      "Title": {
+        "Title": "Title",
+        "Hint": ""
+      },
+      "Content": {
+        "Title": "Content",
+        "Hint": ""
+      }
+    },
+    "Dialog": {
+      "Delete": {
+        "Title": "Delete response {{type}}",
+        "Question": "Do you really want to delete the response?"
+      }
+    }
+  },
   "ERROR": {
-    "NoDaySelectedForBooking": "You must select at least one day to start the booking"
+    "NoDaySelectedForBooking": "You must select at least one day to start the booking",
+    "NoSpaceLeftForBooking": "There is no space left for booking",
+    "OfferIsDeactivated": "Offer is deactivated and therefore no booking possible"
   }
 }

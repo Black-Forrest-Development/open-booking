@@ -11,16 +11,18 @@ import java.time.LocalDateTime
 @Table(name = "booking_request")
 data class BookingRequestData(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long,
-    @Column @Enumerated(EnumType.STRING) var status: BookingRequestStatus,
+    @Column var key: String,
 
+    @Column @Enumerated(EnumType.STRING) var status: BookingRequestStatus,
     @Column var visitorGroupId: Long,
     @Column var comment: String,
+
     @Column var created: LocalDateTime,
     @Column var updated: LocalDateTime? = null,
 ) : DataObject<BookingRequest> {
 
 
-    override fun convert() = BookingRequest(id, comment, status)
+    override fun convert() = BookingRequest(id, key, comment, status)
 
 
     fun setStatus(status: BookingRequestStatus, timestamp: LocalDateTime): BookingRequestData {

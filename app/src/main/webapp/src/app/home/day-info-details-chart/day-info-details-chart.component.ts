@@ -3,6 +3,9 @@ import {DayInfo, defaultDayInfo} from "../../day-info/model/day-info-api";
 import {Router} from "@angular/router";
 import {DayInfoService} from "../../day-info/model/day-info.service";
 import {EChartsOption} from "echarts";
+import {DayInfoHelper} from "../../offer/model/offer-api";
+import {HotToastService} from "@ngneat/hot-toast";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-day-info-details-chart',
@@ -27,7 +30,9 @@ export class DayInfoDetailsChartComponent {
 
   constructor(
     private service: DayInfoService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService,
+    private toastService: HotToastService
   ) {
   }
 
@@ -39,6 +44,19 @@ export class DayInfoDetailsChartComponent {
     if (!this.data) return
     let info = this.data.offer[index]
     if (!info) return
+
+    if (!info.offer.active) {
+      this.translateService.get('ERROR.OfferIsDeactivated')
+        .subscribe(msg => this.toastService.error(msg))
+      return
+    }
+
+    let spaceAvailable = DayInfoHelper.getSpaceAvailable(info)
+    if (spaceAvailable <= 0) {
+      this.translateService.get('ERROR.NoSpaceLeftForBooking')
+        .subscribe(msg => this.toastService.error(msg))
+      return
+    }
     this.router.navigate(['home', 'booking', info.offer.id]).then()
   }
 

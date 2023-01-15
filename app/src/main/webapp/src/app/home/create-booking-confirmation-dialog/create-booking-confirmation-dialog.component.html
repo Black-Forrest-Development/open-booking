@@ -1,5 +1,12 @@
-<h2 mat-dialog-title>TODO show the text?</h2>
-<mat-dialog-content>TODO show the text</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'ACTION.Ok' | translate}}</button>
-</mat-dialog-actions>
+<ng-container *ngIf="loading; else showResponse">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</ng-container>
+<ng-template #showResponse>
+  <h2 mat-dialog-title>{{info.title}}</h2>
+  <mat-dialog-content>
+    {{info.content}}
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'ACTION.Ok' | translate}}</button>
+  </mat-dialog-actions>
+</ng-template>

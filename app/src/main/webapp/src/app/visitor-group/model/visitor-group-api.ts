@@ -2,6 +2,7 @@ export class VisitorGroupChangeRequest {
   public constructor(
     public title: string,
     public size: number,
+    public isGroup: boolean,
     public minAge: number,
     public maxAge: number,
     public contact: string,
@@ -31,6 +32,7 @@ export interface VisitorGroup {
   id: number,
   title: string,
   size: number,
+  isGroup: boolean,
   minAge: number,
   maxAge: number,
   contact: string,
@@ -44,6 +46,7 @@ export const defaultVisitorGroup: VisitorGroup = {
   id: -1,
   title: "",
   size: -1,
+  isGroup: false,
   minAge: -1,
   maxAge: -1,
   contact: "",
