@@ -47,7 +47,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     AuthModule.forRoot({
       domain: 'hlltool.eu.auth0.com',
       clientId: 'VZgfRUy3OlWuwHABFEJtIkZSafG9qEMg',
-      audience: 'HLL Adapter API',
+      audience: 'OpenBooking API',
       httpInterceptor: {
         allowedList: [
           '/api/backend/*',

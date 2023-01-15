@@ -6,6 +6,7 @@ data class VisitorGroup(
     override val id: Long,
     val title: String,
     val size: Int,
+    val group: Boolean,
     val minAge: Int,
     val maxAge: Int,
     val contact: String,

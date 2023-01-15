@@ -1,10 +1,10 @@
 package de.sambalmueslie.openbooking.backend.group.db
 
-import de.sambalmueslie.openbooking.common.DataObject
 import de.sambalmueslie.openbooking.backend.group.api.Address
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupChangeRequest
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupStatus
+import de.sambalmueslie.openbooking.common.DataObject
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -15,6 +15,7 @@ data class VisitorGroupData(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long,
     @Column var title: String,
     @Column var size: Int,
+    @Column var isGroup: Boolean,
     @Column var minAge: Int,
     @Column var maxAge: Int,
     @Column var contact: String,
@@ -33,6 +34,7 @@ data class VisitorGroupData(
                 0,
                 request.title,
                 request.size,
+                request.isGroup,
                 request.minAge,
                 request.maxAge,
                 request.contact,
@@ -47,11 +49,12 @@ data class VisitorGroupData(
         }
     }
 
-    override fun convert() = VisitorGroup(id, title, size, minAge, maxAge, contact, Address(street, city, zip), phone, email, status)
+    override fun convert() = VisitorGroup(id, title, size, isGroup, minAge, maxAge, contact, Address(street, city, zip), phone, email, status)
 
     fun update(request: VisitorGroupChangeRequest, timestamp: LocalDateTime): VisitorGroupData {
         title = request.title
         size = request.size
+        isGroup = request.isGroup
         minAge = request.minAge
         maxAge = request.maxAge
         contact = request.contact

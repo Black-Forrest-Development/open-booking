@@ -10,8 +10,17 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class DayInfoDetailsListEntryComponent {
 
 
+  @Input() set entry(value: DayInfoOffer) {
+    this.spaceAvailable = DayInfoHelper.getSpaceAvailable(value)
+    this._entry = value
+  }
+
+  get entry(): DayInfoOffer {
+    return this._entry
+  }
+
   // @ts-ignore
-  @Input() entry: DayInfoOffer
+  private _entry: DayInfoOffer
 
   spaceAvailable: number = 0
   param: any
@@ -25,6 +34,6 @@ export class DayInfoDetailsListEntryComponent {
 
 
   select() {
-    this.router.navigate(['home','booking', this.entry.offer.id]).then()
+    this.router.navigate(['home', 'booking', this.entry.offer.id]).then()
   }
 }

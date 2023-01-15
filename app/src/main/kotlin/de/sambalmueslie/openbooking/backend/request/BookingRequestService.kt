@@ -24,6 +24,7 @@ import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.*
 
 @Singleton
 class BookingRequestService(
@@ -58,7 +59,8 @@ class BookingRequestService(
     fun create(request: BookingRequestChangeRequest): BookingRequest {
         val visitorGroup = visitorGroupService.create(request.visitorGroupChangeRequest)
 
-        val data = repository.save(BookingRequestData(0, BookingRequestStatus.UNCONFIRMED, visitorGroup.id, request.comment, timeProvider.now()))
+        val key = UUID.randomUUID().toString().uppercase(Locale.getDefault())
+        val data = repository.save(BookingRequestData(0, key, BookingRequestStatus.UNCONFIRMED, visitorGroup.id, request.comment, timeProvider.now()))
 
         val bookings = request.offerIds.map { bookingService.create(BookingChangeRequest(it, visitorGroup.id)) }
         val relations = bookings.map { BookingRequestRelation(it.id, data.id) }
@@ -114,6 +116,16 @@ class BookingRequestService(
 
         val timestamp = request.updated ?: request.created
         return BookingRequestInfo(request.id, visitorGroup, relatedBookings, request.status, request.comment, timestamp)
+    }
+
+    fun info(id: Long): BookingRequestInfo? {
+        val data = repository.findByIdOrNull(id) ?: return null
+        val relations = relationRepository.getByBookingRequestId(data.id)
+        val bookings = bookingService.getBookingInfos(relations.map { it.bookingId }.toSet())
+        val visitorGroup = visitorGroupService.get(data.visitorGroupId) ?: return null
+
+        val timestamp = data.updated ?: data.created
+        return BookingRequestInfo(data.id, visitorGroup, bookings, data.status, data.comment, timestamp)
     }
 
 

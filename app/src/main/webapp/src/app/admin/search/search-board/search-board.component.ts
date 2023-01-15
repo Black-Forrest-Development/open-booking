@@ -47,7 +47,7 @@ export class SearchBoardComponent {
 
   private handleData(p: Page<BookingSearchResult>) {
     this.data = p.content
-    this.totalElements = p.totalElements
+    this.totalElements = p.totalSize
     this.reloading = false
   }
 }

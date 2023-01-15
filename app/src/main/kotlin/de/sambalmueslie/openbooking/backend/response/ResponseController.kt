@@ -1,10 +1,9 @@
 package de.sambalmueslie.openbooking.backend.response
 
 
-import de.sambalmueslie.openbooking.backend.response.api.ResponseAPI
+import de.sambalmueslie.openbooking.backend.response.api.*
 import de.sambalmueslie.openbooking.backend.response.api.ResponseAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openbooking.backend.response.api.ResponseAPI.Companion.PERMISSION_WRITE
-import de.sambalmueslie.openbooking.backend.response.api.ResponseChangeRequest
 import de.sambalmueslie.openbooking.common.checkPermission
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
@@ -32,4 +31,12 @@ class ResponseController(private val service: ResponseService) : ResponseAPI {
     @Delete("/{id}")
     override fun delete(auth: Authentication, @PathVariable id: Long) =
         auth.checkPermission(PERMISSION_WRITE) { service.delete(id) }
+
+    @Get("/find/{lang}/{type}")
+    override fun find(auth: Authentication, @PathVariable lang: String, @PathVariable type: ResponseType) =
+        auth.checkPermission(PERMISSION_READ) { service.find(lang, type) }
+
+    @Post("/resolve")
+    override fun resolve(auth: Authentication, @Body request: ResolveResponseRequest) =
+        auth.checkPermission(PERMISSION_READ) { service.resolve(request) }
 }

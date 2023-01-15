@@ -60,9 +60,9 @@ export class RequestAdminBoardComponent implements OnInit {
       this.totalElements = 0;
     } else {
       this.data = page.content.filter(d => d != null);
-      this.pageNumber = page.pageable.pageNumber;
-      this.pageSize = page.pageable.pageSize;
-      this.totalElements = page.totalElements;
+      this.pageNumber = page.pageable.number;
+      this.pageSize = page.pageable.size;
+      this.totalElements = page.totalSize;
     }
     this.reloading = false;
   }

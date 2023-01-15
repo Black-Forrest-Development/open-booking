@@ -27,21 +27,22 @@ CREATE TABLE tour_role
 CREATE SEQUENCE visitor_group_seq;
 CREATE TABLE visitor_group
 (
-    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('visitor_group_seq'::regclass),
-    title   VARCHAR(255)                NOT NULL,
-    size    INT                         NOT NULL,
-    min_age INT                         NOT NULL,
-    max_age INT                         NOT NULL,
-    contact VARCHAR(255)                NOT NULL,
-    street  VARCHAR(255)                NOT NULL,
-    city    VARCHAR(255)                NOT NULL,
-    zip     VARCHAR(20)                 NOT NULL,
-    email   VARCHAR(255)                NOT NULL,
-    phone   VARCHAR(255)                NOT NULL,
-    status  VARCHAR(255)                NOT NULL,
+    id       BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('visitor_group_seq'::regclass),
+    title    VARCHAR(255)                NOT NULL,
+    size     INT                         NOT NULL,
+    is_group BOOLEAN                     NOT NULL,
+    min_age  INT                         NOT NULL,
+    max_age  INT                         NOT NULL,
+    contact  VARCHAR(255)                NOT NULL,
+    street   VARCHAR(255)                NOT NULL,
+    city     VARCHAR(255)                NOT NULL,
+    zip      VARCHAR(20)                 NOT NULL,
+    email    VARCHAR(255)                NOT NULL,
+    phone    VARCHAR(255)                NOT NULL,
+    status   VARCHAR(255)                NOT NULL,
 
-    created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated TIMESTAMP WITHOUT TIME ZONE
+    created  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated  TIMESTAMP WITHOUT TIME ZONE
 );
 
 -- offer
@@ -80,6 +81,7 @@ CREATE SEQUENCE booking_request_seq;
 CREATE TABLE booking_request
 (
     id               BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('booking_request_seq'::regclass),
+    key              VARCHAR(255)                NOT NULL,
     status           VARCHAR(255)                NOT NULL,
     comment          TEXT                        NOT NULL,
 
@@ -166,7 +168,7 @@ CREATE TABLE audit_log_entry
 (
     id        BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('audit_log_entry_seq'::regclass),
     timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    actor      VARCHAR(255)                NOT NULL,
+    actor     VARCHAR(255)                NOT NULL,
     level     VARCHAR(255)                NOT NULL,
     message   TEXT                        NOT NULL,
     reference TEXT                        NOT NULL,

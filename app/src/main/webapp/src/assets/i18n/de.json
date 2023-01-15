@@ -38,7 +38,7 @@
           "Available": "Verfügbare Plätze",
           "Confirmed": "Bestätigte Buchung",
           "Unconfirmed": "Unbestätigte Buchung",
-          "Deactivated": "Abgesagt"
+          "Deactivated": "Keine Buchung möglich"
         }
       }
     }

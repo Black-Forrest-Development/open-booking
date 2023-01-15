@@ -4,8 +4,8 @@ export interface Page<T> {
   content: T[];
   pageable: Pageable;
   totalPages: number;
-  totalElements: number;
-  first: boolean;
-  last: boolean;
+  totalSize: number;
+  offset: number;
+  size: number;
   empty: boolean;
 }
