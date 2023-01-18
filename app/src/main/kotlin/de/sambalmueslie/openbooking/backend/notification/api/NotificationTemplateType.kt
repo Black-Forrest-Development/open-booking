@@ -1,6 +1,7 @@
 package de.sambalmueslie.openbooking.backend.notification.api
 
 enum class NotificationTemplateType {
-    HTML,
-    PLAIN
+    BOOKING_REQUEST_CREATED_CONTACT,
+    BOOKING_REQUEST_CREATED_ADMIN,
+    BOOKING_REQUEST_CONFIRMED_CONTACT,
 }

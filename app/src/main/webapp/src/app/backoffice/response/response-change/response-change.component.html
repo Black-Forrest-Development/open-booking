@@ -26,10 +26,7 @@
       <input matInput type="text" formControlName="title" required>
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>{{'RESPONSE.Field.Content.Title' | translate}}</mat-label>
-      <textarea matInput type="text" formControlName="content" required></textarea>
-    </mat-form-field>
+    <quill-editor formControlName="content" placeholder="Enter Text"></quill-editor>
 
     <div class="d-flex flex-row align-self-stretch">
       <button mat-raised-button color="primary" type="submit" class="flex-grow-1 me-3">

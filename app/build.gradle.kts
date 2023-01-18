@@ -27,7 +27,6 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
-
     // velocity
     implementation("org.apache.velocity:velocity-engine-core:2.3")
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
@@ -36,7 +35,10 @@ dependencies {
     // POI
     implementation("org.apache.poi:poi:5.2.3")
     implementation("org.apache.poi:poi-ooxml:5.2.3")
-
+    // mail
+    implementation("org.simplejavamail:simple-java-mail:7.6.0")
+    implementation("org.simplejavamail:batch-module:7.6.0")
+    implementation("org.simplejavamail:authenticated-socks-module:7.6.0")
 }
 
 application {

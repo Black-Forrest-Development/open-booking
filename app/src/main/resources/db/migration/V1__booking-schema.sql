@@ -152,14 +152,15 @@ CREATE TABLE response
 CREATE SEQUENCE notification_template_seq;
 CREATE TABLE notification_template
 (
-    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_template_seq'::regclass),
-    lang    VARCHAR(255)                NOT NULL,
-    type    VARCHAR(255)                NOT NULL,
-    subject VARCHAR(255)                NOT NULL,
-    content TEXT                        NOT NULL,
+    id           BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_template_seq'::regclass),
+    lang         VARCHAR(255)                NOT NULL,
+    type         VARCHAR(255)                NOT NULL,
+    subject      VARCHAR(255)                NOT NULL,
+    content_type VARCHAR(255)                NOT NULL,
+    content      TEXT                        NOT NULL,
 
-    created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated TIMESTAMP WITHOUT TIME ZONE
+    created      TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated      TIMESTAMP WITHOUT TIME ZONE
 );
 
 -- audit

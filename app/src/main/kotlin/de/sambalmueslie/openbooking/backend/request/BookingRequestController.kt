@@ -41,10 +41,10 @@ class BookingRequestController(private val service: BookingRequestService) : Boo
         auth.checkPermission(PERMISSION_READ) { service.getInfoUnconfirmed(pageable) }
 
     @Put("/{id}/confirm/{bookingId}")
-    override fun confirm(auth: Authentication, @PathVariable id: Long, @PathVariable bookingId: Long) =
-        auth.checkPermission(PERMISSION_WRITE) { service.confirm(id, bookingId) }
+    override fun confirm(auth: Authentication, @PathVariable id: Long, @PathVariable bookingId: Long, @QueryValue(defaultValue = "false") silent: Boolean) =
+        auth.checkPermission(PERMISSION_WRITE) { service.confirm(id, bookingId, silent) }
 
     @Put("/{id}/denial")
-    override fun denial(auth: Authentication, @PathVariable id: Long) =
-        auth.checkPermission(PERMISSION_WRITE) { service.denial(id) }
+    override fun denial(auth: Authentication, @PathVariable id: Long, @QueryValue(defaultValue = "false") silent: Boolean) =
+        auth.checkPermission(PERMISSION_WRITE) { service.denial(id, silent) }
 }

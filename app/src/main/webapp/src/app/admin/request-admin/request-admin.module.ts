@@ -13,7 +13,6 @@ import {RequestAdminBoardVisitorGroupCellComponent} from './request-admin-board-
 import {RequestAdminBoardBookingsCellComponent} from './request-admin-board-bookings-cell/request-admin-board-bookings-cell.component';
 import {RequestCommentDialogComponent} from './request-comment-dialog/request-comment-dialog.component';
 import {RequestConfirmMessageDialogComponent} from './request-confirm-message-dialog/request-confirm-message-dialog.component';
-import {NgxEditorModule} from "ngx-editor";
 
 
 @NgModule({
@@ -33,7 +32,6 @@ import {NgxEditorModule} from "ngx-editor";
     NgxEchartsModule,
     ReactiveFormsModule,
     VisitorGroupAdminModule,
-    NgxEditorModule,
     FormsModule
   ]
 })

@@ -48,7 +48,7 @@
 
     <ng-container matColumnDef="cmd">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let offer">
+      <td mat-cell *matCellDef="let offer" class="cmd-cell">
         <button mat-icon-button routerLink="./edit/{{offer.id}}">
           <mat-icon>edit</mat-icon>
         </button>

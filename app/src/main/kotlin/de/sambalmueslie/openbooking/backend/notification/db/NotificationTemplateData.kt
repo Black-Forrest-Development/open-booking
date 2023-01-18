@@ -1,5 +1,6 @@
 package de.sambalmueslie.openbooking.backend.notification.db
 
+import de.sambalmueslie.openbooking.backend.notification.api.ContentType
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplate
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateChangeRequest
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateType
@@ -15,6 +16,7 @@ data class NotificationTemplateData(
     @Column var lang: String,
     @Column @Enumerated(EnumType.STRING) var type: NotificationTemplateType,
     @Column var subject: String,
+    @Column @Enumerated(EnumType.STRING) var contentType: ContentType,
     @Column var content: String,
 
     @Column var created: LocalDateTime,
@@ -28,6 +30,7 @@ data class NotificationTemplateData(
                 request.lang,
                 request.type,
                 request.subject,
+                request.contentType,
                 request.content,
                 timestamp
             )
@@ -35,13 +38,14 @@ data class NotificationTemplateData(
     }
 
     override fun convert(): NotificationTemplate {
-        return NotificationTemplate(id, lang, type, subject, content)
+        return NotificationTemplate(id, lang, type, subject, contentType, content)
     }
 
     fun update(request: NotificationTemplateChangeRequest, timestamp: LocalDateTime): NotificationTemplateData {
         lang = request.lang
         type = request.type
         subject = request.subject
+        contentType = request.contentType
         content = request.content
         updated = timestamp
         return this

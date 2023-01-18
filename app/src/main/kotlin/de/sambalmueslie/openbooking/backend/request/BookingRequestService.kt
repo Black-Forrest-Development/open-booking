@@ -7,18 +7,12 @@ import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
 import de.sambalmueslie.openbooking.backend.booking.api.BookingInfo
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
-import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
-import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeRequest
-import de.sambalmueslie.openbooking.backend.request.api.BookingRequestInfo
-import de.sambalmueslie.openbooking.backend.request.api.BookingRequestStatus
+import de.sambalmueslie.openbooking.backend.request.api.*
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestData
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelation
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelationRepository
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRepository
-import de.sambalmueslie.openbooking.common.BusinessObjectChangeListener
-import de.sambalmueslie.openbooking.common.GenericRequestResult
-import de.sambalmueslie.openbooking.common.TimeProvider
-import de.sambalmueslie.openbooking.common.findByIdOrNull
+import de.sambalmueslie.openbooking.common.*
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
@@ -32,12 +26,22 @@ class BookingRequestService(
     private val visitorGroupService: VisitorGroupService,
     private val repository: BookingRequestRepository,
     private val relationRepository: BookingRequestRelationRepository,
-    private val timeProvider: TimeProvider
-) {
+    private val timeProvider: TimeProvider,
+) : GenericCrudService<Long, BookingRequest, BookingRequestChangeRequest, BookingRequestData>(repository, logger) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(BookingRequestService::class.java)
     }
+
+    private val listeners = mutableSetOf<BookingRequestChangeListener>()
+    fun register(listener: BookingRequestChangeListener) {
+        listeners.add(listener)
+    }
+
+     fun unregister(listener: BookingRequestChangeListener) {
+        listeners.remove(listener)
+    }
+
 
     init {
         bookingService.register(object : BusinessObjectChangeListener<Long, Booking> {
@@ -47,44 +51,46 @@ class BookingRequestService(
         })
     }
 
+    override fun create(request: BookingRequestChangeRequest): BookingRequest {
+        isValid(request)
+        val data = repository.save(createData(request))
 
-    fun get(id: Long): BookingRequest? {
-        return repository.findByIdOrNull(id)?.convert()
-    }
-
-    fun getAll(pageable: Pageable): Page<BookingRequest> {
-        return repository.findAll(pageable).map { it.convert() }
-    }
-
-    fun create(request: BookingRequestChangeRequest): BookingRequest {
-        val visitorGroup = visitorGroupService.create(request.visitorGroupChangeRequest)
-
-        val key = UUID.randomUUID().toString().uppercase(Locale.getDefault())
-        val data = repository.save(BookingRequestData(0, key, BookingRequestStatus.UNCONFIRMED, visitorGroup.id, request.comment, timeProvider.now()))
-
-        val bookings = request.offerIds.map { bookingService.create(BookingChangeRequest(it, visitorGroup.id)) }
+        val bookings = request.offerIds.map { bookingService.create(BookingChangeRequest(it, data.visitorGroupId)) }
         val relations = bookings.map { BookingRequestRelation(it.id, data.id) }
         relationRepository.saveAll(relations)
 
-        return data.convert()
+        val result = data.convert()
+        notifyCreated(result)
+        return result
     }
 
-    fun update(id: Long, request: BookingRequestChangeRequest): BookingRequest {
+    override fun createData(request: BookingRequestChangeRequest): BookingRequestData {
+        val visitorGroup = visitorGroupService.create(request.visitorGroupChangeRequest)
+
+        val key = UUID.randomUUID().toString().uppercase(Locale.getDefault())
+        return BookingRequestData(0, key, BookingRequestStatus.UNCONFIRMED, visitorGroup.id, request.comment, timeProvider.now())
+    }
+
+
+    override fun update(id: Long, request: BookingRequestChangeRequest): BookingRequest {
         TODO("Not yet implemented")
     }
 
-    fun delete(id: Long): BookingRequest? {
-        val data = repository.findByIdOrNull(id) ?: return null
+    override fun updateData(data: BookingRequestData, request: BookingRequestChangeRequest): BookingRequestData {
+        TODO("Not yet implemented")
+    }
 
+    override fun isValid(request: BookingRequestChangeRequest) {
+        // intentionally left empty
+    }
+
+    override fun deleteDependencies(data: BookingRequestData) {
         val relations = relationRepository.getByBookingRequestId(data.id)
         relations.forEach { bookingService.delete(it.bookingId) }
 
         visitorGroupService.delete(data.visitorGroupId)
 
         relationRepository.deleteByBookingRequestId(data.id)
-        repository.delete(data)
-
-        return data.convert()
     }
 
     fun getUnconfirmed(pageable: Pageable): Page<BookingRequest> {
@@ -130,13 +136,12 @@ class BookingRequestService(
 
 
     private fun getUnconfirmedData(pageable: Pageable) = repository.findByStatusIn(listOf(BookingRequestStatus.UNKNOWN, BookingRequestStatus.UNCONFIRMED), pageable)
-    fun confirm(id: Long, bookingId: Long): GenericRequestResult {
-        val data = repository.findByIdOrNull(id) ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
-
-        val relations = relationRepository.getByBookingRequestId(data.id)
+    fun confirm(id: Long, bookingId: Long, silent: Boolean): GenericRequestResult {
+        val relations = relationRepository.getByBookingRequestId(id)
         if (!relations.any { it.bookingId == bookingId }) return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
 
-        repository.update(data.setStatus(BookingRequestStatus.CONFIRMED, timeProvider.now()))
+        val result = patchData(id) { it.setStatus(BookingRequestStatus.CONFIRMED, timeProvider.now()) }
+            ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
 
         relations.forEach {
             if (it.bookingId == bookingId) {
@@ -146,12 +151,16 @@ class BookingRequestService(
             }
         }
 
+
+        listeners.forEachWithTryCatch { it.confirmed(result, silent) }
         return GenericRequestResult(true, "REQUEST.MESSAGE.CONFIRM.SUCCESS")
     }
 
-    fun denial(id: Long): GenericRequestResult {
-        val data = repository.findByIdOrNull(id) ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
-        repository.update(data.setStatus(BookingRequestStatus.DENIED, timeProvider.now()))
+    fun denial(id: Long, silent: Boolean): GenericRequestResult {
+        val result = patchData(id) { it.setStatus(BookingRequestStatus.DENIED, timeProvider.now()) }
+            ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
+
+        listeners.forEachWithTryCatch { it.denied(result, silent) }
         return GenericRequestResult(true, "REQUEST.MESSAGE.DENIAL.SUCCESS")
     }
 

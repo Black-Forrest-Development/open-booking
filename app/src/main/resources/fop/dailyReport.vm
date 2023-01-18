@@ -57,7 +57,7 @@
                             <fo:table-body>
                                 <fo:table-row background-color="#F5F5F5" border="thin solid #CCCCCC">
                                     <fo:table-cell padding="4px">
-                                        <fo:block text-align="left" font-size="12pt">$dateTool.formatTime($entry.offer.start) -  ${dateTool.formatTime($entry.offer.end)}</fo:block>
+                                        <fo:block text-align="left" font-size="12pt">$dateTool.formatTime($entry.offer.start) -  ${dateTool.formatTime($entry.offer.finish)}</fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell padding="4px">
                                         <fo:block text-align="left" font-size="12pt">Personen ${entry.offer.maxPersons}</fo:block>

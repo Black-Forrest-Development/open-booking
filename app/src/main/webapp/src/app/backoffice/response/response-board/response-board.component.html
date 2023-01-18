@@ -38,7 +38,7 @@
 
     <ng-container matColumnDef="cmd">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let response">
+      <td mat-cell *matCellDef="let response" class="cmd-cell">
         <button mat-icon-button routerLink="./edit/{{response.id}}">
           <mat-icon>edit</mat-icon>
         </button>

@@ -24,7 +24,8 @@
     "Help": "Help",
     "Admin": "Admin",
     "Login": "Login",
-    "Logout": "Logout"
+    "Logout": "Logout",
+    "Backoffice": "Backoffice"
   },
   "LANG": {
     "Title": "Language",
@@ -96,6 +97,8 @@
         }
       },
       "Form": {
+        "Title": "Create a new booking on ",
+        "SelectedDate": "Selected appointment",
         "VisitorGroup": {
           "Title": "Title",
           "Size": "Size",
@@ -241,6 +244,48 @@
       "Delete": {
         "Title": "Delete response {{type}}",
         "Question": "Do you really want to delete the response?"
+      }
+    }
+  },
+  "NOTIFICATION": {
+    "Action": {
+      "Create": "Create Notification Template",
+      "Search": "Searches Notification Template"
+    },
+    "Message": {
+      "DeleteSuccess": "The notification template {{type}} was deleted successfully",
+      "CreateSuccess": "The notification template was created successfully",
+      "CreateFailure": "Creation of the notification template failed",
+      "FormInvalid": "Something went wrong with the form"
+    },
+    "Field": {
+      "Id": {
+        "Title": "Id",
+        "Hint": ""
+      },
+      "Lang": {
+        "Title": "Language",
+        "Hint": ""
+      },
+      "Type": {
+        "Title": "Type",
+        "Hint": "",
+        "HTML": "HTML",
+        "PLAIN": "PLAIN"
+      },
+      "Subject": {
+        "Title": "Subject",
+        "Hint": ""
+      },
+      "Content": {
+        "Title": "Content",
+        "Hint": ""
+      }
+    },
+    "Dialog": {
+      "Delete": {
+        "Title": "Delete notification template {{type}}",
+        "Question": "Do you really want to delete the notification template?"
       }
     }
   },

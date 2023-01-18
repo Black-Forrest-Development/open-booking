@@ -4,7 +4,7 @@
 <ng-template #showResponse>
   <h2 mat-dialog-title>{{info.title}}</h2>
   <mat-dialog-content>
-    {{info.content}}
+    <div [innerHTML]="info.content"></div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'ACTION.Ok' | translate}}</button>

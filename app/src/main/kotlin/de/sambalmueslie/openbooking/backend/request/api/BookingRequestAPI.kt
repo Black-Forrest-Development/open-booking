@@ -15,7 +15,7 @@ interface BookingRequestAPI : AuthCrudAPI<Long, BookingRequest, BookingRequestCh
     fun getUnconfirmed(auth: Authentication, pageable: Pageable): Page<BookingRequest>
 
     fun getInfoUnconfirmed(auth: Authentication, pageable: Pageable): Page<BookingRequestInfo>
-    fun confirm(auth: Authentication, id: Long, bookingId: Long): GenericRequestResult
-    fun denial(auth: Authentication, id: Long): GenericRequestResult
+    fun confirm(auth: Authentication, id: Long, bookingId: Long, silent: Boolean): GenericRequestResult
+    fun denial(auth: Authentication, id: Long, silent: Boolean): GenericRequestResult
 
 }

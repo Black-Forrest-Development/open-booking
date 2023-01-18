@@ -7,5 +7,6 @@ data class NotificationTemplate(
     val lang: String,
     val type: NotificationTemplateType,
     val subject: String,
+    val contentType: ContentType,
     val content: String
 ) : BusinessObject<Long>
