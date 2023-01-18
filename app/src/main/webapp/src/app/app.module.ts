@@ -17,6 +17,7 @@ import {AuthHttpInterceptor, AuthModule} from "@auth0/auth0-angular";
 import {NgxEchartsModule} from "ngx-echarts";
 import {HomeModule} from "./home/home.module";
 import {HotToastModule} from '@ngneat/hot-toast';
+import {QuillModule} from "ngx-quill";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -64,7 +65,8 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     HotToastModule.forRoot({
       autoClose: true,
       position: 'bottom-right'
-    })
+    }),
+    QuillModule.forRoot()
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},

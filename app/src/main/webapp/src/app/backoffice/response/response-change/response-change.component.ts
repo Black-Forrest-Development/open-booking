@@ -23,6 +23,7 @@ export class ResponseChangeComponent {
 
   data: Response | null = null
   languages: string[] = []
+  htmlText ="<p>Testing</p>"
 
   types: string[] = RESPONSE_TYPES
   form: FormGroup = this.fb.group({

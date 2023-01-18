@@ -15,7 +15,8 @@ class LocalDateTimeTool(
         private val logger: Logger = LoggerFactory.getLogger(LocalDateTimeTool::class.java)
     }
 
-    fun formatTime(date: LocalDateTime): String {
+    fun formatTime(date: LocalDateTime?): String {
+        if(date == null) return ""
         return format(date.toLocalTime())
     }
 

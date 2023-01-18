@@ -74,6 +74,8 @@
         }
       },
       "Form": {
+        "Title": "Neue Buchung erstellen am ",
+        "SelectedDate": "Ausgewählter Termin",
         "VisitorGroup": {
           "Title": "Bezeichung",
           "Size": "Größe",

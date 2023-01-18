@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {HomeService} from "../model/home.service";
 import {DayInfoHelper, DayInfoOffer} from "../../offer/model/offer-api";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
@@ -34,10 +34,10 @@ export class CreateBookingRequestComponent {
     minAge: ['1', Validators.required],
     maxAge: ['99', Validators.required],
     contact: ['Contact', Validators.required],
-    street: ['Street', Validators.required],
-    zip: ['987654', Validators.required],
-    city: ['City', Validators.required],
-    phone: ['012456789'],
+    street: [''],
+    zip: [''],
+    city: [''],
+    phone: ['012456789', Validators.required],
     mail: ['test@mailtest.com', Validators.required],
     termsAndConditions: [false, Validators.requiredTrue],
     comment: [''],
@@ -74,6 +74,7 @@ export class CreateBookingRequestComponent {
 
   private handleOffer(d: DayInfoOffer) {
     this.offer = d
+
     let spaceAvailable = DayInfoHelper.getSpaceAvailable(d);
 
     this.groupBookingPossible = spaceAvailable >= d.offer.maxPersons
