@@ -22,4 +22,8 @@ export class AuditLogService extends BaseService {
   getAuditLogEntry(id: number): Observable<AuditLogEntry> {
     return this.get('' + id)
   }
+
+  findAllAuditLogEntryByReferenceId(referenceId: number, page: number, size: number): Observable<Page<AuditLogEntry>> {
+    return this.getPaged('find/' + referenceId, page, size)
+  }
 }

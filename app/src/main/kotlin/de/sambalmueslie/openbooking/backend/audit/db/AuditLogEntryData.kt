@@ -17,6 +17,7 @@ data class AuditLogEntryData(
     @Column var actor: String,
     @Column @Enumerated(EnumType.STRING) var level: AuditLogLevel,
     @Column var message: String,
+    @Column var referenceId: Long,
     @Column var reference: String,
     @Column var source: String,
 ) : DataObject<AuditLogEntry> {
@@ -29,6 +30,7 @@ data class AuditLogEntryData(
                 request.actor,
                 request.level,
                 request.message,
+                request.referenceId,
                 mapper.writeValueAsString(request.reference),
                 request.source
             )
@@ -36,7 +38,7 @@ data class AuditLogEntryData(
     }
 
     override fun convert(): AuditLogEntry {
-        return AuditLogEntry(id, timestamp, actor, level, message, reference, source)
+        return AuditLogEntry(id, timestamp, actor, level, message, referenceId, reference, source)
     }
 
     fun update(request: AuditLogEntryChangeRequest, mapper: ObjectMapper): AuditLogEntryData {
@@ -44,6 +46,7 @@ data class AuditLogEntryData(
         actor = request.actor
         level = request.level
         message = request.message
+        referenceId = request.referenceId
         reference = mapper.writeValueAsString(request.reference)
         source = request.source
         return this

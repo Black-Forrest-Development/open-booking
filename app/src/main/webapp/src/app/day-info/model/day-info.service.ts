@@ -15,10 +15,19 @@ export class DayInfoService extends BaseService {
 
   constructor(http: HttpClient, logging: LoggingService, private translate: TranslateService) {
     super(http, 'frontend/user', logging)
+    this.translate.get('DAY_INFO.Chart.Space.Series.Deactivated').subscribe(v => this.labelDeactivated = v)
+    this.translate.get('DAY_INFO.Chart.Space.Series.Confirmed').subscribe(v => this.labelConfirmed = v)
+    this.translate.get('DAY_INFO.Chart.Space.Series.Unconfirmed').subscribe(v => this.labelUnconfirmed = v)
+    this.translate.get('DAY_INFO.Chart.Space.Series.Available').subscribe(v => this.labelAvailable = v)
   }
 
   reloading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   data: DayInfo[] = []
+
+  private labelDeactivated = ""
+  private labelConfirmed = ""
+  private labelUnconfirmed = ""
+  private labelAvailable = ""
 
 
   private getDefaultDayInfo(): Observable<DayInfo[]> {
@@ -108,6 +117,13 @@ export class DayInfoService extends BaseService {
 
 
   createDayInfoChart(info: DayInfo): EChartsOption {
+    let label = [
+      this.labelDeactivated,
+      this.labelConfirmed,
+      this.labelUnconfirmed,
+      this.labelAvailable
+    ]
+
     return {
       tooltip: {
         trigger: 'axis',
@@ -117,12 +133,7 @@ export class DayInfoService extends BaseService {
       },
       animation: false,
       legend: {
-        data: [
-          this.translate.instant('DAY_INFO.Chart.Space.Series.Available'),
-          this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
-          this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
-          this.translate.instant('DAY_INFO.Chart.Space.Series.Deactivated'),
-        ],
+        data: label,
         bottom: 10,
         left: 'center',
       },
@@ -135,16 +146,7 @@ export class DayInfoService extends BaseService {
       },
       series: [
         {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Available'),
-          type: 'bar',
-          stack: 'total',
-          emphasis: {
-            focus: 'series'
-          },
-          data: info.offer.map(i => DayInfoHelper.getSpaceAvailable(i)),
-          color: "#91cc75"
-        }, {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Confirmed'),
+          name: this.labelConfirmed,
           type: 'bar',
           stack: 'total',
           emphasis: {
@@ -153,7 +155,7 @@ export class DayInfoService extends BaseService {
           data: info.offer.map(i => DayInfoHelper.getSpaceConfirmed(i)),
           color: "#ee6666"
         }, {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Unconfirmed'),
+          name: this.labelUnconfirmed,
           type: 'bar',
           stack: 'total',
           emphasis: {
@@ -162,7 +164,7 @@ export class DayInfoService extends BaseService {
           data: info.offer.map(i => DayInfoHelper.getSpaceUnconfirmed(i)),
           color: "#fac858"
         }, {
-          name: this.translate.instant('DAY_INFO.Chart.Space.Series.Deactivated'),
+          name: this.labelDeactivated,
           type: 'bar',
           stack: 'total',
           emphasis: {
@@ -170,6 +172,16 @@ export class DayInfoService extends BaseService {
           },
           data: info.offer.map(i => (!i.offer.active) ? i.offer.maxPersons : 0),
           color: "lightgrey"
+        },
+        {
+          name: this.labelAvailable,
+          type: 'bar',
+          stack: 'total',
+          emphasis: {
+            focus: 'series'
+          },
+          data: info.offer.map(i => DayInfoHelper.getSpaceAvailable(i)),
+          color: "#91cc75"
         }
       ]
     }

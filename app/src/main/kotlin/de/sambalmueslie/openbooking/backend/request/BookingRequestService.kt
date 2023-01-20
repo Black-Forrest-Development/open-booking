@@ -13,6 +13,7 @@ import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelation
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelationRepository
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRepository
 import de.sambalmueslie.openbooking.common.*
+import de.sambalmueslie.openbooking.config.AppConfig
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
@@ -26,6 +27,7 @@ class BookingRequestService(
     private val visitorGroupService: VisitorGroupService,
     private val repository: BookingRequestRepository,
     private val relationRepository: BookingRequestRelationRepository,
+    private val config: AppConfig,
     private val timeProvider: TimeProvider,
 ) : GenericCrudService<Long, BookingRequest, BookingRequestChangeRequest, BookingRequestData>(repository, logger) {
 
@@ -38,7 +40,7 @@ class BookingRequestService(
         listeners.add(listener)
     }
 
-     fun unregister(listener: BookingRequestChangeListener) {
+    fun unregister(listener: BookingRequestChangeListener) {
         listeners.remove(listener)
     }
 
@@ -136,6 +138,15 @@ class BookingRequestService(
 
 
     private fun getUnconfirmedData(pageable: Pageable) = repository.findByStatusIn(listOf(BookingRequestStatus.UNKNOWN, BookingRequestStatus.UNCONFIRMED), pageable)
+
+    fun confirm(key: String): GenericRequestResult {
+        val request = repository.findOneByKey(key) ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
+        val relations = relationRepository.getByBookingRequestId(request.id)
+
+        val bookingId = relations.firstOrNull()?.bookingId ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
+        return confirm(request.id, bookingId, false)
+    }
+
     fun confirm(id: Long, bookingId: Long, silent: Boolean): GenericRequestResult {
         val relations = relationRepository.getByBookingRequestId(id)
         if (!relations.any { it.bookingId == bookingId }) return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
@@ -162,6 +173,11 @@ class BookingRequestService(
 
         listeners.forEachWithTryCatch { it.denied(result, silent) }
         return GenericRequestResult(true, "REQUEST.MESSAGE.DENIAL.SUCCESS")
+    }
+
+    fun getConfirmationUrl(id: Long): String {
+        val data = repository.findByIdOrNull(id) ?: return ""
+        return "${config.baseUrl}/request/confirm/${data.key}"
     }
 
 

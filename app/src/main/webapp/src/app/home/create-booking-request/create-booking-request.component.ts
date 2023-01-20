@@ -27,9 +27,13 @@ export class CreateBookingRequestComponent {
   groupBookingPossible = false
   groupBookingSelected = false
 
+  spaceAvailable: number = 0
+
+  spacePlaceholder = ""
+
   formGroup = this.fb.group({
     title: ['Default Title', Validators.required],
-    size: ['20', Validators.required],
+    size: ['', Validators.required],
     group: [false],
     minAge: ['1', Validators.required],
     maxAge: ['99', Validators.required],
@@ -75,16 +79,17 @@ export class CreateBookingRequestComponent {
   private handleOffer(d: DayInfoOffer) {
     this.offer = d
 
-    let spaceAvailable = DayInfoHelper.getSpaceAvailable(d);
+    this.spaceAvailable = DayInfoHelper.getSpaceAvailable(d)
+    this.spacePlaceholder = (this.spaceAvailable > 0) ? "1 - " + this.spaceAvailable : ""
 
-    this.groupBookingPossible = spaceAvailable >= d.offer.maxPersons
+    this.groupBookingPossible = this.spaceAvailable >= d.offer.maxPersons
     let size = this.formGroup.get('size')
     if (size) {
       let value = +(size.value ?? "0")
-      if (value > spaceAvailable) {
-        size.setValue(spaceAvailable + '')
+      if (value > this.spaceAvailable) {
+        size.setValue(this.spaceAvailable + '')
       }
-      size.setValidators([Validators.required, Validators.min(1), Validators.max(spaceAvailable)])
+      size.setValidators([Validators.required, Validators.min(1), Validators.max(this.spaceAvailable)])
     }
     this.reloading = false
   }

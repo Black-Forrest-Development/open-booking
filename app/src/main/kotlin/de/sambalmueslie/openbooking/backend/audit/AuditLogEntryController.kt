@@ -12,12 +12,16 @@ import io.swagger.v3.oas.annotations.tags.Tag
 
 @Controller("/api/backend/audit")
 @Tag(name = "Audit Log Entry API")
-class AuditLogEntryController(private val service: AuditLogService) : AuditLogEntryAPI {
+class AuditLogEntryController(private val service: AuditLogEntryService) : AuditLogEntryAPI {
     @Get()
-    override fun getAll(auth: Authentication, pageable: Pageable) = auth.checkPermission(PERMISSION_READ) { service.getAll(pageable) }
+    override fun getAll(auth: Authentication, pageable: Pageable) = auth.checkPermission(PERMISSION_READ) { service.findAll(pageable) }
 
     @Get("/{id}")
     override fun get(auth: Authentication, @PathVariable id: Long) = auth.checkPermission(PERMISSION_READ) { service.get(id) }
+
+    @Get("/find/{referenceId}")
+    override fun findByReferenceId(auth: Authentication, referenceId: Long, pageable: Pageable) =
+        auth.checkPermission(PERMISSION_READ) { service.findByReferenceId(referenceId, pageable) }
 
     @Post()
     override fun create(auth: Authentication, @Body request: AuditLogEntryChangeRequest) =

@@ -1,10 +1,13 @@
 package de.sambalmueslie.openbooking.backend.notification.processor
 
 
+import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupStatus
 import de.sambalmueslie.openbooking.backend.notification.NotificationTemplateEvaluator
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationEvent
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationEventType
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateType
+import de.sambalmueslie.openbooking.backend.notification.handler.BookingRequestChangeHandler
+import de.sambalmueslie.openbooking.backend.notification.mail.Mail
 import de.sambalmueslie.openbooking.backend.notification.mail.MailParticipant
 import de.sambalmueslie.openbooking.backend.notification.mail.MailService
 import de.sambalmueslie.openbooking.backend.request.BookingRequestService
@@ -31,15 +34,32 @@ class BookingRequestEventProcessor(
         if (event.sourceType != BookingRequest::class) return
         when (event.type) {
             NotificationEventType.OBJ_CREATED -> handleCreated(event)
+            NotificationEventType.CUSTOM -> handleCustom(event)
             else -> return
         }
     }
 
-    private fun handleCreated(event: NotificationEvent) {
-        val info = service.info(event.sourceId) ?: return
+    private fun handleCustom(event: NotificationEvent) {
+        val type = event.parameter[BookingRequestChangeHandler.TYPE_KEY] ?: return logger.warn("Cannot find ${BookingRequestChangeHandler.TYPE_KEY} on custom notification event")
 
+        val info = service.info(event.sourceId) ?: return
         val properties = mapOf(
             Pair("info", info)
+        )
+        when (type) {
+            BookingRequestChangeHandler.TYPE_CONFIRMED -> notifyContactOnConfirmed(properties, info)
+            BookingRequestChangeHandler.TYPE_DENIED -> notifyContactOnDenied(properties, info)
+        }
+    }
+
+
+    private fun handleCreated(event: NotificationEvent) {
+        val info = service.info(event.sourceId) ?: return
+        val url = if (info.visitorGroup.status == VisitorGroupStatus.CONFIRMED) "" else service.getConfirmationUrl(event.sourceId)
+
+        val properties = mapOf(
+            Pair("info", info),
+            Pair("url", url)
         )
 
         notifyContactOnCreated(properties, info)
@@ -48,7 +68,6 @@ class BookingRequestEventProcessor(
 
     private fun notifyAdminsOnCreated(properties: Map<String, Any>) {
         val mails = evaluator.evaluate(NotificationTemplateType.BOOKING_REQUEST_CREATED_ADMIN, properties)
-        // TODO collect admins together
         val from = MailParticipant("", config.fromAddress)
         val to = listOf(MailParticipant("", config.defaultAdminAddress))
         mails.forEach { mailService.send(it, from, to) }
@@ -57,6 +76,20 @@ class BookingRequestEventProcessor(
 
     private fun notifyContactOnCreated(properties: Map<String, Any>, info: BookingRequestInfo) {
         val mails = evaluator.evaluate(NotificationTemplateType.BOOKING_REQUEST_CREATED_CONTACT, properties)
+        notifyContact(mails, info)
+    }
+
+    private fun notifyContactOnConfirmed(properties: Map<String, Any>, info: BookingRequestInfo) {
+        val mails = evaluator.evaluate(NotificationTemplateType.BOOKING_REQUEST_CONFIRMED_CONTACT, properties)
+        notifyContact(mails, info)
+    }
+
+    private fun notifyContactOnDenied(properties: Map<String, Any>, info: BookingRequestInfo) {
+        val mails = evaluator.evaluate(NotificationTemplateType.BOOKING_REQUEST_DENIED_CONTACT, properties)
+        notifyContact(mails, info)
+    }
+
+    private fun notifyContact(mails: List<Mail>, info: BookingRequestInfo) {
         val from = MailParticipant("", config.fromAddress)
         val visitorGroup = info.visitorGroup
         val to = listOf(MailParticipant(visitorGroup.contact, visitorGroup.email))

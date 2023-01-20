@@ -6,6 +6,7 @@ import de.sambalmueslie.openbooking.backend.notification.api.NotificationEvent
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationEventType
 import de.sambalmueslie.openbooking.backend.request.BookingRequestService
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
+import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeListener
 import de.sambalmueslie.openbooking.common.BusinessObjectChangeListener
 import io.micronaut.context.annotation.Context
 import org.slf4j.Logger
@@ -15,18 +16,36 @@ import org.slf4j.LoggerFactory
 class BookingRequestChangeHandler(
     source: BookingRequestService,
     private val service: NotificationService,
-) : BusinessObjectChangeListener<Long, BookingRequest> {
+) : BusinessObjectChangeListener<Long, BookingRequest>, BookingRequestChangeListener {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(BookingRequestChangeHandler::class.java)
+        const val TYPE_KEY = "type"
+        const val TYPE_CONFIRMED = "confirmed"
+        const val TYPE_DENIED = "denied"
     }
 
     init {
-        source.register(this)
+        source.register(this as BusinessObjectChangeListener<Long, BookingRequest>)
+        source.register(this as BookingRequestChangeListener)
     }
 
     override fun handleCreated(obj: BookingRequest) {
-        service.add(NotificationEvent(obj.id, BookingRequest::class, NotificationEventType.OBJ_CREATED))
+        createEvent(obj, NotificationEventType.OBJ_CREATED)
+    }
+
+    override fun confirmed(request: BookingRequest, silent: Boolean) {
+        if (silent) return
+        createEvent(request, NotificationEventType.CUSTOM, mapOf(Pair(TYPE_KEY, TYPE_CONFIRMED)))
+    }
+
+    override fun denied(request: BookingRequest, silent: Boolean) {
+        if (silent) return
+        createEvent(request, NotificationEventType.CUSTOM, mapOf(Pair(TYPE_KEY, TYPE_DENIED)))
+    }
+
+    private fun createEvent(request: BookingRequest, type: NotificationEventType, parameter: Map<String, String> = emptyMap()) {
+        service.add(NotificationEvent(request.id, BookingRequest::class, type, parameter))
     }
 
 
