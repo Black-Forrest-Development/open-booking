@@ -29,10 +29,10 @@
         <span>{{'MENU.Language' | translate}}</span>
       </button>
 
-      <a mat-menu-item [href]="this.service.helpUrl" target="_blank">
+      <button mat-menu-item (click)="showHelp()">
         <mat-icon>help</mat-icon>
         <span>{{'MENU.Help' | translate}}</span>
-      </a>
+      </button>
 
       <ng-container *ngIf="auth.isAuthenticated$ | async">
         <mat-divider></mat-divider>

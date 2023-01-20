@@ -16,10 +16,8 @@ export class HomeService extends BaseService {
   constructor(http: HttpClient, logging: LoggingService) {
     super(http, 'frontend/user', logging)
     this.retryCount = 1
-    this.getHelpUrl().subscribe(url => this.helpUrl = url.url)
   }
 
-  helpUrl = ''
 
   getOffer(offerId: number): Observable<DayInfoOffer> {
     return this.get('offer/' + offerId)

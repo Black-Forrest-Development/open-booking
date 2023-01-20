@@ -10,7 +10,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-      {path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)},
       {path: 'offer', loadChildren: () => import('./offer-admin/offer-admin.module').then(m => m.OfferAdminModule)},
       {path: 'booking', loadChildren: () => import('./booking-admin/booking-admin.module').then(m => m.BookingAdminModule)},
       {path: 'request', loadChildren: () => import('./request-admin/request-admin.module').then(m => m.RequestAdminModule)},
