@@ -43,4 +43,7 @@ class UserController(private val service: UserService) {
 
     @Get("setting/terms-and-conditions")
     fun getTermsAndConditionsUrl() = UrlResponse(service.getTermsAndConditionsUrl())
+
+    @Post("confirm/email/{key}")
+    fun confirmEmail(key: String) = service.confirmEmail(key)
 }

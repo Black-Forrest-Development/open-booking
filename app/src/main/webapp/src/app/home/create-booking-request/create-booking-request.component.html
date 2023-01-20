@@ -1,13 +1,4 @@
 <mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
-<mat-toolbar>
-  <div class="container d-flex flex-row align-items-baseline">
-    <div class="pe-5">
-      <button mat-mini-fab (click)="back()" color="primary">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-    </div>
-  </div>
-</mat-toolbar>
 <div class="container d-flex flex-column">
   <form [formGroup]="formGroup">
     <div class="d-flex flex-column gap-2 pt-2">
@@ -68,14 +59,16 @@
         </mat-form-field>
       </div>
 
-      <mat-form-field class="fxFlex">
-        <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Phone' | translate}}</mat-label>
-        <input matInput type="text" formControlName="phone">
-      </mat-form-field>
-      <mat-form-field class="fxFlex">
-        <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Mail' | translate}}</mat-label>
-        <input matInput type="email" formControlName="mail" email>
-      </mat-form-field>
+      <div class="d-flex flex-row gap-3">
+        <mat-form-field class="fxFlex">
+          <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Phone' | translate}}</mat-label>
+          <input matInput type="text" formControlName="phone">
+        </mat-form-field>
+        <mat-form-field class="fxFlex">
+          <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Mail' | translate}}</mat-label>
+          <input matInput type="email" formControlName="mail" email>
+        </mat-form-field>
+      </div>
 
       <div class="fxFlex">
         <mat-slide-toggle formControlName="termsAndConditions">{{'BOOKING.Create.Form.Finalize.TermsAndConditions' | translate}}</mat-slide-toggle>
@@ -85,10 +78,15 @@
         <textarea matInput formControlName="comment"></textarea>
       </mat-form-field>
 
-
-      <button mat-flat-button color="primary" (click)="submit()" [disabled]="formGroup.invalid">
-        <mat-icon>check</mat-icon>
-        {{'BOOKING.Create.Action.Submit' | translate}}</button>
+      <div class="d-flex flex-row gap-3">
+        <button mat-flat-button (click)="back()" color="warn">
+          <mat-icon>arrow_back</mat-icon>
+          {{'ACTION.Back' | translate}}
+        </button>
+        <button mat-flat-button color="primary" (click)="submit()" [disabled]="formGroup.invalid">
+          <mat-icon>check</mat-icon>
+          {{'BOOKING.Create.Action.Submit' | translate}}</button>
+      </div>
     </div>
   </form>
 </div>

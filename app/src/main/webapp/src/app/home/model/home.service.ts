@@ -8,6 +8,7 @@ import {CreateBookingRequest} from "../../booking/model/booking-api";
 import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
 import {ResolvedResponse, ResolveResponseRequest} from "../../backoffice/response/model/response-api";
 import {UrlResponse} from "./home-api";
+import {GenericRequestResult} from "../../shared/shared-api";
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,9 @@ export class HomeService extends BaseService {
 
   getTermsAndConditionsUrl(): Observable<UrlResponse> {
     return this.get('setting/terms-and-conditions')
+  }
+
+  confirmEmail(key: string): Observable<GenericRequestResult>{
+    return this.post('confirm/email/' + key, {})
   }
 }
