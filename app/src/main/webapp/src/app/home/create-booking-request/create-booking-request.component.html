@@ -24,7 +24,7 @@
       <div class="d-flex flex-row align-items-baseline gap-3">
         <mat-form-field class="column50">
           <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Size' | translate}}</mat-label>
-          <input matInput type="number" formControlName="size" [disabled]="groupBookingSelected">
+          <input matInput type="number" formControlName="size" [disabled]="groupBookingSelected" [placeholder]="spacePlaceholder">
           <mat-error *ngIf="size?.hasError('min')">
             {{'BOOKING.Create.Form.VisitorGroup.Error.Min' | translate}}
           </mat-error>

@@ -1,7 +1,7 @@
 package de.sambalmueslie.openbooking.backend.audit.handler
 
 
-import de.sambalmueslie.openbooking.backend.audit.AuditLogService
+import de.sambalmueslie.openbooking.backend.audit.AuditLogEntryService
 import de.sambalmueslie.openbooking.backend.audit.api.AuditLogEntryChangeRequest
 import de.sambalmueslie.openbooking.backend.audit.api.AuditLogLevel
 import de.sambalmueslie.openbooking.backend.offer.OfferService
@@ -13,7 +13,7 @@ import io.micronaut.context.annotation.Context
 @Context
 class OfferChangeHandler(
     source: OfferService,
-    private val service: AuditLogService,
+    private val service: AuditLogEntryService,
     private val timeProvider: TimeProvider
 ) : BusinessObjectChangeListener<Long, Offer> {
 
@@ -34,7 +34,7 @@ class OfferChangeHandler(
     }
 
     private fun handleChange(obj: Offer, message: String) {
-        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message, obj, "OFFER API"))
+        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message,obj.id, obj, "OFFER API"))
     }
 
 }

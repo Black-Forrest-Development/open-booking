@@ -9,7 +9,8 @@ import { NotificationTemplateDeleteDialogComponent } from './notification-templa
 import { NotificationTemplateDetailsComponent } from './notification-template-details/notification-template-details.component';
 import {MaterialModule} from "../../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {QuillModule} from "ngx-quill";
 
 
 @NgModule({
@@ -26,6 +27,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     MaterialModule,
     TranslateModule,
     ReactiveFormsModule,
+    QuillModule,
+    FormsModule
   ]
 })
 export class NotificationModule { }

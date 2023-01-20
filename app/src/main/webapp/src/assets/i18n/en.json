@@ -270,8 +270,10 @@
       "Type": {
         "Title": "Type",
         "Hint": "",
-        "HTML": "HTML",
-        "PLAIN": "PLAIN"
+        "BOOKING_REQUEST_CREATED_ADMIN": "Booking Created message for Admin",
+        "BOOKING_REQUEST_CREATED_CONTACT": "Booking Created message for Contact",
+        "BOOKING_REQUEST_CONFIRMED_CONTACT": "Booking Confirmed message for Contact",
+        "BOOKING_REQUEST_DENIED_CONTACT": "Booking Denied message for Contact"
       },
       "Subject": {
         "Title": "Subject",
@@ -286,6 +288,28 @@
       "Delete": {
         "Title": "Delete notification template {{type}}",
         "Question": "Do you really want to delete the notification template?"
+      }
+    }
+  },
+  "AUDIT": {
+    "Action": {
+      "Search": "Search for audit"
+    },
+    "Field": {
+      "Timestamp": {
+        "Title": "Timestamp"
+      },
+      "User": {
+        "Title": "User"
+      },
+      "Level": {
+        "Title": "Level"
+      },
+      "Message": {
+        "Title": "Message"
+      },
+      "Source": {
+        "Title": "Source"
       }
     }
   },

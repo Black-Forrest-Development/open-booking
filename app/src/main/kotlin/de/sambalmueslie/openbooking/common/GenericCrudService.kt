@@ -11,16 +11,17 @@ import java.util.concurrent.TimeUnit
 
 abstract class GenericCrudService<T : Any, O : BusinessObject<T>, R : BusinessObjectChangeRequest, D : DataObject<O>>(
     private val repository: PageableRepository<D, T>,
-    logger: Logger
+    logger: Logger,
+    cacheSize: Long = 100,
 ) : BaseCrudService<T, O, R>(logger) {
 
     private val cache: LoadingCache<T, O> = Caffeine.newBuilder()
-        .maximumSize(100)
+        .maximumSize(cacheSize)
         .expireAfterWrite(1, TimeUnit.HOURS)
         .build { id -> repository.findByIdOrNull(id)?.convert() }
 
     final override fun get(id: T): O? {
-        return repository.findByIdOrNull(id)?.convert()
+        return cache.get(id)
     }
 
     final override fun getAll(pageable: Pageable): Page<O> {

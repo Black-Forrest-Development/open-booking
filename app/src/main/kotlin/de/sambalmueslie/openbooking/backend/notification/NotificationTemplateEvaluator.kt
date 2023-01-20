@@ -5,7 +5,6 @@ import de.sambalmueslie.openbooking.backend.notification.api.ContentType
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplate
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateType
 import de.sambalmueslie.openbooking.backend.notification.mail.Mail
-import de.sambalmueslie.openbooking.backend.notification.mail.MailService
 import jakarta.inject.Singleton
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
@@ -40,7 +39,7 @@ class NotificationTemplateEvaluator(
         val html = evaluate(templates, properties, ContentType.HTML)
 
         val subject = plain?.first ?: html?.first ?: return null
-        return Mail(subject, plain?.second, html?.second)
+        return Mail(subject, html?.second, plain?.second)
     }
 
     private fun evaluate(templates: List<NotificationTemplate>, properties: Map<String, Any>, type: ContentType): Pair<String, String>? {

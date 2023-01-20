@@ -6,11 +6,13 @@ import {AuditBoardComponent} from './audit-board/audit-board.component';
 import {MaterialModule} from "../../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
+import { AuditLogEntryDetailsComponent } from './audit-log-entry-details/audit-log-entry-details.component';
 
 
 @NgModule({
   declarations: [
-    AuditBoardComponent
+    AuditBoardComponent,
+    AuditLogEntryDetailsComponent
   ],
   imports: [
     CommonModule,

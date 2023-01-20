@@ -8,7 +8,9 @@ import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeRequ
 import de.sambalmueslie.openbooking.common.checkPermission
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
+import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
+import io.micronaut.security.rules.SecurityRule
 import io.swagger.v3.oas.annotations.tags.Tag
 
 @Controller("/api/backend/request")
@@ -47,4 +49,9 @@ class BookingRequestController(private val service: BookingRequestService) : Boo
     @Put("/{id}/denial")
     override fun denial(auth: Authentication, @PathVariable id: Long, @QueryValue(defaultValue = "false") silent: Boolean) =
         auth.checkPermission(PERMISSION_WRITE) { service.denial(id, silent) }
+
+
+    @Get("/confirm/{key}")
+    @Secured(SecurityRule.IS_ANONYMOUS)
+    fun confirm(@PathVariable key: String) = service.confirm(key)
 }

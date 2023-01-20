@@ -13,5 +13,6 @@ import io.micronaut.data.repository.PageableRepository
 interface BookingRequestRepository : PageableRepository<BookingRequestData, Long> {
 
     fun findByStatusIn(status: List<BookingRequestStatus>, pageable: Pageable): Page<BookingRequestData>
+    fun findOneByKey(key: String): BookingRequestData?
 
 }
