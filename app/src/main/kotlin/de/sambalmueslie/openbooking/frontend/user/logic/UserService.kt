@@ -15,6 +15,7 @@ import de.sambalmueslie.openbooking.backend.response.api.ResolveResponseRequest
 import de.sambalmueslie.openbooking.backend.response.api.ResolvedResponse
 import de.sambalmueslie.openbooking.backend.settings.SettingsService
 import de.sambalmueslie.openbooking.backend.settings.api.SettingsAPI
+import de.sambalmueslie.openbooking.common.GenericRequestResult
 import de.sambalmueslie.openbooking.error.InvalidRequestException
 import de.sambalmueslie.openbooking.frontend.user.api.CreateBookingRequest
 import de.sambalmueslie.openbooking.frontend.user.api.OfferInfoSelectRequest
@@ -97,6 +98,10 @@ class UserService(
 
     fun getTermsAndConditionsUrl(): String {
         return settingsService.get(SettingsAPI.SETTINGS_URL_TERMS_AND_CONDITIONS)?.value as? String ?: ""
+    }
+
+    fun confirmEmail(key: String): GenericRequestResult {
+        return bookingRequestService.confirmEmail(key)
     }
 
 }

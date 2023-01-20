@@ -192,7 +192,22 @@
     }
   },
   "VISITOR_GROUP": {
-    "Title": "Visitor Group"
+    "Title": "Visitor Group",
+    "Message": {
+      "ConfirmEmailFailed": "Confirmation of the email failed",
+      "ConfirmEmailSucceed": "Confirmation of the email was done successfully"
+    },
+    "MailConfirmation": {
+      "Title": "Confirmation of Email",
+      "Success": {
+        "Title": "Well done!",
+        "Message": "Your Email was confirmed successfully"
+      },
+      "Failed": {
+        "Title": "Something went terribly wrong!",
+        "Message": "Your Email was not confirmed, please contact support"
+      }
+    }
   },
   "BACKOFFICE": {
     "MENU": {

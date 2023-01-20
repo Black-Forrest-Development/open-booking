@@ -4,5 +4,7 @@
       {{'DAY_INFO.Chart.Space.Title' | translate}}
     </mat-panel-title>
   </mat-expansion-panel-header>
-  <div echarts [options]="spaceChartOption" class="demo-chart" (chartClick)="onChartClick.bind(this)($event)"></div>
+  <div echarts [options]="spaceChartOption" class="demo-chart"
+       (chartClick)="onChartClick($event)"
+  ></div>
 </mat-expansion-panel>

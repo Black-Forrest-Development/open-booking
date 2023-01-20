@@ -50,8 +50,4 @@ class BookingRequestController(private val service: BookingRequestService) : Boo
     override fun denial(auth: Authentication, @PathVariable id: Long, @QueryValue(defaultValue = "false") silent: Boolean) =
         auth.checkPermission(PERMISSION_WRITE) { service.denial(id, silent) }
 
-
-    @Get("/confirm/{key}")
-    @Secured(SecurityRule.IS_ANONYMOUS)
-    fun confirm(@PathVariable key: String) = service.confirm(key)
 }

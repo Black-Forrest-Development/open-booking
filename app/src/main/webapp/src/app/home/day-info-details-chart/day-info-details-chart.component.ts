@@ -39,7 +39,7 @@ export class DayInfoDetailsChartComponent {
 
   onChartClick($event: any) {
     let index = $event.dataIndex as number | undefined
-    if (!index) return
+    if (index == undefined) return
 
     if (!this.data) return
     let info = this.data.offer[index]

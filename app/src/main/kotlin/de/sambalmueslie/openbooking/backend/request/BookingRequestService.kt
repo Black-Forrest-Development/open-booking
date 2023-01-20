@@ -7,6 +7,7 @@ import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
 import de.sambalmueslie.openbooking.backend.booking.api.BookingInfo
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
+import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupStatus
 import de.sambalmueslie.openbooking.backend.request.api.*
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestData
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelation
@@ -139,12 +140,16 @@ class BookingRequestService(
 
     private fun getUnconfirmedData(pageable: Pageable) = repository.findByStatusIn(listOf(BookingRequestStatus.UNKNOWN, BookingRequestStatus.UNCONFIRMED), pageable)
 
-    fun confirm(key: String): GenericRequestResult {
-        val request = repository.findOneByKey(key) ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
-        val relations = relationRepository.getByBookingRequestId(request.id)
+    fun confirmEmail(key: String): GenericRequestResult {
+        val request = repository.findOneByKey(key) ?: return GenericRequestResult(false, "VISITOR_GROUP.Message.ConfirmEmailFailed")
+        val visitorGroupId = request.visitorGroupId
+        val result =  visitorGroupService.confirm(visitorGroupId) ?: return GenericRequestResult(false, "VISITOR_GROUP.Message.ConfirmEmailFailed")
 
-        val bookingId = relations.firstOrNull()?.bookingId ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
-        return confirm(request.id, bookingId, false)
+        return when(result.status == VisitorGroupStatus.CONFIRMED){
+            true -> GenericRequestResult(true, "VISITOR_GROUP.Message.ConfirmEmailSucceed")
+            else -> GenericRequestResult(false, "VISITOR_GROUP.Message.ConfirmEmailFailed")
+        }
+
     }
 
     fun confirm(id: Long, bookingId: Long, silent: Boolean): GenericRequestResult {
@@ -177,7 +182,7 @@ class BookingRequestService(
 
     fun getConfirmationUrl(id: Long): String {
         val data = repository.findByIdOrNull(id) ?: return ""
-        return "${config.baseUrl}/request/confirm/${data.key}"
+        return "${config.baseUrl}/home/confirm/email/${data.key}"
     }
 
 

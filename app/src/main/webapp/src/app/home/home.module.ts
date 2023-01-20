@@ -19,6 +19,7 @@ import { DayInfoDetailsListEntryComponent } from './day-info-details-list-entry/
 import { CreateBookingRequestComponent } from './create-booking-request/create-booking-request.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { CreateBookingConfirmationDialogComponent } from './create-booking-confirmation-dialog/create-booking-confirmation-dialog.component';
+import { ConfirmMailComponent } from './confirm-mail/confirm-mail.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { CreateBookingConfirmationDialogComponent } from './create-booking-confi
         DayInfoDetailsListComponent,
         DayInfoDetailsListEntryComponent,
         CreateBookingRequestComponent,
-        CreateBookingConfirmationDialogComponent
+        CreateBookingConfirmationDialogComponent,
+        ConfirmMailComponent
     ],
     exports: [
         HomeToolbarComponent
