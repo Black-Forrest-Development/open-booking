@@ -7,6 +7,7 @@ import {DayInfoOffer} from "../../offer/model/offer-api";
 import {CreateBookingRequest} from "../../booking/model/booking-api";
 import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
 import {ResolvedResponse, ResolveResponseRequest} from "../../backoffice/response/model/response-api";
+import {UrlResponse} from "./home-api";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,10 @@ export class HomeService extends BaseService {
   constructor(http: HttpClient, logging: LoggingService) {
     super(http, 'frontend/user', logging)
     this.retryCount = 1
+    this.getHelpUrl().subscribe(url => this.helpUrl = url.url)
   }
+
+  helpUrl = ''
 
   getOffer(offerId: number): Observable<DayInfoOffer> {
     return this.get('offer/' + offerId)
@@ -29,4 +33,11 @@ export class HomeService extends BaseService {
     return this.post('response/resolve', request)
   }
 
+  getHelpUrl(): Observable<UrlResponse> {
+    return this.get('setting/help')
+  }
+
+  getTermsAndConditionsUrl(): Observable<UrlResponse> {
+    return this.get('setting/terms-and-conditions')
+  }
 }
