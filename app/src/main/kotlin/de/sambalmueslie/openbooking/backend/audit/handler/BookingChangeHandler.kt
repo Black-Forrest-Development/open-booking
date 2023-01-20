@@ -34,7 +34,7 @@ class BookingChangeHandler(
     }
 
     private fun handleChange(obj: Booking, message: String) {
-        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message, obj.id, obj, "BOOKING API"))
+        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message, obj.id.toString(), obj, "BOOKING API"))
     }
 
 }

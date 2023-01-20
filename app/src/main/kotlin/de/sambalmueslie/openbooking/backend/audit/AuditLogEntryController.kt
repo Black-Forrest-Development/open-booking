@@ -20,7 +20,7 @@ class AuditLogEntryController(private val service: AuditLogEntryService) : Audit
     override fun get(auth: Authentication, @PathVariable id: Long) = auth.checkPermission(PERMISSION_READ) { service.get(id) }
 
     @Get("/find/{referenceId}")
-    override fun findByReferenceId(auth: Authentication, referenceId: Long, pageable: Pageable) =
+    override fun findByReferenceId(auth: Authentication, referenceId: String, pageable: Pageable) =
         auth.checkPermission(PERMISSION_READ) { service.findByReferenceId(referenceId, pageable) }
 
     @Post()

@@ -37,6 +37,6 @@ class AuditLogEntryService(
     }
 
     fun findAll(pageable: Pageable): Page<AuditLogEntry> = repository.findAllOrderByTimestampDesc(pageable).map { it.convert() }
-    fun findByReferenceId(referenceId: Long, pageable: Pageable): Page<AuditLogEntry> = repository.findAllByReferenceId(referenceId, pageable).map { it.convert() }
+    fun findByReferenceId(referenceId: String, pageable: Pageable): Page<AuditLogEntry> = repository.findAllByReferenceId(referenceId, pageable).map { it.convert() }
 
 }

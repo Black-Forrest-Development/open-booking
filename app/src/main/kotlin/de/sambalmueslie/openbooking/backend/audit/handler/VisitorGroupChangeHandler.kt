@@ -34,7 +34,7 @@ class VisitorGroupChangeHandler(
     }
 
     private fun handleChange(obj: VisitorGroup, message: String) {
-        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message, obj.id, obj, "VISITOR GROUP API"))
+        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message, obj.id.toString(), obj, "VISITOR GROUP API"))
     }
 
 }

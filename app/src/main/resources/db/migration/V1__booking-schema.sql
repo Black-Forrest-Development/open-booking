@@ -172,7 +172,34 @@ CREATE TABLE audit_log_entry
     actor        VARCHAR(255)                NOT NULL,
     level        VARCHAR(255)                NOT NULL,
     message      TEXT                        NOT NULL,
-    reference_id BIGINT                      NOT NULL,
+    reference_id VARCHAR(255)                NOT NULL,
     reference    TEXT                        NOT NULL,
     source       VARCHAR(255)                NOT NULL
 );
+
+-- setting
+CREATE TABLE setting
+(
+    id      VARCHAR(255)                NOT NULL PRIMARY KEY,
+    value   TEXT                        NOT NULL,
+    type    VARCHAR(255)                NOT NULL,
+
+    created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- default settings
+INSERT INTO setting
+VALUES ('url.help', 'http://localhost', 'URL', now());
+
+INSERT INTO setting
+VALUES ('url.terms-and-conditions', 'http://localhost', 'URL', now());
+
+INSERT INTO setting
+VALUES ('mail.from-address', 'mail@test.com', 'EMAIL', now());
+
+INSERT INTO setting
+VALUES ('mail.reply-to-address', 'mail@test.com', 'EMAIL', now());
+
+INSERT INTO setting
+VALUES ('mail.default-admin-address', 'mail@test.com', 'EMAIL', now());

@@ -11,6 +11,6 @@ interface AuditLogEntryAPI : AuthCrudAPI<Long, AuditLogEntry, AuditLogEntryChang
         const val PERMISSION_WRITE = "openbooking.audit.log.write"
     }
 
-    fun findByReferenceId(auth: Authentication, referenceId: Long, pageable: Pageable): Page<AuditLogEntry>
+    fun findByReferenceId(auth: Authentication, referenceId: String, pageable: Pageable): Page<AuditLogEntry>
 
 }

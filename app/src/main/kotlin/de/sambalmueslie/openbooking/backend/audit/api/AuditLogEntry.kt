@@ -9,7 +9,7 @@ data class AuditLogEntry(
     val user: String,
     val level: AuditLogLevel,
     val message: String,
-    val referenceId: Long,
+    val referenceId: String,
     val reference: String,
     val source: String,
 ) : BusinessObject<Long>
