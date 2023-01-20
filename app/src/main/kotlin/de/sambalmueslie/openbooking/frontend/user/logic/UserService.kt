@@ -13,6 +13,8 @@ import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeRequ
 import de.sambalmueslie.openbooking.backend.response.ResponseService
 import de.sambalmueslie.openbooking.backend.response.api.ResolveResponseRequest
 import de.sambalmueslie.openbooking.backend.response.api.ResolvedResponse
+import de.sambalmueslie.openbooking.backend.settings.SettingsService
+import de.sambalmueslie.openbooking.backend.settings.api.SettingsAPI
 import de.sambalmueslie.openbooking.error.InvalidRequestException
 import de.sambalmueslie.openbooking.frontend.user.api.CreateBookingRequest
 import de.sambalmueslie.openbooking.frontend.user.api.OfferInfoSelectRequest
@@ -27,7 +29,8 @@ class UserService(
     private val offerService: OfferService,
     private val bookingRequestService: BookingRequestService,
     private val infoService: InfoService,
-    private val responseService: ResponseService
+    private val responseService: ResponseService,
+    private val settingsService: SettingsService
 ) {
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(UserService::class.java)
@@ -88,5 +91,12 @@ class UserService(
         return responseService.resolve(request)
     }
 
+    fun getHelpUrl(): String {
+        return settingsService.get(SettingsAPI.SETTINGS_URL_HELP)?.value as? String ?: ""
+    }
+
+    fun getTermsAndConditionsUrl(): String {
+        return settingsService.get(SettingsAPI.SETTINGS_URL_TERMS_AND_CONDITIONS)?.value as? String ?: ""
+    }
 
 }

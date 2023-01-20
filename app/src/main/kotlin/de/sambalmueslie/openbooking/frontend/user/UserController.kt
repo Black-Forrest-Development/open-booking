@@ -6,6 +6,7 @@ import de.sambalmueslie.openbooking.backend.response.api.ResolveResponseRequest
 import de.sambalmueslie.openbooking.backend.response.api.ResponseType
 import de.sambalmueslie.openbooking.frontend.user.api.CreateBookingRequest
 import de.sambalmueslie.openbooking.frontend.user.api.OfferInfoSelectRequest
+import de.sambalmueslie.openbooking.frontend.user.api.UrlResponse
 import de.sambalmueslie.openbooking.frontend.user.logic.UserService
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
@@ -37,4 +38,9 @@ class UserController(private val service: UserService) {
     @Post("/response/resolve")
     fun resolveResponse(@Body request: ResolveResponseRequest) = service.resolveResponse(request)
 
+    @Get("setting/help")
+    fun getHelpUrl() = UrlResponse(service.getHelpUrl())
+
+    @Get("setting/terms-and-conditions")
+    fun getTermsAndConditionsUrl() = UrlResponse(service.getTermsAndConditionsUrl())
 }

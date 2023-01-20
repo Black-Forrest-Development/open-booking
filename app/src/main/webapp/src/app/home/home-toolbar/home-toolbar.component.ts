@@ -5,6 +5,7 @@ import {DOCUMENT} from "@angular/common";
 import {AuthService} from "@auth0/auth0-angular";
 import {MatSelectChange} from "@angular/material/select";
 import {HelpDialogComponent} from "../../help/help-dialog/help-dialog.component";
+import {HomeService} from "../model/home.service";
 
 @Component({
   selector: 'app-home-toolbar',
@@ -21,7 +22,7 @@ export class HomeToolbarComponent {
   lang: string | undefined = undefined;
 
 
-  constructor(private translate: TranslateService, public dialog: MatDialog, @Inject(DOCUMENT) public document: Document, public auth: AuthService) {
+  constructor(private translate: TranslateService, public dialog: MatDialog, @Inject(DOCUMENT) public document: Document, public auth: AuthService, public service: HomeService) {
     translate.setDefaultLang('en');
 
   }
@@ -42,7 +43,7 @@ export class HomeToolbarComponent {
   }
 
   showHelp() {
-    this.dialog.open(HelpDialogComponent);
+    this.service.getHelpUrl().subscribe(url => window.open(url.url, "_blank"));
   }
 
 }
