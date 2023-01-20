@@ -2,7 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MatSelectChange} from "@angular/material/select";
 import {TranslateService} from "@ngx-translate/core";
 import {MatDialog} from "@angular/material/dialog";
-import {HelpDialogComponent} from "./help/help-dialog/help-dialog.component";
 import {AuthService} from "@auth0/auth0-angular";
 import {DOCUMENT} from "@angular/common";
 
@@ -42,8 +41,5 @@ export class AppComponent implements OnInit {
     this.translate.use(language)
   }
 
-  showHelp() {
-    this.dialog.open(HelpDialogComponent);
-  }
 
 }
