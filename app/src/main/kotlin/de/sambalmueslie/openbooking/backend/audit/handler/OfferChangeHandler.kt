@@ -34,7 +34,7 @@ class OfferChangeHandler(
     }
 
     private fun handleChange(obj: Offer, message: String) {
-        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message,obj.id, obj, "OFFER API"))
+        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message,obj.id.toString(), obj, "OFFER API"))
     }
 
 }

@@ -13,5 +13,5 @@ interface AuditLogEntryRepository : PageableRepository<AuditLogEntryData, Long> 
 
     fun findAllOrderByTimestampDesc(pageable: Pageable): Page<AuditLogEntryData>
 
-    fun findAllByReferenceId(referenceId: Long, pageable: Pageable): Page<AuditLogEntryData>
+    fun findAllByReferenceId(referenceId: String, pageable: Pageable): Page<AuditLogEntryData>
 }

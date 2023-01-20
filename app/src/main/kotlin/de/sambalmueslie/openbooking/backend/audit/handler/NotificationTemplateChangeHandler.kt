@@ -34,7 +34,7 @@ class NotificationTemplateChangeHandler(
     }
 
     private fun handleChange(obj: NotificationTemplate, message: String) {
-        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message,obj.id, obj, "NOTIFICATION TEMPLATE API"))
+        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message,obj.id.toString(), obj, "NOTIFICATION TEMPLATE API"))
     }
 
 }

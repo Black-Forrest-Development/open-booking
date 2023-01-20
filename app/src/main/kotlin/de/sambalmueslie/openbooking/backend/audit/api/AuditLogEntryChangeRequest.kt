@@ -9,7 +9,7 @@ data class AuditLogEntryChangeRequest(
     val actor: String,
     val level: AuditLogLevel,
     val message: String,
-    val referenceId: Long,
+    val referenceId: String,
     val reference: Any,
     val source: String,
 ) : BusinessObjectChangeRequest

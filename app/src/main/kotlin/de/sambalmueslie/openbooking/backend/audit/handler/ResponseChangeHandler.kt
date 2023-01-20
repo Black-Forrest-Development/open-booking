@@ -34,7 +34,7 @@ class ResponseChangeHandler(
     }
 
     private fun handleChange(obj: Response, message: String) {
-        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message,obj.id, obj, "RESPONSE API"))
+        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message,obj.id.toString(), obj, "RESPONSE API"))
     }
 
 }

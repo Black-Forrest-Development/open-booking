@@ -17,7 +17,7 @@ data class AuditLogEntryData(
     @Column var actor: String,
     @Column @Enumerated(EnumType.STRING) var level: AuditLogLevel,
     @Column var message: String,
-    @Column var referenceId: Long,
+    @Column var referenceId: String,
     @Column var reference: String,
     @Column var source: String,
 ) : DataObject<AuditLogEntry> {
