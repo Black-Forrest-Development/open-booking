@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { BookingDetailsInfoDialogComponent } from './booking-details-info-dialog.component';
+import {BookingDetailsInfoDialogComponent} from './booking-details-info-dialog.component';
 
 describe('BookingDetailsInfoDialogComponent', () => {
   let component: BookingDetailsInfoDialogComponent;

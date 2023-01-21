@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { VisitorGroupAdminRoutingModule } from './visitor-group-admin-routing.module';
-import { VisitorGroupAdminEntryComponent } from './visitor-group-admin-entry/visitor-group-admin-entry.component';
+import {VisitorGroupAdminRoutingModule} from './visitor-group-admin-routing.module';
+import {VisitorGroupAdminEntryComponent} from './visitor-group-admin-entry/visitor-group-admin-entry.component';
 import {MaterialModule} from "../../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {NgxEchartsModule} from "ngx-echarts";

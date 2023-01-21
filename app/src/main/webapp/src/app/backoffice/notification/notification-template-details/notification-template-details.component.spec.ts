@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NotificationTemplateDetailsComponent } from './notification-template-details.component';
+import {NotificationTemplateDetailsComponent} from './notification-template-details.component';
 
 describe('NotificationTemplateDetailsComponent', () => {
   let component: NotificationTemplateDetailsComponent;

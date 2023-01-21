@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DayInfoDashboardEntryComponent } from './day-info-dashboard-entry.component';
+import {DayInfoDashboardEntryComponent} from './day-info-dashboard-entry.component';
 
 describe('DayInfoDashboardEntryComponent', () => {
   let component: DayInfoDashboardEntryComponent;

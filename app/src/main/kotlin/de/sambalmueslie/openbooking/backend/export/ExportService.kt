@@ -7,8 +7,6 @@ import de.sambalmueslie.openbooking.backend.offer.api.OfferDetails
 import de.sambalmueslie.openbooking.common.measureTimeMillisWithReturn
 import io.micronaut.http.server.types.files.SystemFile
 import jakarta.inject.Singleton
-import org.apache.velocity.tools.generic.DateTool
-import org.apache.velocity.tools.generic.EscapeTool
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File

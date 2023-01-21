@@ -5,7 +5,6 @@ import de.sambalmueslie.openbooking.backend.export.tools.LocalDateTimeTool
 import de.sambalmueslie.openbooking.backend.response.api.ResolvedResponse
 import de.sambalmueslie.openbooking.backend.response.api.Response
 import jakarta.inject.Singleton
-import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
 import org.apache.velocity.tools.ToolManager
 import java.io.StringWriter

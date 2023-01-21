@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NotificationTemplateChangeComponent } from './notification-template-change.component';
+import {NotificationTemplateChangeComponent} from './notification-template-change.component';
 
 describe('NotificationTemplateChangeComponent', () => {
   let component: NotificationTemplateChangeComponent;

@@ -1,6 +1,6 @@
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
-import {empty, Observable, of} from "rxjs";
-import {catchError, retry, tap} from "rxjs/operators";
+import {Observable} from "rxjs";
+import {retry, tap} from "rxjs/operators";
 import {LoggingService} from "./logging/logging.service";
 import {Page} from "./page/page";
 

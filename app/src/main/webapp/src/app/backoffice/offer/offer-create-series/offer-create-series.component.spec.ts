@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { OfferCreateSeriesComponent } from './offer-create-series.component';
+import {OfferCreateSeriesComponent} from './offer-create-series.component';
 
 describe('OfferCreateSeriesComponent', () => {
   let component: OfferCreateSeriesComponent;

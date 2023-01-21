@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { VisitorGroupAdminService } from './visitor-group-admin.service';
+import {VisitorGroupAdminService} from './visitor-group-admin.service';
 
 describe('VisitorGroupAdminService', () => {
   let service: VisitorGroupAdminService;

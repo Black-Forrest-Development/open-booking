@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import { BookingRequestInfo, defaultBookingRequestInfo} from "../model/request-admin-api";
+import {BookingRequestInfo, defaultBookingRequestInfo} from "../model/request-admin-api";
 import {ThemePalette} from "@angular/material/core";
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_RADIO_DEFAULT_OPTIONS} from "@angular/material/radio";

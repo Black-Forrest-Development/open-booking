@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ResponseChangeComponent } from './response-change.component';
+import {ResponseChangeComponent} from './response-change.component';
 
 describe('ResponseChangeComponent', () => {
   let component: ResponseChangeComponent;

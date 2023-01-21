@@ -15,7 +15,7 @@
   </div>
 
   <table mat-table [dataSource]="data">
-
+    <caption>Request Entries</caption>
     <ng-container matColumnDef="timestamp">
       <th mat-header-cell *matHeaderCellDef>{{'REQUEST.Form.Timestamp' | translate}}</th>
       <td mat-cell *matCellDef="let request">{{request.timestamp | date:'medium'}}</td>

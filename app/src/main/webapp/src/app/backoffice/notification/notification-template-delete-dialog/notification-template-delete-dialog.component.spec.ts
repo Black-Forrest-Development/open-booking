@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NotificationTemplateDeleteDialogComponent } from './notification-template-delete-dialog.component';
+import {NotificationTemplateDeleteDialogComponent} from './notification-template-delete-dialog.component';
 
 describe('NotificationTemplateDeleteDialogComponent', () => {
   let component: NotificationTemplateDeleteDialogComponent;

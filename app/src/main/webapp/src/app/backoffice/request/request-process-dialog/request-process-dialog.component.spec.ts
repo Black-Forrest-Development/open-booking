@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RequestProcessDialogComponent } from './request-process-dialog.component';
+import {RequestProcessDialogComponent} from './request-process-dialog.component';
 
 describe('RequestProcessDialogComponent', () => {
   let component: RequestProcessDialogComponent;

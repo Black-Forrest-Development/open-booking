@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { OfferAdminCreateRangeDialogComponent } from './offer-admin-create-range-dialog.component';
+import {OfferAdminCreateRangeDialogComponent} from './offer-admin-create-range-dialog.component';
 
 describe('OfferAdminCreateRangeDialogComponent', () => {
   let component: OfferAdminCreateRangeDialogComponent;

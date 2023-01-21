@@ -1,12 +1,11 @@
 package de.sambalmueslie.openbooking.backend.group
 
 
-import de.sambalmueslie.openbooking.common.checkPermission
 import de.sambalmueslie.openbooking.backend.group.api.GroupAPI
 import de.sambalmueslie.openbooking.backend.group.api.GroupAPI.Companion.PERMISSION_GROUP_READ
 import de.sambalmueslie.openbooking.backend.group.api.GroupAPI.Companion.PERMISSION_GROUP_WRITE
-import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupChangeRequest
+import de.sambalmueslie.openbooking.common.checkPermission
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication

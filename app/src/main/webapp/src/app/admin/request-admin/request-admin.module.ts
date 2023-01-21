@@ -11,7 +11,6 @@ import {RequestAdminBoardEntryComponent} from './request-admin-board-entry/reque
 import {VisitorGroupAdminModule} from "../visitor-group-admin/visitor-group-admin.module";
 import {RequestAdminBoardVisitorGroupCellComponent} from './request-admin-board-visitor-group-cell/request-admin-board-visitor-group-cell.component';
 import {RequestAdminBoardBookingsCellComponent} from './request-admin-board-bookings-cell/request-admin-board-bookings-cell.component';
-import {RequestConfirmMessageDialogComponent} from './request-confirm-message-dialog/request-confirm-message-dialog.component';
 
 
 @NgModule({
@@ -19,8 +18,7 @@ import {RequestConfirmMessageDialogComponent} from './request-confirm-message-di
     RequestAdminBoardComponent,
     RequestAdminBoardEntryComponent,
     RequestAdminBoardVisitorGroupCellComponent,
-    RequestAdminBoardBookingsCellComponent,
-    RequestConfirmMessageDialogComponent
+    RequestAdminBoardBookingsCellComponent
   ],
   imports: [
     CommonModule,

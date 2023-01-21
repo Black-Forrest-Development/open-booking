@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ResponseDeleteDialogComponent } from './response-delete-dialog.component';
+import {ResponseDeleteDialogComponent} from './response-delete-dialog.component';
 
 describe('ResponseDeleteDialogComponent', () => {
   let component: ResponseDeleteDialogComponent;

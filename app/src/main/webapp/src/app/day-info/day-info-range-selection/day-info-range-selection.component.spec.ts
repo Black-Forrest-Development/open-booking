@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DayInfoRangeSelectionComponent } from './day-info-range-selection.component';
+import {DayInfoRangeSelectionComponent} from './day-info-range-selection.component';
 
 describe('DayInfoRangeSelectionComponent', () => {
   let component: DayInfoRangeSelectionComponent;

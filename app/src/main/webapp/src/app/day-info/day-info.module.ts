@@ -10,10 +10,10 @@ import {DayInfoBoardEntryComponent} from './day-info-board-entry/day-info-board-
 import {DayInfoRangeSelectionComponent} from './day-info-range-selection/day-info-range-selection.component';
 import {DayInfoBookingSelectionComponent} from './day-info-booking-selection/day-info-booking-selection.component';
 import {DayInfoRoutingModule} from "./day-info-routing.module";
-import { DayInfoDetailsComponent } from './day-info-details/day-info-details.component';
+import {DayInfoDetailsComponent} from './day-info-details/day-info-details.component';
 import {NgxEchartsModule} from "ngx-echarts";
-import { DayInfoDetailsOfferListComponent } from './day-info-details-offer-list/day-info-details-offer-list.component';
-import { DayInfoDetailsOfferListEntryComponent } from './day-info-details-offer-list-entry/day-info-details-offer-list-entry.component';
+import {DayInfoDetailsOfferListComponent} from './day-info-details-offer-list/day-info-details-offer-list.component';
+import {DayInfoDetailsOfferListEntryComponent} from './day-info-details-offer-list-entry/day-info-details-offer-list-entry.component';
 
 
 @NgModule({

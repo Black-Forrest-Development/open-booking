@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SearchBoardComponent } from './search-board.component';
+import {SearchBoardComponent} from './search-board.component';
 
 describe('SearchBoardComponent', () => {
   let component: SearchBoardComponent;

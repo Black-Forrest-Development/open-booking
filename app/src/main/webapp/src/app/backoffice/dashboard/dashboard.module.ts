@@ -6,7 +6,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {MaterialModule} from "../../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
-import { DayInfoCardComponent } from './day-info-card/day-info-card.component';
+import {DayInfoCardComponent} from './day-info-card/day-info-card.component';
 
 
 @NgModule({

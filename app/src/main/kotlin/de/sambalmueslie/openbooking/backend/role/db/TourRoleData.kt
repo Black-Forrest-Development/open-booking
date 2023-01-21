@@ -1,10 +1,11 @@
 package de.sambalmueslie.openbooking.backend.role.db
 
-import de.sambalmueslie.openbooking.common.DataObject
 import de.sambalmueslie.openbooking.backend.role.api.TourRole
 import de.sambalmueslie.openbooking.backend.role.api.TourRoleChangeRequest
+import de.sambalmueslie.openbooking.common.DataObject
 import jakarta.persistence.*
 import java.time.LocalDateTime
+
 @Suppress("JpaObjectClassSignatureInspection")
 @Entity(name = "TourRole")
 @Table(name = "tour_role")

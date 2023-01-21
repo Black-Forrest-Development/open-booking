@@ -9,7 +9,7 @@
   </div>
 
   <table mat-table [dataSource]="data">
-
+    <caption>Audit Log Entries</caption>
     <ng-container matColumnDef="timestamp">
       <th mat-header-cell *matHeaderCellDef>{{'AUDIT.Field.Timestamp.Title' | translate}}</th>
       <td mat-cell *matCellDef="let entry">{{entry.timestamp | date:'medium'}}</td>

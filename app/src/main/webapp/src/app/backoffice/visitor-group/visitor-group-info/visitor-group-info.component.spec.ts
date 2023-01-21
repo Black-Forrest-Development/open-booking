@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { VisitorGroupInfoComponent } from './visitor-group-info.component';
+import {VisitorGroupInfoComponent} from './visitor-group-info.component';
 
 describe('VisitorGroupInfoComponent', () => {
   let component: VisitorGroupInfoComponent;

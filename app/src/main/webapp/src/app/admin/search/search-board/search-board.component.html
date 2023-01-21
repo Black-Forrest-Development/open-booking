@@ -7,7 +7,7 @@
 
 
   <table mat-table [dataSource]="data">
-
+    <caption>Search Result</caption>
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>{{'BOOKING.Create.Form.VisitorGroup.Title' | translate}}</th>
       <td mat-cell *matCellDef="let details">{{details.visitorGroup.title}}</td>
