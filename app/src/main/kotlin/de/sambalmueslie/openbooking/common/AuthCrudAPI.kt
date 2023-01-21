@@ -3,7 +3,6 @@ package de.sambalmueslie.openbooking.common
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication
-import reactor.core.publisher.Mono
 
 interface AuthCrudAPI<T, O : BusinessObject<T>, R : BusinessObjectChangeRequest> {
     fun get(auth: Authentication, id: T): O?

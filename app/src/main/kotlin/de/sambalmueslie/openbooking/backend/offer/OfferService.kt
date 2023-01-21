@@ -20,6 +20,9 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
+
+
+
 @Singleton
 class OfferService(
     private val repository: OfferRepository,
@@ -30,6 +33,10 @@ class OfferService(
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(OfferService::class.java)
+        private const val MSG_OFFER_SERIES_FAIL = "REQUEST.OFFER.SERIES.FAIL"
+        private const val MSG_OFFER_SERIES_SUCCESS = "REQUEST.OFFER.SERIES.SUCCESS"
+        private const val MSG_OFFER_RANGE_FAIL = "REQUEST.OFFER.RANGE.FAIL"
+        private const val MSG_OFFER_RANGE_SUCCESS = "REQUEST.OFFER.RANGE.SUCCESS"
     }
 
     override fun createData(request: OfferChangeRequest): OfferData {
@@ -76,9 +83,9 @@ class OfferService(
 
     fun setMaxPersons(id: Long, value: Int) = patchData(id) { if (value >= 0) it.maxPersons = value }
     fun createSeries(request: OfferSeriesRequest): GenericRequestResult {
-        if (!request.duration.isPositive) return GenericRequestResult(false, "REQUEST.OFFER.SERIES.FAIL")
-        if (!request.interval.isPositive) return GenericRequestResult(false, "REQUEST.OFFER.SERIES.FAIL")
-        if (request.quantity <= 0) return GenericRequestResult(false, "REQUEST.OFFER.SERIES.FAIL")
+        if (!request.duration.isPositive) return GenericRequestResult(false, MSG_OFFER_SERIES_FAIL)
+        if (!request.interval.isPositive) return GenericRequestResult(false, MSG_OFFER_SERIES_FAIL)
+        if (request.quantity <= 0) return GenericRequestResult(false, MSG_OFFER_SERIES_FAIL)
 
         var start = request.start
         (0 until request.quantity).forEach { _ ->
@@ -97,14 +104,14 @@ class OfferService(
                 start = start.with(request.minTime).plusDays(1)
             }
         }
-        return GenericRequestResult(true, "REQUEST.OFFER.SERIES.SUCCESS")
+        return GenericRequestResult(true, MSG_OFFER_SERIES_SUCCESS)
     }
 
     fun createRange(request: OfferRangeRequest): GenericRequestResult {
-        if (!request.duration.isPositive) return GenericRequestResult(false, "REQUEST.OFFER.RANGE.FAIL")
-        if (!request.interval.isPositive) return GenericRequestResult(false, "REQUEST.OFFER.RANGE.FAIL")
-        if (request.dateTo.isBefore(request.dateFrom)) return GenericRequestResult(false, "REQUEST.OFFER.RANGE.FAIL")
-        if (request.timeTo.isBefore(request.timeFrom)) return GenericRequestResult(false, "REQUEST.OFFER.RANGE.FAIL")
+        if (!request.duration.isPositive) return GenericRequestResult(false, MSG_OFFER_RANGE_FAIL)
+        if (!request.interval.isPositive) return GenericRequestResult(false, MSG_OFFER_RANGE_FAIL)
+        if (request.dateTo.isBefore(request.dateFrom)) return GenericRequestResult(false, MSG_OFFER_RANGE_FAIL)
+        if (request.timeTo.isBefore(request.timeFrom)) return GenericRequestResult(false, MSG_OFFER_RANGE_FAIL)
 
         var date = request.dateFrom
         val days = ChronoUnit.DAYS.between(request.dateFrom, request.dateTo)
@@ -123,7 +130,7 @@ class OfferService(
 
             date = date.plusDays(1)
         }
-        return GenericRequestResult(true, "REQUEST.OFFER.RANGE.SUCCESS")
+        return GenericRequestResult(true, MSG_OFFER_RANGE_SUCCESS)
     }
 
 

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RequestAdminBoardComponent } from './request-admin-board.component';
+import {RequestAdminBoardComponent} from './request-admin-board.component';
 
 describe('RequestAdminBoardComponent', () => {
   let component: RequestAdminBoardComponent;

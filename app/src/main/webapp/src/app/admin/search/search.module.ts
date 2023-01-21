@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { SearchRoutingModule } from './search-routing.module';
-import { SearchBoardComponent } from './search-board/search-board.component';
+import {SearchRoutingModule} from './search-routing.module';
+import {SearchBoardComponent} from './search-board/search-board.component';
 import {MaterialModule} from "../../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {NgxEchartsModule} from "ngx-echarts";

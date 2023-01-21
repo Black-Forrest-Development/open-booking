@@ -2,15 +2,12 @@ package de.sambalmueslie.openbooking.backend.export
 
 
 import de.sambalmueslie.openbooking.backend.export.tools.LocalDateTimeTool
-import io.micronaut.core.io.ResourceLoader
 import io.micronaut.core.io.scan.ClassPathResourceLoader
 import jakarta.inject.Singleton
 import org.apache.fop.apps.FopFactory
 import org.apache.fop.apps.MimeConstants
-import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
 import org.apache.velocity.tools.ToolManager
-import org.apache.velocity.tools.generic.DateTool
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.ByteArrayOutputStream

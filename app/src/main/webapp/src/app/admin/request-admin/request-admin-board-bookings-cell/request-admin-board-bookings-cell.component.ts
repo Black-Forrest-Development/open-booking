@@ -6,7 +6,6 @@ import {TranslateService} from "@ngx-translate/core";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {GenericRequestResult} from "../../../shared/shared-api";
 import {MatDialog} from '@angular/material/dialog';
-import {RequestConfirmMessageDialogComponent} from "../request-confirm-message-dialog/request-confirm-message-dialog.component";
 
 @Component({
   selector: 'app-request-admin-board-bookings-cell',
@@ -34,21 +33,21 @@ export class RequestAdminBoardBookingsCellComponent {
   }
 
   confirm() {
-    if (this.fg.invalid) return
-    if (this.changing) return
-
-    let dialogRef = this.dialog.open(RequestConfirmMessageDialogComponent, {
-      data: this.data,
-      height: '700px',
-      width: '800px',
-    })
-    dialogRef.afterClosed().subscribe(() => {
-        this.changing = true
-
-        let bookingId = this.fg.get('offer')?.value
-        this.service.confirmBookingRequest(this.data.id, bookingId).subscribe(r => this.handleConfirmed(r))
-      }
-    )
+    // if (this.fg.invalid) return
+    // if (this.changing) return
+    //
+    // let dialogRef = this.dialog.open(RequestConfirmMessageDialogComponent, {
+    //   data: this.data,
+    //   height: '700px',
+    //   width: '800px',
+    // })
+    // dialogRef.afterClosed().subscribe(() => {
+    //     this.changing = true
+    //
+    //     let bookingId = this.fg.get('offer')?.value
+    //     this.service.confirmBookingRequest(this.data.id, bookingId).subscribe(r => this.handleConfirmed(r))
+    //   }
+    // )
 
 
   }

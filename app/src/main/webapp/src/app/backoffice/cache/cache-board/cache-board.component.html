@@ -1,7 +1,7 @@
 <mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
 <div class="d-flex flex-column p-0 container-fluid">
   <table mat-table [dataSource]="data">
-
+    <caption>Cache Entries</caption>
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>{{'CACHE.Field.Name' | translate}}</th>
       <td mat-cell *matCellDef="let info">{{info.name}}</td>

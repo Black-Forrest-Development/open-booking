@@ -1,6 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {DayInfoHelper, DayInfoOffer} from "../../offer/model/offer-api";
-import {DayInfoService} from "../model/day-info.service";
 import {DayInfo, defaultDayInfo} from "../model/day-info-api";
 
 @Component({
@@ -12,12 +10,5 @@ export class DayInfoDetailsOfferListComponent {
 
   @Input()  data: DayInfo  = defaultDayInfo
 
-  constructor() {
-
-  }
-
-  ngOnInit() {
-
-  }
 
 }

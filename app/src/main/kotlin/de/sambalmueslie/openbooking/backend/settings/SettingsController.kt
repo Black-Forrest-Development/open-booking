@@ -1,9 +1,6 @@
 package de.sambalmueslie.openbooking.backend.settings
 
 
-import de.sambalmueslie.openbooking.backend.offer.api.OfferAPI
-import de.sambalmueslie.openbooking.backend.role.api.RoleAPI
-import de.sambalmueslie.openbooking.backend.role.api.TourRoleChangeRequest
 import de.sambalmueslie.openbooking.backend.settings.api.SettingChangeRequest
 import de.sambalmueslie.openbooking.backend.settings.api.SettingsAPI
 import de.sambalmueslie.openbooking.backend.settings.api.SettingsAPI.Companion.PERMISSION_READ

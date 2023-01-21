@@ -10,7 +10,7 @@ import {RequestBoardVisitorGroupCellComponent} from './request-board-visitor-gro
 import {RequestBoardBookingCellComponent} from './request-board-booking-cell/request-board-booking-cell.component';
 import {QuillModule} from "ngx-quill";
 import {RequestProcessDialogComponent} from './request-process-dialog/request-process-dialog.component';
-import { RequestCommentDialogComponent } from './request-comment-dialog/request-comment-dialog.component';
+import {RequestCommentDialogComponent} from './request-comment-dialog/request-comment-dialog.component';
 
 
 @NgModule({

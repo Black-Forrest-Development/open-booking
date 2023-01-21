@@ -1,10 +1,8 @@
-import {Component, EventEmitter, ViewChild} from '@angular/core';
+import {Component, EventEmitter} from '@angular/core';
 import {BookingAdminService} from "../../booking-admin/model/booking-admin.service";
-import {FormBuilder, FormControl} from "@angular/forms";
-import {debounceTime, defer, distinctUntilChanged, merge, Observable, of, switchMap} from "rxjs";
-import {BookingDetails, BookingSearchRequest, BookingSearchResult} from "../../booking-admin/model/booking-admin-api";
+import {debounceTime, distinctUntilChanged} from "rxjs";
+import {BookingSearchRequest, BookingSearchResult} from "../../booking-admin/model/booking-admin-api";
 import {Page} from "../../../shared/page/page";
-import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-search-board',

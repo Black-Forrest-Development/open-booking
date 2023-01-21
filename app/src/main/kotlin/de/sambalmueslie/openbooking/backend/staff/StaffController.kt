@@ -1,11 +1,11 @@
 package de.sambalmueslie.openbooking.backend.staff
 
 
-import de.sambalmueslie.openbooking.common.checkPermission
 import de.sambalmueslie.openbooking.backend.staff.api.StaffAPI
 import de.sambalmueslie.openbooking.backend.staff.api.StaffAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openbooking.backend.staff.api.StaffAPI.Companion.PERMISSION_WRITE
 import de.sambalmueslie.openbooking.backend.staff.api.StaffMemberChangeRequest
+import de.sambalmueslie.openbooking.common.checkPermission
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication

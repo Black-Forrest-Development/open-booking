@@ -6,8 +6,8 @@ import {Observable} from "rxjs";
 import {Page} from "../../../shared/page/page";
 import {Offer, OfferChangeRequest, OfferRangeRequest, OfferSeriesRequest} from "./offer-api";
 import {GenericRequestResult} from "../../../shared/shared-api";
-import {Moment} from "moment";
 import * as moment from "moment";
+import {Moment} from "moment";
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ExportService } from './export.service';
+import {ExportService} from './export.service';
 
 describe('ExportService', () => {
   let service: ExportService;

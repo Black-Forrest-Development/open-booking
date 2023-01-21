@@ -1,7 +1,6 @@
 package de.sambalmueslie.openbooking.backend.audit.api
 
 import de.sambalmueslie.openbooking.common.BusinessObjectChangeRequest
-import jakarta.persistence.Column
 import java.time.LocalDateTime
 
 data class AuditLogEntryChangeRequest(

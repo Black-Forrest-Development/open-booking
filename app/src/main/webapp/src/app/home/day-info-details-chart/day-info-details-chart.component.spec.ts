@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DayInfoDetailsChartComponent } from './day-info-details-chart.component';
+import {DayInfoDetailsChartComponent} from './day-info-details-chart.component';
 
 describe('DayInfoDetailsChartComponent', () => {
   let component: DayInfoDetailsChartComponent;

@@ -2,10 +2,10 @@ package de.sambalmueslie.openbooking.backend.offer
 
 
 import de.sambalmueslie.openbooking.backend.offer.api.*
-import de.sambalmueslie.openbooking.common.checkPermission
 import de.sambalmueslie.openbooking.backend.offer.api.OfferAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openbooking.backend.offer.api.OfferAPI.Companion.PERMISSION_WRITE
 import de.sambalmueslie.openbooking.common.PatchRequest
+import de.sambalmueslie.openbooking.common.checkPermission
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication

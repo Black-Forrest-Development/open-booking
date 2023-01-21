@@ -4,7 +4,6 @@ package de.sambalmueslie.openbooking.backend.cache
 import de.sambalmueslie.openbooking.backend.cache.api.CacheAPI
 import de.sambalmueslie.openbooking.backend.cache.api.CacheAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openbooking.backend.cache.api.CacheAPI.Companion.PERMISSION_WRITE
-import de.sambalmueslie.openbooking.backend.cache.api.CacheInfo
 import de.sambalmueslie.openbooking.common.checkPermission
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Delete

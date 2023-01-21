@@ -2,9 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DayInfoService} from "../model/day-info.service";
 import {ActivatedRoute} from "@angular/router";
 import {DayInfo, defaultDayInfo} from "../model/day-info-api";
-import {OfferService} from "../../offer/model/offer.service";
 import {EChartsOption} from "echarts";
-import {TranslateService} from "@ngx-translate/core";
 import {Location} from "@angular/common";
 
 @Component({

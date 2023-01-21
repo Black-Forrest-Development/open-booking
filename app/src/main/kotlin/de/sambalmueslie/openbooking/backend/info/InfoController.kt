@@ -4,8 +4,6 @@ package de.sambalmueslie.openbooking.backend.info
 import de.sambalmueslie.openbooking.backend.info.api.DateRangeSelectionRequest
 import io.micronaut.http.annotation.*
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.time.LocalDate
 
 @Controller("/api/backend/info")

@@ -26,6 +26,9 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
 
+
+
+
 @Singleton
 class BookingRequestService(
     private val bookingService: BookingService,
@@ -40,6 +43,11 @@ class BookingRequestService(
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(BookingRequestService::class.java)
+        private const val MSG_CONFIRM_EMAIL_FAILED = "VISITOR_GROUP.Message.ConfirmEmailFailed"
+        private const val MSG_CONFIRM_EMAIL_SUCCEED = "VISITOR_GROUP.Message.ConfirmEmailSucceed"
+        private const val MSG_CONFIRM_REQUEST_FAILED = "REQUEST.MESSAGE.CONFIRM.FAILED"
+        private const val MSG_CONFIRM_REQUEST_SUCCESS = "REQUEST.MESSAGE.CONFIRM.SUCCESS"
+        private const val MSG_DENIAL_REQUEST_SUCCESS = "REQUEST.MESSAGE.DENIAL.SUCCESS"
     }
 
     private val listeners = mutableSetOf<BookingRequestChangeListener>()
@@ -149,23 +157,23 @@ class BookingRequestService(
     private fun getUnconfirmedData(pageable: Pageable) = repository.findByStatusIn(listOf(BookingRequestStatus.UNKNOWN, BookingRequestStatus.UNCONFIRMED), pageable)
 
     fun confirmEmail(key: String): GenericRequestResult {
-        val request = repository.findOneByKey(key) ?: return GenericRequestResult(false, "VISITOR_GROUP.Message.ConfirmEmailFailed")
+        val request = repository.findOneByKey(key) ?: return GenericRequestResult(false, MSG_CONFIRM_EMAIL_FAILED)
         val visitorGroupId = request.visitorGroupId
-        val result = visitorGroupService.confirm(visitorGroupId) ?: return GenericRequestResult(false, "VISITOR_GROUP.Message.ConfirmEmailFailed")
+        val result = visitorGroupService.confirm(visitorGroupId) ?: return GenericRequestResult(false, MSG_CONFIRM_EMAIL_FAILED)
 
         return when (result.status == VisitorGroupStatus.CONFIRMED) {
-            true -> GenericRequestResult(true, "VISITOR_GROUP.Message.ConfirmEmailSucceed")
-            else -> GenericRequestResult(false, "VISITOR_GROUP.Message.ConfirmEmailFailed")
+            true -> GenericRequestResult(true, MSG_CONFIRM_EMAIL_SUCCEED)
+            else -> GenericRequestResult(false, MSG_CONFIRM_EMAIL_FAILED)
         }
 
     }
 
     fun confirm(id: Long, bookingId: Long, content: BookingConfirmationContent): GenericRequestResult {
         val relations = relationRepository.getByBookingRequestId(id)
-        if (!relations.any { it.bookingId == bookingId }) return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
+        if (!relations.any { it.bookingId == bookingId }) return GenericRequestResult(false, MSG_CONFIRM_REQUEST_FAILED)
 
         val result = patchData(id) { it.setStatus(BookingRequestStatus.CONFIRMED, timeProvider.now()) }
-            ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
+            ?: return GenericRequestResult(false, MSG_CONFIRM_REQUEST_FAILED)
 
         relations.forEach {
             if (it.bookingId == bookingId) {
@@ -177,15 +185,15 @@ class BookingRequestService(
 
 
         listeners.forEachWithTryCatch { it.confirmed(result, content) }
-        return GenericRequestResult(true, "REQUEST.MESSAGE.CONFIRM.SUCCESS")
+        return GenericRequestResult(true, MSG_CONFIRM_REQUEST_SUCCESS)
     }
 
     fun deny(id: Long, content: BookingConfirmationContent): GenericRequestResult {
         val result = patchData(id) { it.setStatus(BookingRequestStatus.DENIED, timeProvider.now()) }
-            ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
+            ?: return GenericRequestResult(false, MSG_CONFIRM_REQUEST_FAILED)
 
         listeners.forEachWithTryCatch { it.denied(result, content) }
-        return GenericRequestResult(true, "REQUEST.MESSAGE.DENIAL.SUCCESS")
+        return GenericRequestResult(true, MSG_DENIAL_REQUEST_SUCCESS)
     }
 
     fun getConfirmationUrl(id: Long): String {

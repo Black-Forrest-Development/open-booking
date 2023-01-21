@@ -7,7 +7,6 @@ import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplat
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateType
 import de.sambalmueslie.openbooking.backend.notification.mail.Mail
 import jakarta.inject.Singleton
-import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
 import org.apache.velocity.tools.ToolManager
 import org.slf4j.Logger

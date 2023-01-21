@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { VisitorGroupInfoDialogComponent } from './visitor-group-info-dialog.component';
+import {VisitorGroupInfoDialogComponent} from './visitor-group-info-dialog.component';
 
 describe('VisitorGroupInfoDialogComponent', () => {
   let component: VisitorGroupInfoDialogComponent;

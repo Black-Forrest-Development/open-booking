@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { OfferDeleteDialogComponent } from './offer-delete-dialog.component';
+import {OfferDeleteDialogComponent} from './offer-delete-dialog.component';
 
 describe('OfferDeleteDialogComponent', () => {
   let component: OfferDeleteDialogComponent;

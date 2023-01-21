@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { OfferCreateRangeComponent } from './offer-create-range.component';
+import {OfferCreateRangeComponent} from './offer-create-range.component';
 
 describe('OfferCreateRangeComponent', () => {
   let component: OfferCreateRangeComponent;

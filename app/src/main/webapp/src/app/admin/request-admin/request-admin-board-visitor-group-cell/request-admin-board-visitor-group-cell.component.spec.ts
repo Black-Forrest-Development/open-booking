@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RequestAdminBoardVisitorGroupCellComponent } from './request-admin-board-visitor-group-cell.component';
+import {RequestAdminBoardVisitorGroupCellComponent} from './request-admin-board-visitor-group-cell.component';
 
 describe('RequestAdminBoardVisitorGroupCellComponent', () => {
   let component: RequestAdminBoardVisitorGroupCellComponent;
