@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {DayInfoService} from "../../../day-info/model/day-info.service";
 import {MatDialog} from "@angular/material/dialog";
-import {OfferAdminChangeDialogComponent} from "../offer-admin-change-dialog/offer-admin-change-dialog.component";
 import {OfferAdminService} from "../model/offer-admin.service";
 import {OfferAdminCreateSeriesDialogComponent} from "../offer-admin-create-series-dialog/offer-admin-create-series-dialog.component";
 import {OfferAdminCreateRangeDialogComponent} from '../offer-admin-create-range-dialog/offer-admin-create-range-dialog.component';
@@ -31,8 +30,8 @@ export class OfferAdminBoardComponent {
   }
 
   create() {
-    const dialogRef = this.dialog.open(OfferAdminChangeDialogComponent)
-    dialogRef.afterClosed().subscribe(() => this.dayInfoService.loadDefaultDayInfo())
+    // const dialogRef = this.dialog.open(OfferAdminChangeDialogComponent)
+    // dialogRef.afterClosed().subscribe(() => this.dayInfoService.loadDefaultDayInfo())
   }
 
   createSeries() {

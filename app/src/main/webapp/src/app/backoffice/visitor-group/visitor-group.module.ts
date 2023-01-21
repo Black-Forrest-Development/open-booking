@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { VisitorGroupAdminRoutingModule } from './visitor-group-admin-routing.module';
-import { VisitorGroupAdminEntryComponent } from './visitor-group-admin-entry/visitor-group-admin-entry.component';
+import { VisitorGroupRoutingModule } from './visitor-group-routing.module';
+import { VisitorGroupInfoComponent } from './visitor-group-info/visitor-group-info.component';
+import { VisitorGroupInfoDialogComponent } from './visitor-group-info-dialog/visitor-group-info-dialog.component';
 import {MaterialModule} from "../../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {NgxEchartsModule} from "ngx-echarts";
@@ -11,18 +12,19 @@ import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
-    VisitorGroupAdminEntryComponent,
+    VisitorGroupInfoComponent,
+    VisitorGroupInfoDialogComponent
   ],
   exports: [
-    VisitorGroupAdminEntryComponent,
+    VisitorGroupInfoComponent
   ],
   imports: [
     CommonModule,
-    VisitorGroupAdminRoutingModule,
+    VisitorGroupRoutingModule,
     MaterialModule,
     TranslateModule,
     NgxEchartsModule,
     ReactiveFormsModule,
   ]
 })
-export class VisitorGroupAdminModule { }
+export class VisitorGroupModule { }

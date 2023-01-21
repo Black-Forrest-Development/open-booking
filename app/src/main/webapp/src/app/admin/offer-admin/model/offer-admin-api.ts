@@ -56,7 +56,7 @@ export class OfferChangeRequest {
 export interface OfferChangeForm {
   date: string,
   startTime: string,
-  endTime: string,
+  finishTime: string,
   maxPersons: number,
   active: boolean
 }

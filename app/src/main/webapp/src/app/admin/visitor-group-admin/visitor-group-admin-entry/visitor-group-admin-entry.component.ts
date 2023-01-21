@@ -2,7 +2,6 @@ import {Component, Input} from '@angular/core';
 import {defaultVisitorGroup, VisitorGroup} from "../../../visitor-group/model/visitor-group-api";
 import {VisitorGroupAdminService} from "../model/visitor-group-admin.service";
 import {MatDialog} from "@angular/material/dialog";
-import {VisitorGroupInfoDialogComponent} from "../visitor-group-info-dialog/visitor-group-info-dialog.component";
 
 @Component({
   selector: 'app-visitor-group-admin-entry',
@@ -33,6 +32,6 @@ export class VisitorGroupAdminEntryComponent {
   }
 
   showDetails() {
-    this.dialog.open(VisitorGroupInfoDialogComponent, {data: this.data});
+    // this.dialog.open(VisitorGroupInfoDialogComponent, {data: this.data});
   }
 }

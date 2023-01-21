@@ -1,20 +1,22 @@
 import {Component, Input} from '@angular/core';
 import {defaultVisitorGroup, VisitorGroup} from "../../../visitor-group/model/visitor-group-api";
-import {VisitorGroupAdminService} from "../../visitor-group-admin/model/visitor-group-admin.service";
 import {MatDialog} from "@angular/material/dialog";
+import {VisitorGroupService} from "../../visitor-group/model/visitor-group.service";
+import {VisitorGroupInfoDialogComponent} from "../../visitor-group/visitor-group-info-dialog/visitor-group-info-dialog.component";
 
 @Component({
-  selector: 'app-request-admin-board-visitor-group-cell',
-  templateUrl: './request-admin-board-visitor-group-cell.component.html',
-  styleUrls: ['./request-admin-board-visitor-group-cell.component.scss']
+  selector: 'app-request-board-visitor-group-cell',
+  templateUrl: './request-board-visitor-group-cell.component.html',
+  styleUrls: ['./request-board-visitor-group-cell.component.scss']
 })
-export class RequestAdminBoardVisitorGroupCellComponent {
+export class RequestBoardVisitorGroupCellComponent {
+
   @Input() data: VisitorGroup = defaultVisitorGroup
   @Input() showDetails: boolean = true
   confirming: boolean = false
 
 
-  constructor(private visitorGroupService: VisitorGroupAdminService, private dialog: MatDialog) {
+  constructor(private visitorGroupService: VisitorGroupService, private dialog: MatDialog) {
   }
 
   confirm() {
@@ -35,6 +37,6 @@ export class RequestAdminBoardVisitorGroupCellComponent {
   }
 
   showDetailsDialog() {
-    // this.dialog.open(VisitorGroupInfoDialogComponent, {data: this.data});
+    this.dialog.open(VisitorGroupInfoDialogComponent, {data: this.data});
   }
 }

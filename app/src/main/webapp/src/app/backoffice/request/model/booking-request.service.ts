@@ -5,6 +5,8 @@ import {LoggingService} from "../../../shared/logging/logging.service";
 import {Observable} from "rxjs";
 import {Page} from "../../../shared/page/page";
 import {BookingRequest, BookingRequestChangeRequest} from "./booking-request-api";
+import {BookingRequestInfo} from "../../../admin/request-admin/model/request-admin-api";
+import {GenericRequestResult} from "../../../shared/shared-api";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +35,18 @@ export class BookingRequestService extends BaseService {
 
   deleteBookingRequest(id: number): Observable<BookingRequest> {
     return this.delete('' + id)
+  }
+
+  getAllBookingRequestInfoUnconfirmed(page: number, size: number): Observable<Page<BookingRequestInfo>> {
+    return this.getPaged('unconfirmed/info', page, size)
+  }
+
+  confirmBookingRequest(id: number, bookingId: number): Observable<GenericRequestResult> {
+    return this.put('' + id + '/confirm/' + bookingId, {})
+  }
+
+  denialBookingRequest(id: number): Observable<GenericRequestResult> {
+    return this.put('' + id + '/denial', {})
   }
 
 }

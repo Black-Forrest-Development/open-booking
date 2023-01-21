@@ -3,7 +3,6 @@ import {RequestAdminService} from '../model/request-admin.service';
 import {Page} from "../../../shared/page/page";
 import {BookingRequestInfo} from "../model/request-admin-api";
 import {VisitorGroup} from "../../../visitor-group/model/visitor-group-api";
-import {VisitorGroupInfoDialogComponent} from "../../visitor-group-admin/visitor-group-info-dialog/visitor-group-info-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {VisitorGroupAdminService} from "../../visitor-group-admin/model/visitor-group-admin.service";
 import {debounceTime, distinctUntilChanged} from "rxjs";
@@ -78,7 +77,7 @@ export class RequestAdminBoardComponent implements OnInit {
   }
 
   showDetails(visitorGroup: VisitorGroup) {
-    this.dialog.open(VisitorGroupInfoDialogComponent, {data: visitorGroup});
+    // this.dialog.open(VisitorGroupInfoDialogComponent, {data: visitorGroup});
   }
 
   private search(data: string) {

@@ -26,7 +26,7 @@ export class OfferChangeComponent {
   form: FormGroup = this.fb.group({
       date: ['', Validators.required],
       startTime: ['', Validators.required],
-      endTime: ['', Validators.required],
+      finishTime: ['', Validators.required],
       maxPersons: ['', Validators.required],
       active: ['', Validators.required],
     }
@@ -77,10 +77,10 @@ export class OfferChangeComponent {
 
   private initValues(data: Offer) {
     let start = moment(data.start)
-    let end = moment(data.finish)
+    let finish = moment(data.finish)
 
     this.setValue(start, this.form.get('startTime')!!, this.form.get('date')!!)
-    this.setValue(end, this.form.get('endTime')!!, this.form.get('date')!!)
+    this.setValue(finish, this.form.get('finishTime')!!, this.form.get('date')!!)
 
     this.form.get('maxPersons')?.setValue(data.maxPersons)
     this.form.get('active')?.setValue(data.active)
@@ -121,16 +121,16 @@ export class OfferChangeComponent {
     let value = this.form.value as OfferChangeForm
     let date = value.date
     let startTime = value.startTime
-    let endTime = value.endTime
+    let finishTime = value.finishTime
 
     let startDateTime = this.service.createDateTime(startTime, date)?.format("YYYY-MM-DD[T]HH:mm:ss")
-    let endDateTime = this.service.createDateTime(endTime, date)?.format("YYYY-MM-DD[T]HH:mm:ss")
+    let finishDateTime = this.service.createDateTime(finishTime, date)?.format("YYYY-MM-DD[T]HH:mm:ss")
     let maxPersons = value.maxPersons
     let active = value.active
-    if (!startDateTime || !endDateTime) return null
+    if (!startDateTime || !finishDateTime) return null
     return new OfferChangeRequest(
       startDateTime,
-      endDateTime,
+      finishDateTime,
       maxPersons,
       active
     )
