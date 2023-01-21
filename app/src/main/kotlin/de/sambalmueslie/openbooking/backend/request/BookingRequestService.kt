@@ -119,8 +119,10 @@ class BookingRequestService(
         val visitorGroupIds = data.content.map { it.visitorGroupId }.toSet()
         val visitorGroups = visitorGroupService.getVisitorGroups(visitorGroupIds).associateBy { it.id }
 
-        return data.map { info(it, relations, bookings, visitorGroups) }
+        val result = data.mapNotNull { info(it, relations, bookings, visitorGroups) }
+            .sortedBy { it.visitorGroup.status.order }
 
+        return Page.of(result, data.pageable, data.totalSize)
     }
 
 
@@ -178,11 +180,11 @@ class BookingRequestService(
         return GenericRequestResult(true, "REQUEST.MESSAGE.CONFIRM.SUCCESS")
     }
 
-    fun denial(id: Long, silent: Boolean): GenericRequestResult {
+    fun deny(id: Long, content: BookingConfirmationContent): GenericRequestResult {
         val result = patchData(id) { it.setStatus(BookingRequestStatus.DENIED, timeProvider.now()) }
             ?: return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
 
-        listeners.forEachWithTryCatch { it.denied(result, silent) }
+        listeners.forEachWithTryCatch { it.denied(result, content) }
         return GenericRequestResult(true, "REQUEST.MESSAGE.DENIAL.SUCCESS")
     }
 
@@ -214,5 +216,15 @@ class BookingRequestService(
         return responseService.resolve(lang, ResponseType.BOOKING_CONFIRMED, properties)
     }
 
+
+    fun getDenialMessage(id: Long, lang: String = "de"): ResolvedResponse? {
+        val info = info(id) ?: return null
+        val properties = mutableMapOf(
+            Pair("status", info.status),
+            Pair("visitor", info.visitorGroup),
+            Pair("bookings", info.bookings),
+        )
+        return responseService.resolve(lang, ResponseType.BOOKING_DENIED, properties)
+    }
 
 }

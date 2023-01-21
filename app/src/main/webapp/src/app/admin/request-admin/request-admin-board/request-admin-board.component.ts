@@ -8,7 +8,6 @@ import {VisitorGroupAdminService} from "../../visitor-group-admin/model/visitor-
 import {debounceTime, distinctUntilChanged} from "rxjs";
 import {HotToastService} from "@ngneat/hot-toast";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
-import {RequestCommentDialogComponent} from "../request-comment-dialog/request-comment-dialog.component";
 
 @Component({
   selector: 'app-request-admin-board',
@@ -89,6 +88,6 @@ export class RequestAdminBoardComponent implements OnInit {
   }
 
   showNote(request: BookingRequestInfo) {
-    this.dialog.open(RequestCommentDialogComponent, {data: request});
+    // this.dialog.open(RequestCommentDialogComponent, {data: request});
   }
 }

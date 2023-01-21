@@ -19,8 +19,9 @@ interface BookingRequestAPI : AuthCrudAPI<Long, BookingRequest, BookingRequestCh
 
     fun getRequestReceivedMessage(auth: Authentication, id: Long, lang: String): ResolvedResponse?
     fun getConfirmationMessage(auth: Authentication, id: Long, bookingId: Long, lang: String): ResolvedResponse?
+    fun getDenialMessage(auth: Authentication, id: Long, lang: String): ResolvedResponse?
 
     fun confirm(auth: Authentication, id: Long, bookingId: Long, content: BookingConfirmationContent): GenericRequestResult
-    fun denial(auth: Authentication, id: Long, silent: Boolean): GenericRequestResult
+    fun deny(auth: Authentication, id: Long, content: BookingConfirmationContent): GenericRequestResult
 
 }

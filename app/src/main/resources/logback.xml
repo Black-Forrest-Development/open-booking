@@ -19,4 +19,5 @@
     <logger name="de.sambalmueslie" level="INFO"/>
     <logger name="de.sambalmueslie.openbooking.common" level="DEBUG"/>
     <logger name="de.sambalmueslie.openbooking.IndexController" level="DEBUG"/>
+    <logger name="de.sambalmueslie.openbooking.backend.notification.mail.MailService" level="DEBUG"/>
 </configuration>

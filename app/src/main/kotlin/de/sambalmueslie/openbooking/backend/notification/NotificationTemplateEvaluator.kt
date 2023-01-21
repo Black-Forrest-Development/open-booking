@@ -1,6 +1,7 @@
 package de.sambalmueslie.openbooking.backend.notification
 
 
+import de.sambalmueslie.openbooking.backend.export.tools.LocalDateTimeTool
 import de.sambalmueslie.openbooking.backend.notification.api.ContentType
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplate
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateType
@@ -8,6 +9,7 @@ import de.sambalmueslie.openbooking.backend.notification.mail.Mail
 import jakarta.inject.Singleton
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
+import org.apache.velocity.tools.ToolManager
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.StringWriter
@@ -48,8 +50,12 @@ class NotificationTemplateEvaluator(
     }
 
     private fun evaluate(template: NotificationTemplate, properties: Map<String, Any>): Pair<String, String> {
+        val manager = ToolManager()
+        val context = manager.createContext()
+        context.putVelocityEngine(ve)
+        context.putAll(properties)
+        context.put("dateTool", LocalDateTimeTool())
 
-        val context = VelocityContext(properties)
         val subjectWriter = StringWriter()
         ve.evaluate(context, subjectWriter, "Notification Template Evaluator", template.subject)
         val contentWriter = StringWriter()

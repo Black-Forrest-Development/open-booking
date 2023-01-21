@@ -1,22 +1,26 @@
 import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {BookingRequestInfo} from "../../../admin/request-admin/model/request-admin-api";
 import {BookingInfo} from "../../../booking/model/booking-api";
-import {BookingRequestService} from "../model/booking-request.service";
 import {ResolvedResponse} from "../../response/model/response-api";
 import {FormBuilder, Validators} from "@angular/forms";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {BookingRequestService} from "../model/booking-request.service";
 import {BookingConfirmationContent} from "../model/booking-request-api";
 
 @Component({
-  selector: 'app-request-confirmation-dialog',
-  templateUrl: './request-confirmation-dialog.component.html',
-  styleUrls: ['./request-confirmation-dialog.component.scss']
+  selector: 'app-request-process-dialog',
+  templateUrl: './request-process-dialog.component.html',
+  styleUrls: ['./request-process-dialog.component.scss']
 })
-export class RequestConfirmationDialogComponent {
+export class RequestProcessDialogComponent {
 
   loading: boolean = false
 
   response: ResolvedResponse | undefined
+
+  title: string = ""
+
+  confirm: string = ""
 
   fg = this.fb.group({
       subject: ['', Validators.required],
@@ -26,8 +30,8 @@ export class RequestConfirmationDialogComponent {
   )
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: RequestConfirmMessageDialogData,
-    public dialogRef: MatDialogRef<RequestConfirmationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: RequestProcessDialogData,
+    public dialogRef: MatDialogRef<RequestProcessDialogComponent>,
     private fb: FormBuilder,
     private service: BookingRequestService
   ) {
@@ -35,16 +39,23 @@ export class RequestConfirmationDialogComponent {
 
   ngOnInit(): void {
     this.loadResponse()
+    this.title = (this.data.confirmation) ? 'REQUEST.Dialog.Confirm.Title' : 'REQUEST.Dialog.Deny.Title'
+    this.confirm = (this.data.confirmation) ? 'REQUEST.Action.Confirm': 'REQUEST.Action.Deny'
   }
 
   private loadResponse() {
     if (this.loading) return
     this.loading = true
 
-    this.service.getConfirmationMessage(this.data.info.id, this.data.selectedBooking.id).subscribe(r => this.handleConfirmationMessage(r))
+    if (this.data.confirmation) {
+      if (!this.data.selectedBooking) return
+      this.service.getConfirmationMessage(this.data.info.id, this.data.selectedBooking.id).subscribe(r => this.handleResolvedResponse(r))
+    } else {
+      this.service.getDenialMessage(this.data.info.id).subscribe(r => this.handleResolvedResponse(r))
+    }
   }
 
-  private handleConfirmationMessage(response: ResolvedResponse) {
+  private handleResolvedResponse(response: ResolvedResponse) {
     this.response = response
     this.fg.setValue({
       subject: response.title,
@@ -71,7 +82,8 @@ export class RequestConfirmationDialogComponent {
 
 }
 
-export interface RequestConfirmMessageDialogData {
+export interface RequestProcessDialogData {
   info: BookingRequestInfo,
-  selectedBooking: BookingInfo
+  selectedBooking: BookingInfo,
+  confirmation: boolean
 }

@@ -38,17 +38,12 @@ class BookingRequestChangeHandler(
 
     override fun confirmed(request: BookingRequest, content: BookingConfirmationContent) {
         if (content.silent) return
-        createEvent(request, NotificationEventType.CUSTOM,
-            mapOf(
-                Pair(TYPE_KEY, TYPE_CONFIRMED),
-                Pair(CONTENT, content)
-            )
-        )
+        createEvent(request, NotificationEventType.CUSTOM, mapOf(Pair(TYPE_KEY, TYPE_CONFIRMED), Pair(CONTENT, content)))
     }
 
-    override fun denied(request: BookingRequest, silent: Boolean) {
-        if (silent) return
-        createEvent(request, NotificationEventType.CUSTOM, mapOf(Pair(TYPE_KEY, TYPE_DENIED)))
+    override fun denied(request: BookingRequest, content: BookingConfirmationContent) {
+        if (content.silent) return
+        createEvent(request, NotificationEventType.CUSTOM, mapOf(Pair(TYPE_KEY, TYPE_DENIED), Pair(CONTENT, content)))
     }
 
     private fun createEvent(request: BookingRequest, type: NotificationEventType, parameter: Map<String, Any> = emptyMap()) {

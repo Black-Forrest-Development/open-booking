@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {BookingRequestInfo} from "../model/request-admin-api";
+import {BookingRequestInfo} from "../model/booking-request-api";
 
 @Component({
   selector: 'app-request-comment-dialog',

@@ -8,8 +8,9 @@ import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {RequestBoardVisitorGroupCellComponent} from './request-board-visitor-group-cell/request-board-visitor-group-cell.component';
 import {RequestBoardBookingCellComponent} from './request-board-booking-cell/request-board-booking-cell.component';
-import {RequestConfirmationDialogComponent} from './request-confirmation-dialog/request-confirmation-dialog.component';
 import {QuillModule} from "ngx-quill";
+import {RequestProcessDialogComponent} from './request-process-dialog/request-process-dialog.component';
+import { RequestCommentDialogComponent } from './request-comment-dialog/request-comment-dialog.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {QuillModule} from "ngx-quill";
     RequestBoardComponent,
     RequestBoardVisitorGroupCellComponent,
     RequestBoardBookingCellComponent,
-    RequestConfirmationDialogComponent,
+    RequestProcessDialogComponent,
+    RequestCommentDialogComponent
   ],
   imports: [
     CommonModule,
