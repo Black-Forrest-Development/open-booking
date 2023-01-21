@@ -1,6 +1,7 @@
 package de.sambalmueslie.openbooking.backend.settings
 
 
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.settings.api.Setting
 import de.sambalmueslie.openbooking.backend.settings.api.SettingChangeRequest
 import de.sambalmueslie.openbooking.backend.settings.db.SettingData
@@ -14,8 +15,9 @@ import org.slf4j.LoggerFactory
 @Singleton
 class SettingsService(
     private val repository: SettingsRepository,
-    private val timeProvider: TimeProvider
-) : GenericCrudService<String, Setting, SettingChangeRequest, SettingData>(repository, logger) {
+    private val timeProvider: TimeProvider,
+    cacheService: CacheService,
+) : GenericCrudService<String, Setting, SettingChangeRequest, SettingData>(repository, cacheService, Setting::class, logger) {
 
 
     companion object {

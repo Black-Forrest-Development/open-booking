@@ -1,13 +1,14 @@
 package de.sambalmueslie.openbooking.backend.staff
 
 
-import de.sambalmueslie.openbooking.common.GenericCrudService
-import de.sambalmueslie.openbooking.error.InvalidRequestException
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.staff.api.StaffMember
 import de.sambalmueslie.openbooking.backend.staff.api.StaffMemberChangeRequest
 import de.sambalmueslie.openbooking.backend.staff.db.StaffMemberData
 import de.sambalmueslie.openbooking.backend.staff.db.StaffMemberRepository
+import de.sambalmueslie.openbooking.common.GenericCrudService
 import de.sambalmueslie.openbooking.common.TimeProvider
+import de.sambalmueslie.openbooking.error.InvalidRequestException
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -15,8 +16,9 @@ import org.slf4j.LoggerFactory
 @Singleton
 class StaffService(
     private val repository: StaffMemberRepository,
-    private val timeProvider: TimeProvider
-) : GenericCrudService<Long, StaffMember, StaffMemberChangeRequest, StaffMemberData>(repository, logger) {
+    private val timeProvider: TimeProvider,
+    cacheService: CacheService,
+) : GenericCrudService<Long, StaffMember, StaffMemberChangeRequest, StaffMemberData>(repository, cacheService, StaffMember::class, logger) {
 
 
     companion object {

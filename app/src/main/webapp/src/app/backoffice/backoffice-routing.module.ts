@@ -15,6 +15,7 @@ const routes: Routes = [
         {path: 'response', loadChildren: () => import('./response/response.module').then(m => m.ResponseModule)},
         {path: 'notification', loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule)},
         {path: 'audit', loadChildren: () => import('./audit/audit.module').then(m => m.AuditModule)},
+        {path: 'cache', loadChildren: () => import('./cache/cache.module').then(m => m.CacheModule)},
       ]
     }
   ]

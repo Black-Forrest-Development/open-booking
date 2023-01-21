@@ -5,6 +5,7 @@ import de.sambalmueslie.openbooking.backend.booking.BookingService
 import de.sambalmueslie.openbooking.backend.booking.api.Booking
 import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
 import de.sambalmueslie.openbooking.backend.booking.api.BookingInfo
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupStatus
@@ -30,7 +31,8 @@ class BookingRequestService(
     private val relationRepository: BookingRequestRelationRepository,
     private val config: AppConfig,
     private val timeProvider: TimeProvider,
-) : GenericCrudService<Long, BookingRequest, BookingRequestChangeRequest, BookingRequestData>(repository, logger) {
+    cacheService: CacheService,
+) : GenericCrudService<Long, BookingRequest, BookingRequestChangeRequest, BookingRequestData>(repository, cacheService, BookingRequest::class, logger) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(BookingRequestService::class.java)
@@ -143,9 +145,9 @@ class BookingRequestService(
     fun confirmEmail(key: String): GenericRequestResult {
         val request = repository.findOneByKey(key) ?: return GenericRequestResult(false, "VISITOR_GROUP.Message.ConfirmEmailFailed")
         val visitorGroupId = request.visitorGroupId
-        val result =  visitorGroupService.confirm(visitorGroupId) ?: return GenericRequestResult(false, "VISITOR_GROUP.Message.ConfirmEmailFailed")
+        val result = visitorGroupService.confirm(visitorGroupId) ?: return GenericRequestResult(false, "VISITOR_GROUP.Message.ConfirmEmailFailed")
 
-        return when(result.status == VisitorGroupStatus.CONFIRMED){
+        return when (result.status == VisitorGroupStatus.CONFIRMED) {
             true -> GenericRequestResult(true, "VISITOR_GROUP.Message.ConfirmEmailSucceed")
             else -> GenericRequestResult(false, "VISITOR_GROUP.Message.ConfirmEmailFailed")
         }

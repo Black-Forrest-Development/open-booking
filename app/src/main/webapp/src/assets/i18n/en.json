@@ -218,7 +218,8 @@
       "SearchBooking": "Search Booking",
       "Notification": "Notification Mgt",
       "Response": "Response Mgt",
-      "AuditLog": "Audit Log"
+      "AuditLog": "Audit Log",
+      "Cache": "Cache Mgt"
     }
   },
   "RESPONSE": {
@@ -244,7 +245,8 @@
       "Type": {
         "Title": "Type",
         "Hint": "",
-        "BOOKING_CONFIRMATION_DIALOG": "Booking Confirmation Dialog"
+        "BOOKING_REQUEST_RECEIVED": "Booking Request Received (Dialog)",
+        "BOOKING_CONFIRMED": "Booking Request Confirmed (EMail)"
       },
       "Title": {
         "Title": "Title",
@@ -326,6 +328,17 @@
       "Source": {
         "Title": "Source"
       }
+    }
+  },
+  "CACHE": {
+    "Field": {
+      "Name": "Cache Name",
+      "Hit": "Hit/Miss",
+      "Load": "Load success/failed",
+      "Evict": "Evict count/weight"
+    },
+    "Action": {
+      "Reset": "Reset"
     }
   },
   "ERROR": {

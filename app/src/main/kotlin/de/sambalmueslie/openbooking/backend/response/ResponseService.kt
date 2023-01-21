@@ -1,6 +1,7 @@
 package de.sambalmueslie.openbooking.backend.response
 
 
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.response.api.*
 import de.sambalmueslie.openbooking.backend.response.db.ResponseData
 import de.sambalmueslie.openbooking.backend.response.db.ResponseRepository
@@ -16,8 +17,9 @@ import org.slf4j.LoggerFactory
 class ResponseService(
     private val repository: ResponseRepository,
     private val resolver: ResponseResolver,
-    private val timeProvider: TimeProvider
-) : GenericCrudService<Long, Response, ResponseChangeRequest, ResponseData>(repository, logger) {
+    private val timeProvider: TimeProvider,
+    cacheService: CacheService,
+) : GenericCrudService<Long, Response, ResponseChangeRequest, ResponseData>(repository, cacheService, Response::class, logger) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(ResponseService::class.java)
