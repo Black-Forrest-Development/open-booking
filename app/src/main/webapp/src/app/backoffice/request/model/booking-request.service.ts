@@ -4,9 +4,10 @@ import {HttpClient} from "@angular/common/http";
 import {LoggingService} from "../../../shared/logging/logging.service";
 import {Observable} from "rxjs";
 import {Page} from "../../../shared/page/page";
-import {BookingRequest, BookingRequestChangeRequest} from "./booking-request-api";
+import {BookingConfirmationContent, BookingRequest, BookingRequestChangeRequest} from "./booking-request-api";
 import {BookingRequestInfo} from "../../../admin/request-admin/model/request-admin-api";
 import {GenericRequestResult} from "../../../shared/shared-api";
+import {ResolvedResponse} from "../../response/model/response-api";
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +42,12 @@ export class BookingRequestService extends BaseService {
     return this.getPaged('unconfirmed/info', page, size)
   }
 
-  confirmBookingRequest(id: number, bookingId: number): Observable<GenericRequestResult> {
-    return this.put('' + id + '/confirm/' + bookingId, {})
+  getConfirmationMessage(id: number, bookingId: number): Observable<ResolvedResponse> {
+    return this.get('' + id + '/confirm/' + bookingId + '/message')
+  }
+
+  confirmBookingRequest(id: number, bookingId: number, content: BookingConfirmationContent): Observable<GenericRequestResult> {
+    return this.put('' + id + '/confirm/' + bookingId, content)
   }
 
   denialBookingRequest(id: number): Observable<GenericRequestResult> {

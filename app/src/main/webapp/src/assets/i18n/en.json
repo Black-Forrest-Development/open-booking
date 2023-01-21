@@ -180,6 +180,7 @@
       "MailConfirm": "Confirm Mail",
       "RequestConfirm": "Confirm Offer",
       "RequestDenial": "Denial Offer",
+      "Confirm": "Confirm booking request",
       "Search": "Search Request"
     },
     "Form": {
@@ -190,6 +191,16 @@
       "UNKNOWN": "Unknown",
       "UNCONFIRMED": "Unconfirmed",
       "CONFIRMED": "Confirmed"
+    },
+    "Dialog": {
+      "Confirm": {
+        "Title": "Confirm Booking Request",
+        "Info": {
+          "Start": "Start Time",
+          "Size": "Group Size",
+          "Space": "Available space"
+        }
+      }
     }
   },
   "VISITOR_GROUP": {

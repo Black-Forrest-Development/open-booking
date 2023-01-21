@@ -14,6 +14,9 @@ import de.sambalmueslie.openbooking.backend.request.db.BookingRequestData
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelation
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelationRepository
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRepository
+import de.sambalmueslie.openbooking.backend.response.ResponseService
+import de.sambalmueslie.openbooking.backend.response.api.ResolvedResponse
+import de.sambalmueslie.openbooking.backend.response.api.ResponseType
 import de.sambalmueslie.openbooking.common.*
 import de.sambalmueslie.openbooking.config.AppConfig
 import io.micronaut.data.model.Page
@@ -27,6 +30,7 @@ import java.util.*
 class BookingRequestService(
     private val bookingService: BookingService,
     private val visitorGroupService: VisitorGroupService,
+    private val responseService: ResponseService,
     private val repository: BookingRequestRepository,
     private val relationRepository: BookingRequestRelationRepository,
     private val config: AppConfig,
@@ -154,7 +158,7 @@ class BookingRequestService(
 
     }
 
-    fun confirm(id: Long, bookingId: Long, silent: Boolean): GenericRequestResult {
+    fun confirm(id: Long, bookingId: Long, content: BookingConfirmationContent): GenericRequestResult {
         val relations = relationRepository.getByBookingRequestId(id)
         if (!relations.any { it.bookingId == bookingId }) return GenericRequestResult(false, "REQUEST.MESSAGE.CONFIRM.FAILED")
 
@@ -170,7 +174,7 @@ class BookingRequestService(
         }
 
 
-        listeners.forEachWithTryCatch { it.confirmed(result, silent) }
+        listeners.forEachWithTryCatch { it.confirmed(result, content) }
         return GenericRequestResult(true, "REQUEST.MESSAGE.CONFIRM.SUCCESS")
     }
 
@@ -185,6 +189,29 @@ class BookingRequestService(
     fun getConfirmationUrl(id: Long): String {
         val data = repository.findByIdOrNull(id) ?: return ""
         return "${config.baseUrl}/home/confirm/email/${data.key}"
+    }
+
+
+    fun getRequestReceivedMessage(id: Long, lang: String = "de"): ResolvedResponse? {
+        val info = info(id) ?: return null
+        val properties = mutableMapOf(
+            Pair("status", info.status),
+            Pair("visitor", info.visitorGroup),
+            Pair("bookings", info.bookings),
+        )
+        return responseService.resolve(lang, ResponseType.BOOKING_REQUEST_RECEIVED, properties)
+    }
+
+    fun getConfirmationMessage(id: Long, bookingId: Long, lang: String = "de"): ResolvedResponse? {
+        val info = info(id) ?: return null
+        val selected = info.bookings.find { it.id == bookingId } ?: return null
+        val properties = mutableMapOf(
+            Pair("status", info.status),
+            Pair("visitor", info.visitorGroup),
+            Pair("bookings", info.bookings),
+            Pair("selected", selected),
+        )
+        return responseService.resolve(lang, ResponseType.BOOKING_CONFIRMED, properties)
     }
 
 

@@ -9,7 +9,6 @@ interface ResponseAPI : AuthCrudAPI<Long, Response, ResponseChangeRequest> {
         const val PERMISSION_WRITE = "openbooking.response.write"
     }
 
-    fun resolve(auth: Authentication, request: ResolveResponseRequest ): ResolvedResponse?
     fun find(auth: Authentication, lang: String, type: ResponseType): Response?
 }
 

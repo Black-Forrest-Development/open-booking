@@ -10,8 +10,6 @@ import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.request.BookingRequestService
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeRequest
-import de.sambalmueslie.openbooking.backend.response.ResponseService
-import de.sambalmueslie.openbooking.backend.response.api.ResolveResponseRequest
 import de.sambalmueslie.openbooking.backend.response.api.ResolvedResponse
 import de.sambalmueslie.openbooking.backend.settings.SettingsService
 import de.sambalmueslie.openbooking.backend.settings.api.SettingsAPI
@@ -30,7 +28,6 @@ class UserService(
     private val offerService: OfferService,
     private val bookingRequestService: BookingRequestService,
     private val infoService: InfoService,
-    private val responseService: ResponseService,
     private val settingsService: SettingsService
 ) {
     companion object {
@@ -88,10 +85,6 @@ class UserService(
     }
 
 
-    fun resolveResponse(request: ResolveResponseRequest): ResolvedResponse? {
-        return responseService.resolve(request)
-    }
-
     fun getHelpUrl(): String {
         return settingsService.get(SettingsAPI.SETTINGS_URL_HELP)?.value as? String ?: ""
     }
@@ -102,6 +95,10 @@ class UserService(
 
     fun confirmEmail(key: String): GenericRequestResult {
         return bookingRequestService.confirmEmail(key)
+    }
+
+    fun getRequestReceivedMessage(requestId: Long, lang: String): ResolvedResponse? {
+        return bookingRequestService.getRequestReceivedMessage(requestId, lang)
     }
 
 }

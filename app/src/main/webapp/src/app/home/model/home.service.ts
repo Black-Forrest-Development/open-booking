@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {BaseService} from "../../shared/base-service";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {LoggingService} from "../../shared/logging/logging.service";
 import {Observable} from "rxjs";
 import {DayInfoOffer} from "../../offer/model/offer-api";
 import {CreateBookingRequest} from "../../booking/model/booking-api";
 import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
-import {ResolvedResponse, ResolveResponseRequest} from "../../backoffice/response/model/response-api";
+import {ResolvedResponse} from "../../backoffice/response/model/response-api";
 import {UrlResponse} from "./home-api";
 import {GenericRequestResult} from "../../shared/shared-api";
 
@@ -28,8 +28,10 @@ export class HomeService extends BaseService {
     return super.post('booking', request)
   }
 
-  resolveResponse(request: ResolveResponseRequest): Observable<ResolvedResponse> {
-    return this.post('response/resolve', request)
+  getRequestReceivedMessage(requestId: number, lang: string): Observable<ResolvedResponse> {
+    let queryParams = new HttpParams()
+    queryParams = queryParams.append("lang",lang)
+    return this.get('request/' + requestId + '/received/message', queryParams)
   }
 
   getHelpUrl(): Observable<UrlResponse> {
@@ -40,7 +42,7 @@ export class HomeService extends BaseService {
     return this.get('setting/terms-and-conditions')
   }
 
-  confirmEmail(key: string): Observable<GenericRequestResult>{
+  confirmEmail(key: string): Observable<GenericRequestResult> {
     return this.post('confirm/email/' + key, {})
   }
 }

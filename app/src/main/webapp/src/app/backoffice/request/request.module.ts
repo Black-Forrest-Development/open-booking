@@ -6,9 +6,10 @@ import {RequestBoardComponent} from './request-board/request-board.component';
 import {MaterialModule} from "../../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
-import { RequestBoardVisitorGroupCellComponent } from './request-board-visitor-group-cell/request-board-visitor-group-cell.component';
-import { RequestBoardBookingCellComponent } from './request-board-booking-cell/request-board-booking-cell.component';
-
+import {RequestBoardVisitorGroupCellComponent} from './request-board-visitor-group-cell/request-board-visitor-group-cell.component';
+import {RequestBoardBookingCellComponent} from './request-board-booking-cell/request-board-booking-cell.component';
+import {RequestConfirmationDialogComponent} from './request-confirmation-dialog/request-confirmation-dialog.component';
+import {QuillModule} from "ngx-quill";
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { RequestBoardBookingCellComponent } from './request-board-booking-cell/r
     RequestBoardComponent,
     RequestBoardVisitorGroupCellComponent,
     RequestBoardBookingCellComponent,
+    RequestConfirmationDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -23,6 +25,8 @@ import { RequestBoardBookingCellComponent } from './request-board-booking-cell/r
     MaterialModule,
     TranslateModule,
     ReactiveFormsModule,
+    QuillModule
   ]
 })
-export class RequestModule { }
+export class RequestModule {
+}

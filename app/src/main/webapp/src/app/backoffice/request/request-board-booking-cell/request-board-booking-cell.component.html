@@ -1,7 +1,7 @@
 <form [formGroup]="fg">
   <div class="d-flex flex-row align-content-stretch align-items-center justify-content-start">
     <div class="flex-fill d-flex flex-column align-content-stretch align-items-stretch justify-content-start gap-3">
-      <mat-radio-group formControlName="offer">
+      <mat-radio-group formControlName="booking">
         <div class="flex-fill d-flex flex-row align-content-stretch align-items-center justify-content-start gap-3" *ngFor="let booking of data.bookings">
           <div class="booking-list-entry-date">
             <mat-radio-button [value]="booking.id">{{booking.offer.start | date:'medium'}}</mat-radio-button>

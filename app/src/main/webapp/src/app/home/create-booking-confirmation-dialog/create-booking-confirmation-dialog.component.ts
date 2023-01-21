@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {HomeService} from "../model/home.service";
 import {TranslateService} from "@ngx-translate/core";
-import {defaultResolvedResponse, Reference, ResolvedResponse, ResolveResponseRequest, RESPONSE_TYPE_BOOKING_REQUEST_RECEIVED} from "../../backoffice/response/model/response-api";
+import {defaultResolvedResponse, ResolvedResponse} from "../../backoffice/response/model/response-api";
 import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
 
 @Component({
@@ -22,13 +22,11 @@ export class CreateBookingConfirmationDialogComponent {
     private service: HomeService,
     private translateService: TranslateService
   ) {
+  }
+
+  ngOnInit(): void {
     this.loading = true
-    let request = new ResolveResponseRequest(
-      translateService.currentLang,
-      RESPONSE_TYPE_BOOKING_REQUEST_RECEIVED,
-      new Reference(data.id, "BookingRequest")
-    )
-    this.service.resolveResponse(request).subscribe(r => this.handleData(r))
+    this.service.getRequestReceivedMessage(this.data.id, this.translateService.currentLang).subscribe(r => this.handleData(r))
   }
 
   private handleData(r: ResolvedResponse) {

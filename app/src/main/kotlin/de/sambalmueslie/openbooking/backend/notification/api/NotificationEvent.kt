@@ -7,5 +7,5 @@ data class NotificationEvent(
     val sourceId: Long,
     val sourceType: KClass<*>,
     val type: NotificationEventType,
-    val parameter: Map<String, String> = emptyMap()
+    val parameter: Map<String, Any> = emptyMap()
 )

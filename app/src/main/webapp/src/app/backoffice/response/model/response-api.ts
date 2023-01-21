@@ -26,17 +26,6 @@ export const defaultResolvedResponse: ResolvedResponse = {
   title: '',
   content: ''
 }
-
-export class ResolveResponseRequest {
-  constructor(
-    public lang: string,
-    public type: string,
-    public reference: Reference
-  ) {
-
-  }
-}
-
 export class Reference {
   constructor(
     public id: number,
