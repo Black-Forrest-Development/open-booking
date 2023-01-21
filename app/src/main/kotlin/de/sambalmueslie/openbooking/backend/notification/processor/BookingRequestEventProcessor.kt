@@ -8,8 +8,8 @@ import de.sambalmueslie.openbooking.backend.notification.api.NotificationEventTy
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateType
 import de.sambalmueslie.openbooking.backend.notification.handler.BookingRequestChangeHandler
 import de.sambalmueslie.openbooking.backend.notification.mail.Mail
+import de.sambalmueslie.openbooking.backend.notification.mail.MailClient
 import de.sambalmueslie.openbooking.backend.notification.mail.MailParticipant
-import de.sambalmueslie.openbooking.backend.notification.mail.MailService
 import de.sambalmueslie.openbooking.backend.request.BookingRequestService
 import de.sambalmueslie.openbooking.backend.request.api.BookingConfirmationContent
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory
 class BookingRequestEventProcessor(
     private val service: BookingRequestService,
     private val evaluator: NotificationTemplateEvaluator,
-    private val mailService: MailService,
+    private val mailClient: MailClient,
     private val config: MailConfig
 ) : NotificationEventProcessor {
 
@@ -69,7 +69,7 @@ class BookingRequestEventProcessor(
         val mails = evaluator.evaluate(NotificationTemplateType.BOOKING_REQUEST_CREATED_ADMIN, properties)
         val from = MailParticipant("", config.fromAddress)
         val to = listOf(MailParticipant("", config.defaultAdminAddress))
-        mails.forEach { mailService.send(it, from, to) }
+        mails.forEach { mailClient.send(it, from, to) }
 
     }
 
@@ -92,7 +92,7 @@ class BookingRequestEventProcessor(
         val from = MailParticipant("", config.fromAddress)
         val visitorGroup = info.visitorGroup
         val to = listOf(MailParticipant(visitorGroup.contact, visitorGroup.email))
-        mails.forEach { mailService.send(it, from, to) }
+        mails.forEach { mailClient.send(it, from, to) }
     }
 
 

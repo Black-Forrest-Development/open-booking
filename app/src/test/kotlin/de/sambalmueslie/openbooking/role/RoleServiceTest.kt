@@ -3,6 +3,7 @@ package de.sambalmueslie.openbooking.role
 import de.sambalmueslie.openbooking.backend.role.RoleService
 import de.sambalmueslie.openbooking.backend.role.api.TourRole
 import de.sambalmueslie.openbooking.backend.role.api.TourRoleChangeRequest
+import de.sambalmueslie.openbooking.common.BaseServiceTest
 import de.sambalmueslie.openbooking.common.TimeProvider
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.annotation.MockBean
@@ -15,15 +16,10 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 @MicronautTest
-internal class RoleServiceTest {
+internal class RoleServiceTest : BaseServiceTest() {
 
     @Inject
     lateinit var service: RoleService
-
-    private val timeProvider = mockk<TimeProvider>()
-
-    @MockBean(TimeProvider::class)
-    fun timeProvider() = timeProvider
 
     @Test
     fun checkCrud() {
