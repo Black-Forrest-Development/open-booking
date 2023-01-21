@@ -53,8 +53,12 @@ class BookingRequestController(private val service: BookingRequestService) : Boo
     override fun confirm(auth: Authentication, @PathVariable id: Long, @PathVariable bookingId: Long, @Body content: BookingConfirmationContent) =
         auth.checkPermission(PERMISSION_WRITE) { service.confirm(id, bookingId, content) }
 
-    @Put("/{id}/denial")
-    override fun denial(auth: Authentication, @PathVariable id: Long, @QueryValue(defaultValue = "false") silent: Boolean) =
-        auth.checkPermission(PERMISSION_WRITE) { service.denial(id, silent) }
+    @Get("/{id}/deny/message")
+    override fun getDenialMessage(auth: Authentication, id: Long, @QueryValue(defaultValue = "en") lang: String) =
+        auth.checkPermission(PERMISSION_READ) { service.getDenialMessage(id,  lang) }
+
+    @Put("/{id}/deny")
+    override fun deny(auth: Authentication, @PathVariable id: Long, @Body content: BookingConfirmationContent) =
+        auth.checkPermission(PERMISSION_WRITE) { service.deny(id, content) }
 
 }

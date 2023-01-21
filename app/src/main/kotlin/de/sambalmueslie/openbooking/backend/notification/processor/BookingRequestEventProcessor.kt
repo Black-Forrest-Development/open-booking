@@ -44,14 +44,10 @@ class BookingRequestEventProcessor(
         val type = event.parameter[BookingRequestChangeHandler.TYPE_KEY] ?: return logger.warn("Cannot find ${BookingRequestChangeHandler.TYPE_KEY} on custom notification event")
 
         val info = service.info(event.sourceId) ?: return
-        val content = event.parameter[BookingRequestChangeHandler.CONTENT] as? BookingConfirmationContent ?: BookingConfirmationContent("","", false)
-        val properties = mapOf(
-            Pair("info", info),
-            Pair("content", content),
-        )
+        val content = event.parameter[BookingRequestChangeHandler.CONTENT] as? BookingConfirmationContent ?: return
         when (type) {
-            BookingRequestChangeHandler.TYPE_CONFIRMED -> notifyContactOnConfirmed(properties, info)
-            BookingRequestChangeHandler.TYPE_DENIED -> notifyContactOnDenied(properties, info)
+            BookingRequestChangeHandler.TYPE_CONFIRMED -> notifyContactOnConfirmed(info, content)
+            BookingRequestChangeHandler.TYPE_DENIED -> notifyContactOnDenied(info, content)
         }
     }
 
@@ -82,13 +78,13 @@ class BookingRequestEventProcessor(
         notifyContact(mails, info)
     }
 
-    private fun notifyContactOnConfirmed(properties: Map<String, Any>, info: BookingRequestInfo) {
-        val mails = evaluator.evaluate(NotificationTemplateType.BOOKING_REQUEST_CONFIRMED_CONTACT, properties)
+    private fun notifyContactOnConfirmed(info: BookingRequestInfo, content: BookingConfirmationContent) {
+        val mails = listOf(Mail(content.subject, content.content, null))
         notifyContact(mails, info)
     }
 
-    private fun notifyContactOnDenied(properties: Map<String, Any>, info: BookingRequestInfo) {
-        val mails = evaluator.evaluate(NotificationTemplateType.BOOKING_REQUEST_DENIED_CONTACT, properties)
+    private fun notifyContactOnDenied(info: BookingRequestInfo, content: BookingConfirmationContent) {
+        val mails = listOf(Mail(content.subject, content.content, null))
         notifyContact(mails, info)
     }
 

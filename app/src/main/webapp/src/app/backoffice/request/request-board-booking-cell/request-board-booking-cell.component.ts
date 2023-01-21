@@ -5,9 +5,9 @@ import {TranslateService} from "@ngx-translate/core";
 import {MatDialog} from "@angular/material/dialog";
 import {GenericRequestResult} from "../../../shared/shared-api";
 import {BookingRequestService} from "../model/booking-request.service";
-import {RequestConfirmationDialogComponent} from "../request-confirmation-dialog/request-confirmation-dialog.component";
 import {HotToastService} from "@ngneat/hot-toast";
 import {BookingConfirmationContent} from "../model/booking-request-api";
+import {RequestProcessDialogComponent} from "../request-process-dialog/request-process-dialog.component";
 
 @Component({
   selector: 'app-request-board-booking-cell',
@@ -40,14 +40,17 @@ export class RequestBoardBookingCellComponent {
     let selectedBooking = this.data.bookings.find(b => b.id == selectedBookingId)
     if (!selectedBooking) return
 
-    let dialogRef = this.dialog.open(RequestConfirmationDialogComponent, {
-      data: {info: this.data, selectedBooking: selectedBooking},
-      height: '700px',
+    let dialogRef = this.dialog.open(RequestProcessDialogComponent, {
+      data: {info: this.data, selectedBooking: selectedBooking, confirmation: true},
+      height: '800px',
       width: '800px',
     })
 
     dialogRef.afterClosed().subscribe(result => {
-        if (!result) return
+        if (!result) {
+          this.changing = false
+          return
+        }
         let content = result as BookingConfirmationContent
         this.changing = true
         this.service.confirmBookingRequest(this.data.id, selectedBookingId, content).subscribe(r => this.handleResult(r))
@@ -59,7 +62,24 @@ export class RequestBoardBookingCellComponent {
     if (this.changing) return
     this.changing = true
 
-    this.service.denialBookingRequest(this.data.id).subscribe(r => this.handleResult(r))
+    let selectedBooking = this.data.bookings[0]
+
+    let dialogRef = this.dialog.open(RequestProcessDialogComponent, {
+      data: {info: this.data, selectedBooking: selectedBooking, confirmation: false},
+      height: '800px',
+      width: '800px',
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (!result) {
+          this.changing = false
+          return
+        }
+        let content = result as BookingConfirmationContent
+        this.changing = true
+        this.service.denyBookingRequest(this.data.id, content).subscribe(r => this.handleResult(r))
+      }
+    )
   }
 
   private handleResult(result: GenericRequestResult) {

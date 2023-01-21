@@ -7,10 +7,10 @@ import {BookingRequestInfo} from "../model/booking-request-api";
 import {debounceTime, distinctUntilChanged} from "rxjs";
 import {Page} from "../../../shared/page/page";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
-import {RequestCommentDialogComponent} from "../../../admin/request-admin/request-comment-dialog/request-comment-dialog.component";
 import {VisitorGroup} from "../../../visitor-group/model/visitor-group-api";
 import {PageEvent} from "@angular/material/paginator";
 import {VisitorGroupInfoDialogComponent} from "../../visitor-group/visitor-group-info-dialog/visitor-group-info-dialog.component";
+import {RequestCommentDialogComponent} from "../request-comment-dialog/request-comment-dialog.component";
 
 @Component({
   selector: 'app-request-board',

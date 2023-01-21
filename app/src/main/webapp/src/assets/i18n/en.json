@@ -180,8 +180,9 @@
       "MailConfirm": "Confirm Mail",
       "RequestConfirm": "Confirm Offer",
       "RequestDenial": "Denial Offer",
-      "Confirm": "Confirm booking request",
-      "Search": "Search Request"
+      "Confirm": "Confirm booking",
+      "Search": "Search Request",
+      "Deny": "Deny booking"
     },
     "Form": {
       "SpaceAvailable": "Places available"
@@ -198,7 +199,13 @@
         "Info": {
           "Start": "Start Time",
           "Size": "Group Size",
-          "Space": "Available space"
+          "Space": "Available space",
+          "Comment": "Comment"
+        },
+        "Form": {
+          "Subject": "Subject",
+          "Content": "Content",
+          "Silent": "Send no email"
         }
       }
     }
@@ -258,7 +265,8 @@
         "Title": "Type",
         "Hint": "",
         "BOOKING_REQUEST_RECEIVED": "Booking Request Received (Dialog)",
-        "BOOKING_CONFIRMED": "Booking Request Confirmed (EMail)"
+        "BOOKING_CONFIRMED": "Booking Request Confirmed (EMail)",
+        "BOOKING_DENIED": "Booking Request Denied (EMail)"
       },
       "Title": {
         "Title": "Title",

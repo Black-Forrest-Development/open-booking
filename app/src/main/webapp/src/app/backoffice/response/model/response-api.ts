@@ -26,6 +26,7 @@ export const defaultResolvedResponse: ResolvedResponse = {
   title: '',
   content: ''
 }
+
 export class Reference {
   constructor(
     public id: number,
@@ -36,9 +37,11 @@ export class Reference {
 
 export const RESPONSE_TYPE_BOOKING_REQUEST_RECEIVED = 'BOOKING_REQUEST_RECEIVED'
 export const RESPONSE_TYPE_BOOKING_CONFIRMED = 'BOOKING_CONFIRMED'
+export const RESPONSE_TYPE_BOOKING_DENIED = 'BOOKING_DENIED'
 
 export const RESPONSE_TYPES = [
   RESPONSE_TYPE_BOOKING_REQUEST_RECEIVED,
-  RESPONSE_TYPE_BOOKING_CONFIRMED
+  RESPONSE_TYPE_BOOKING_CONFIRMED,
+  RESPONSE_TYPE_BOOKING_DENIED
 ]
 

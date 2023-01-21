@@ -50,8 +50,12 @@ export class BookingRequestService extends BaseService {
     return this.put('' + id + '/confirm/' + bookingId, content)
   }
 
-  denialBookingRequest(id: number): Observable<GenericRequestResult> {
-    return this.put('' + id + '/denial', {})
+  getDenialMessage(id: number): Observable<ResolvedResponse> {
+    return this.get('' + id + '/deny/message')
+  }
+
+  denyBookingRequest(id: number, content: BookingConfirmationContent): Observable<GenericRequestResult> {
+    return this.put('' + id + '/deny', content)
   }
 
 }
