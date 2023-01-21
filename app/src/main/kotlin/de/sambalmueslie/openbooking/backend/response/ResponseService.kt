@@ -2,7 +2,10 @@ package de.sambalmueslie.openbooking.backend.response
 
 
 import de.sambalmueslie.openbooking.backend.cache.CacheService
-import de.sambalmueslie.openbooking.backend.response.api.*
+import de.sambalmueslie.openbooking.backend.response.api.ResolvedResponse
+import de.sambalmueslie.openbooking.backend.response.api.Response
+import de.sambalmueslie.openbooking.backend.response.api.ResponseChangeRequest
+import de.sambalmueslie.openbooking.backend.response.api.ResponseType
 import de.sambalmueslie.openbooking.backend.response.db.ResponseData
 import de.sambalmueslie.openbooking.backend.response.db.ResponseRepository
 import de.sambalmueslie.openbooking.backend.response.resolve.ResponseResolver
@@ -40,14 +43,20 @@ class ResponseService(
     }
 
     fun find(lang: String, type: ResponseType): Response? {
-        val response = repository.findOneByLangAndType(lang, type) ?: repository.findOneByLangAndType("en", type) ?: return null
-        return response.convert()
+        return findData(lang, type)?.convert()
     }
 
-    fun resolve(request: ResolveResponseRequest): ResolvedResponse? {
-        val type = request.type
-        val response = repository.findOneByLangAndType(request.lang, type) ?: repository.findOneByLangAndType("en", type) ?: return null
-        return resolver.resolve(response.convert(), request.reference)
+    fun resolve(lang: String, type: ResponseType, properties: MutableMap<String, Any>): ResolvedResponse? {
+        val response = findData(lang, type) ?: return null
+        return resolver.resolve(response.convert(), properties)
+    }
+
+    private fun findData(lang: String, type: ResponseType): ResponseData? {
+        var response = repository.findOneByLangAndType(lang, type)
+        if (response != null) return response
+        response = repository.findOneByLangAndType("en", type)
+        if (response != null) return response
+        return repository.findOneByType(type)
     }
 
 }

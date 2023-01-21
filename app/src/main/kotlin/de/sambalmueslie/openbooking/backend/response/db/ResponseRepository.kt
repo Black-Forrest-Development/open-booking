@@ -11,5 +11,5 @@ import io.micronaut.data.repository.PageableRepository
 interface ResponseRepository : PageableRepository<ResponseData, Long> {
 
     fun findOneByLangAndType(lang: String, type: ResponseType): ResponseData?
-
+    fun findOneByType(type: ResponseType): ResponseData?
 }

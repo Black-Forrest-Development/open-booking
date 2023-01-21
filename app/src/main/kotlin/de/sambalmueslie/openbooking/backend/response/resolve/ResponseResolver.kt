@@ -1,10 +1,6 @@
 package de.sambalmueslie.openbooking.backend.response.resolve
 
 
-import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
-import de.sambalmueslie.openbooking.backend.request.BookingRequestService
-import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
-import de.sambalmueslie.openbooking.backend.response.api.Reference
 import de.sambalmueslie.openbooking.backend.response.api.ResolvedResponse
 import de.sambalmueslie.openbooking.backend.response.api.Response
 import jakarta.inject.Singleton
@@ -13,9 +9,7 @@ import org.apache.velocity.app.VelocityEngine
 import java.io.StringWriter
 
 @Singleton
-class ResponseResolver(
-    private val bookingRequestService: BookingRequestService
-) {
+class ResponseResolver {
 
     private val ve = VelocityEngine()
 
@@ -23,20 +17,8 @@ class ResponseResolver(
         ve.init()
     }
 
-    fun resolve(data: Response, reference: Reference): ResolvedResponse? {
-        return when (reference.type) {
-            BookingRequest::class.simpleName -> resolveBookingRequest(data, reference)
-            else -> null
-        }
-    }
 
-    private fun resolveBookingRequest(data: Response, reference: Reference): ResolvedResponse? {
-        val request = bookingRequestService.info(reference.id) ?: return null
-        val properties = mutableMapOf<String, Any>(
-            Pair("status", request.status),
-            Pair("visitor", request.visitorGroup),
-            Pair("bookings", request.bookings),
-        )
+    fun resolve(data: Response, properties: Map<String, Any>): ResolvedResponse {
         val title = evaluate(properties, data.title)
         val content = evaluate(properties, data.content)
 

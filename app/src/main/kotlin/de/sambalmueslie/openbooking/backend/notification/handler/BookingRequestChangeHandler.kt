@@ -5,6 +5,7 @@ import de.sambalmueslie.openbooking.backend.notification.NotificationService
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationEvent
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationEventType
 import de.sambalmueslie.openbooking.backend.request.BookingRequestService
+import de.sambalmueslie.openbooking.backend.request.api.BookingConfirmationContent
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeListener
 import de.sambalmueslie.openbooking.common.BusinessObjectChangeListener
@@ -23,6 +24,7 @@ class BookingRequestChangeHandler(
         const val TYPE_KEY = "type"
         const val TYPE_CONFIRMED = "confirmed"
         const val TYPE_DENIED = "denied"
+        const val CONTENT = "content"
     }
 
     init {
@@ -34,9 +36,14 @@ class BookingRequestChangeHandler(
         createEvent(obj, NotificationEventType.OBJ_CREATED)
     }
 
-    override fun confirmed(request: BookingRequest, silent: Boolean) {
-        if (silent) return
-        createEvent(request, NotificationEventType.CUSTOM, mapOf(Pair(TYPE_KEY, TYPE_CONFIRMED)))
+    override fun confirmed(request: BookingRequest, content: BookingConfirmationContent) {
+        if (content.silent) return
+        createEvent(request, NotificationEventType.CUSTOM,
+            mapOf(
+                Pair(TYPE_KEY, TYPE_CONFIRMED),
+                Pair(CONTENT, content)
+            )
+        )
     }
 
     override fun denied(request: BookingRequest, silent: Boolean) {
@@ -44,7 +51,7 @@ class BookingRequestChangeHandler(
         createEvent(request, NotificationEventType.CUSTOM, mapOf(Pair(TYPE_KEY, TYPE_DENIED)))
     }
 
-    private fun createEvent(request: BookingRequest, type: NotificationEventType, parameter: Map<String, String> = emptyMap()) {
+    private fun createEvent(request: BookingRequest, type: NotificationEventType, parameter: Map<String, Any> = emptyMap()) {
         service.add(NotificationEvent(request.id, BookingRequest::class, type, parameter))
     }
 

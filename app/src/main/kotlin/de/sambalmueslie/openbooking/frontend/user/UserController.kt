@@ -2,8 +2,6 @@ package de.sambalmueslie.openbooking.frontend.user
 
 
 import de.sambalmueslie.openbooking.backend.info.api.DateRangeSelectionRequest
-import de.sambalmueslie.openbooking.backend.response.api.ResolveResponseRequest
-import de.sambalmueslie.openbooking.backend.response.api.ResponseType
 import de.sambalmueslie.openbooking.frontend.user.api.CreateBookingRequest
 import de.sambalmueslie.openbooking.frontend.user.api.OfferInfoSelectRequest
 import de.sambalmueslie.openbooking.frontend.user.api.UrlResponse
@@ -35,8 +33,9 @@ class UserController(private val service: UserService) {
     @Get("/offer/{offerId}")
     fun getOffer(@PathVariable offerId: Long) = service.getOffer(offerId)
 
-    @Post("/response/resolve")
-    fun resolveResponse(@Body request: ResolveResponseRequest) = service.resolveResponse(request)
+    @Get("/request/{requestId}/received/message")
+    fun getRequestReceivedMessage(@PathVariable requestId: Long, @QueryValue(defaultValue = "en") lang: String) =
+        service.getRequestReceivedMessage(requestId, lang)
 
     @Get("setting/help")
     fun getHelpUrl() = UrlResponse(service.getHelpUrl())

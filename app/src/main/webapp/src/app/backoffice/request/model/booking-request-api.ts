@@ -10,12 +10,12 @@ export interface BookingRequest {
 
 
 export interface BookingRequestInfo {
-   id: number,
-   visitorGroup: VisitorGroup,
-   bookings: BookingInfo[],
-   status: string,
-   comment: string,
-   timestamp: string
+  id: number,
+  visitorGroup: VisitorGroup,
+  bookings: BookingInfo[],
+  status: string,
+  comment: string,
+  timestamp: string
 }
 
 export class BookingRequestChangeRequest {
@@ -36,3 +36,11 @@ export const defaultBookingRequestInfo: BookingRequestInfo = {
   timestamp: ""
 }
 
+export class BookingConfirmationContent {
+  constructor(
+    public subject: string,
+    public content: string,
+    public silent: boolean
+  ) {
+  }
+}

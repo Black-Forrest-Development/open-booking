@@ -36,7 +36,4 @@ class ResponseController(private val service: ResponseService) : ResponseAPI {
     override fun find(auth: Authentication, @PathVariable lang: String, @PathVariable type: ResponseType) =
         auth.checkPermission(PERMISSION_READ) { service.find(lang, type) }
 
-    @Post("/resolve")
-    override fun resolve(auth: Authentication, @Body request: ResolveResponseRequest) =
-        auth.checkPermission(PERMISSION_READ) { service.resolve(request) }
 }

@@ -11,6 +11,7 @@ import de.sambalmueslie.openbooking.backend.notification.mail.Mail
 import de.sambalmueslie.openbooking.backend.notification.mail.MailParticipant
 import de.sambalmueslie.openbooking.backend.notification.mail.MailService
 import de.sambalmueslie.openbooking.backend.request.BookingRequestService
+import de.sambalmueslie.openbooking.backend.request.api.BookingConfirmationContent
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestInfo
 import de.sambalmueslie.openbooking.config.MailConfig
@@ -43,8 +44,10 @@ class BookingRequestEventProcessor(
         val type = event.parameter[BookingRequestChangeHandler.TYPE_KEY] ?: return logger.warn("Cannot find ${BookingRequestChangeHandler.TYPE_KEY} on custom notification event")
 
         val info = service.info(event.sourceId) ?: return
+        val content = event.parameter[BookingRequestChangeHandler.CONTENT] as? BookingConfirmationContent ?: BookingConfirmationContent("","", false)
         val properties = mapOf(
-            Pair("info", info)
+            Pair("info", info),
+            Pair("content", content),
         )
         when (type) {
             BookingRequestChangeHandler.TYPE_CONFIRMED -> notifyContactOnConfirmed(properties, info)
