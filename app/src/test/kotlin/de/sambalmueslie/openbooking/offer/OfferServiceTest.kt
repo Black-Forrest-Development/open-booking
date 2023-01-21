@@ -3,6 +3,7 @@ package de.sambalmueslie.openbooking.offer
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import de.sambalmueslie.openbooking.backend.offer.api.OfferChangeRequest
+import de.sambalmueslie.openbooking.common.BaseServiceTest
 import de.sambalmueslie.openbooking.common.TimeProvider
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.annotation.MockBean
@@ -15,15 +16,10 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 @MicronautTest
-internal class OfferServiceTest {
+internal class OfferServiceTest : BaseServiceTest(){
 
     @Inject
     lateinit var service: OfferService
-
-    private val timeProvider = mockk<TimeProvider>()
-
-    @MockBean(TimeProvider::class)
-    fun timeProvider() = timeProvider
 
     @Test
     fun checkCrud() {
