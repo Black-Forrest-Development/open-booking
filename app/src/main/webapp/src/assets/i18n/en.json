@@ -124,14 +124,14 @@
     }
   },
   "OFFER": {
-    "Form": {
+    "Field": {
       "Id": "Id",
       "Date": "Date",
       "StartTime": "Start Time",
-      "EndTime": "End Time",
+      "FinishTime": "Finish Time",
       "Start": "Start",
-      "End": "End",
-      "MaxPersons": "max Persons",
+      "Finish": "Finish",
+      "MaxPersons": "Max Persons",
       "Active": "Active"
     },
     "Series": {
@@ -153,7 +153,8 @@
       "CreateRange": "Create (Range)",
       "ShowBookings": "Bookings",
       "Export_PDF": "PDF",
-      "Export_Excel": "Excel"
+      "Export_Excel": "Excel",
+      "Search": "Search offer"
     },
     "Operation": {
       "Create": "Create Offer",

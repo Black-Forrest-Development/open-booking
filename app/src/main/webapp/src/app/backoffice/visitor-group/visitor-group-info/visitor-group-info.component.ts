@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {defaultVisitorGroup, VisitorGroup} from "../../../visitor-group/model/visitor-group-api";
+import {defaultVisitorGroup, VisitorGroup} from "../model/visitor-group-api";
 
 @Component({
   selector: 'app-visitor-group-info',
@@ -7,6 +7,5 @@ import {defaultVisitorGroup, VisitorGroup} from "../../../visitor-group/model/vi
   styleUrls: ['./visitor-group-info.component.scss']
 })
 export class VisitorGroupInfoComponent {
-
   @Input() data: VisitorGroup = defaultVisitorGroup
 }

@@ -5,14 +5,12 @@ import {OfferAdminBoardComponent} from "./offer-admin-board/offer-admin-board.co
 import {OfferAdminDayBoardComponent} from "./offer-admin-day-board/offer-admin-day-board.component";
 import {OfferAdminDetailsComponent} from './offer-admin-details/offer-admin-details.component';
 import {OfferAdminPrintBoardComponent} from "./offer-admin-print-board/offer-admin-print-board.component";
-import {OfferAdminChangeComponent} from "./offer-admin-change/offer-admin-change.component";
 
 const routes: Routes = [
   {path: '', component: OfferAdminBoardComponent, canActivate: [AuthGuard]},
   {path: 'day/:date', component: OfferAdminDayBoardComponent},
   {path: 'print/:date', component: OfferAdminPrintBoardComponent},
   {path: 'details/:id', component: OfferAdminDetailsComponent},
-  {path: 'edit/:id', component: OfferAdminChangeComponent},
 ];
 
 @NgModule({

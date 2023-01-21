@@ -2,29 +2,29 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="d-flex flex-column p-2 mt-5 container">
     <mat-form-field appearance="outline">
-      <mat-label>{{'OFFER.Form.Date' | translate}}</mat-label>
+      <mat-label>{{'OFFER.Field.Date' | translate}}</mat-label>
       <input matInput [matDatepicker]="startPicker" formControlName="date" required>
       <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
       <mat-datepicker #startPicker></mat-datepicker>
     </mat-form-field>
     <div class="d-flex flex-row align-self-stretch">
       <mat-form-field appearance="outline" class="flex-grow-1 me-3">
-        <mat-label>{{'OFFER.Form.StartTime' | translate}}</mat-label>
+        <mat-label>{{'OFFER.Field.StartTime' | translate}}</mat-label>
         <input matInput type="time" formControlName="startTime" required>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="flex-grow-1">
-        <mat-label>{{'OFFER.Form.EndTime' | translate}}</mat-label>
-        <input matInput type="time" formControlName="endTime" required>
+        <mat-label>{{'OFFER.Field.FinishTime' | translate}}</mat-label>
+        <input matInput type="time" formControlName="finishTime" required>
       </mat-form-field>
     </div>
 
     <mat-form-field appearance="outline">
-      <mat-label>{{'OFFER.Form.MaxPersons' | translate}}</mat-label>
+      <mat-label>{{'OFFER.Field.MaxPersons' | translate}}</mat-label>
       <input matInput type="number" formControlName="maxPersons">
     </mat-form-field>
 
-    <mat-checkbox formControlName="active">{{'OFFER.Form.Active' | translate}}</mat-checkbox>
+    <mat-checkbox formControlName="active">{{'OFFER.Field.Active' | translate}}</mat-checkbox>
 
     <div class="d-flex flex-row align-self-stretch">
       <button mat-raised-button color="primary" type="submit" class="flex-grow-1 me-3">

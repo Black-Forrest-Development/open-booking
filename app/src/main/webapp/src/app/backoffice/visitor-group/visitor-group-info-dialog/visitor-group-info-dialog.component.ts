@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {VisitorGroup} from "../../../visitor-group/model/visitor-group-api";
+import {VisitorGroup} from "../model/visitor-group-api";
 
 @Component({
   selector: 'app-visitor-group-info-dialog',

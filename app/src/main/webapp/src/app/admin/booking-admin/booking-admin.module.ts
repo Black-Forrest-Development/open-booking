@@ -15,6 +15,7 @@ import {BookingDetailsInfoComponent} from './booking-details-info/booking-detail
 import {OfferBookingDetailsComponent} from './offer-booking-details/offer-booking-details.component';
 import { BookingDetailsComponent } from './booking-details/booking-details.component';
 import { BookingChangeComponent } from './booking-change/booking-change.component';
+import {VisitorGroupModule} from "../../backoffice/visitor-group/visitor-group.module";
 
 
 @NgModule({
@@ -28,15 +29,16 @@ import { BookingChangeComponent } from './booking-change/booking-change.componen
     BookingDetailsComponent,
     BookingChangeComponent
   ],
-  imports: [
-    CommonModule,
-    BookingAdminRoutingModule,
-    MaterialModule,
-    TranslateModule,
-    NgxEchartsModule,
-    ReactiveFormsModule,
-    VisitorGroupAdminModule,
-  ]
+    imports: [
+        CommonModule,
+        BookingAdminRoutingModule,
+        MaterialModule,
+        TranslateModule,
+        NgxEchartsModule,
+        ReactiveFormsModule,
+        VisitorGroupAdminModule,
+        VisitorGroupModule,
+    ]
 })
 export class BookingAdminModule {
 }

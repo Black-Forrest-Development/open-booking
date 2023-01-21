@@ -8,39 +8,33 @@ import {TranslateModule} from "@ngx-translate/core";
 import {NgxEchartsModule} from "ngx-echarts";
 import {ReactiveFormsModule} from "@angular/forms";
 import {HomeModule} from "../../home/home.module";
-import { OfferAdminDayBoardComponent } from './offer-admin-day-board/offer-admin-day-board.component';
-import { OfferAdminPrintBoardComponent } from './offer-admin-print-board/offer-admin-print-board.component';
-import { OfferAdminChangeComponent } from './offer-admin-change/offer-admin-change.component';
-import { OfferAdminDetailsComponent } from './offer-admin-details/offer-admin-details.component';
-import { OfferAdminChangeDialogComponent } from './offer-admin-change-dialog/offer-admin-change-dialog.component';
-import { OfferAdminCreateSeriesDialogComponent } from './offer-admin-create-series-dialog/offer-admin-create-series-dialog.component';
-import { OfferAdminCreateRangeDialogComponent } from './offer-admin-create-range-dialog/offer-admin-create-range-dialog.component';
+import {OfferAdminDayBoardComponent} from './offer-admin-day-board/offer-admin-day-board.component';
+import {OfferAdminPrintBoardComponent} from './offer-admin-print-board/offer-admin-print-board.component';
+import {OfferAdminDetailsComponent} from './offer-admin-details/offer-admin-details.component';
+import {OfferAdminCreateSeriesDialogComponent} from './offer-admin-create-series-dialog/offer-admin-create-series-dialog.component';
+import {OfferAdminCreateRangeDialogComponent} from './offer-admin-create-range-dialog/offer-admin-create-range-dialog.component';
 
 
 @NgModule({
-    declarations: [
-        OfferAdminBoardComponent,
-        OfferAdminDayBoardComponent,
-        OfferAdminPrintBoardComponent,
-        OfferAdminChangeComponent,
-        OfferAdminDetailsComponent,
-        OfferAdminChangeDialogComponent,
-        OfferAdminCreateSeriesDialogComponent,
-        OfferAdminCreateRangeDialogComponent
-    ],
-    exports: [
-        OfferAdminChangeComponent
-    ],
-    imports: [
-        CommonModule,
-        OfferAdminRoutingModule,
-        LayoutModule,
-        MaterialModule,
-        TranslateModule,
-        NgxEchartsModule,
-        ReactiveFormsModule,
-        HomeModule
-    ]
+  declarations: [
+    OfferAdminBoardComponent,
+    OfferAdminDayBoardComponent,
+    OfferAdminPrintBoardComponent,
+    OfferAdminDetailsComponent,
+    OfferAdminCreateSeriesDialogComponent,
+    OfferAdminCreateRangeDialogComponent
+  ],
+  exports: [],
+  imports: [
+    CommonModule,
+    OfferAdminRoutingModule,
+    LayoutModule,
+    MaterialModule,
+    TranslateModule,
+    NgxEchartsModule,
+    ReactiveFormsModule,
+    HomeModule
+  ]
 })
 export class OfferAdminModule {
 }

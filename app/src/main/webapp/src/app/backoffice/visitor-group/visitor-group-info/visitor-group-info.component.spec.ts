@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VisitorGroupInfoComponent } from './visitor-group-info.component';
 
-describe('VisitiorGroupInfoComponent', () => {
+describe('VisitorGroupInfoComponent', () => {
   let component: VisitorGroupInfoComponent;
   let fixture: ComponentFixture<VisitorGroupInfoComponent>;
 

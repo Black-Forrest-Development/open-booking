@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {OfferAdminService} from "../model/offer-admin.service";
 import {Offer} from "../model/offer-admin-api";
-import {OfferAdminChangeDialogComponent} from "../offer-admin-change-dialog/offer-admin-change-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Location} from "@angular/common";
 
@@ -78,8 +77,8 @@ export class OfferAdminDayBoardComponent {
   }
 
   update(offer: Offer) {
-    const dialogRef = this.dialog.open(OfferAdminChangeDialogComponent, {data: offer})
-    dialogRef.afterClosed().subscribe((result: Offer) => this.updateOffer(result));
+    // const dialogRef = this.dialog.open(OfferAdminChangeDialogComponent, {data: offer})
+    // dialogRef.afterClosed().subscribe((result: Offer) => this.updateOffer(result));
   }
 
   back() {
