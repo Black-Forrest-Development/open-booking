@@ -2,6 +2,7 @@ package de.sambalmueslie.openbooking.backend.group
 
 
 import de.sambalmueslie.openbooking.backend.booking.api.Booking
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupChangeRequest
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupStatus
@@ -18,8 +19,9 @@ import org.slf4j.LoggerFactory
 @Singleton
 class VisitorGroupService(
     private val repository: VisitorGroupRepository,
-    private val timeProvider: TimeProvider
-) : GenericCrudService<Long, VisitorGroup, VisitorGroupChangeRequest, VisitorGroupData>(repository, logger) {
+    private val timeProvider: TimeProvider,
+    cacheService: CacheService,
+) : GenericCrudService<Long, VisitorGroup, VisitorGroupChangeRequest, VisitorGroupData>(repository, cacheService, VisitorGroup::class, logger) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(VisitorGroupService::class.java)

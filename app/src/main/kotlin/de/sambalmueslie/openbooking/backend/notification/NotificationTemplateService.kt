@@ -1,6 +1,7 @@
 package de.sambalmueslie.openbooking.backend.notification
 
 
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplate
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateChangeRequest
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateType
@@ -16,8 +17,9 @@ import org.slf4j.LoggerFactory
 @Singleton
 class NotificationTemplateService(
     private val repository: NotificationTemplateRepository,
-    private val timeProvider: TimeProvider
-) : GenericCrudService<Long, NotificationTemplate, NotificationTemplateChangeRequest, NotificationTemplateData>(repository, logger) {
+    private val timeProvider: TimeProvider,
+    cacheService: CacheService,
+) : GenericCrudService<Long, NotificationTemplate, NotificationTemplateChangeRequest, NotificationTemplateData>(repository, cacheService, NotificationTemplate::class, logger) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(NotificationTemplateService::class.java)

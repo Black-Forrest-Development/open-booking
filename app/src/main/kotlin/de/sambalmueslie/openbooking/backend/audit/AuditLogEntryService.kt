@@ -6,6 +6,7 @@ import de.sambalmueslie.openbooking.backend.audit.api.AuditLogEntry
 import de.sambalmueslie.openbooking.backend.audit.api.AuditLogEntryChangeRequest
 import de.sambalmueslie.openbooking.backend.audit.db.AuditLogEntryData
 import de.sambalmueslie.openbooking.backend.audit.db.AuditLogEntryRepository
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.common.GenericCrudService
 import de.sambalmueslie.openbooking.error.InvalidRequestException
 import io.micronaut.data.model.Page
@@ -17,8 +18,9 @@ import org.slf4j.LoggerFactory
 @Singleton
 class AuditLogEntryService(
     private val repository: AuditLogEntryRepository,
-    private val mapper: ObjectMapper
-) : GenericCrudService<Long, AuditLogEntry, AuditLogEntryChangeRequest, AuditLogEntryData>(repository, logger) {
+    private val mapper: ObjectMapper,
+    cacheService: CacheService,
+) : GenericCrudService<Long, AuditLogEntry, AuditLogEntryChangeRequest, AuditLogEntryData>(repository, cacheService, AuditLogEntry::class, logger) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(AuditLogEntryService::class.java)

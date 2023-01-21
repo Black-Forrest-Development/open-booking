@@ -4,6 +4,7 @@ package de.sambalmueslie.openbooking.backend.booking
 import de.sambalmueslie.openbooking.backend.booking.api.*
 import de.sambalmueslie.openbooking.backend.booking.db.BookingData
 import de.sambalmueslie.openbooking.backend.booking.db.BookingRepository
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.offer.OfferService
@@ -21,8 +22,9 @@ class BookingService(
     private val offerService: OfferService,
     private val visitorGroupService: VisitorGroupService,
     private val repository: BookingRepository,
-    private val timeProvider: TimeProvider
-) : GenericCrudService<Long, Booking, BookingChangeRequest, BookingData>(repository, logger) {
+    private val timeProvider: TimeProvider,
+    cacheService: CacheService,
+) : GenericCrudService<Long, Booking, BookingChangeRequest, BookingData>(repository, cacheService, Booking::class, logger) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(BookingService::class.java)

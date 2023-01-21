@@ -1,6 +1,7 @@
 package de.sambalmueslie.openbooking.backend.offer
 
 
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import de.sambalmueslie.openbooking.backend.offer.api.OfferChangeRequest
 import de.sambalmueslie.openbooking.backend.offer.api.OfferRangeRequest
@@ -22,8 +23,9 @@ import java.time.temporal.ChronoUnit
 @Singleton
 class OfferService(
     private val repository: OfferRepository,
-    private val timeProvider: TimeProvider
-) : GenericCrudService<Long, Offer, OfferChangeRequest, OfferData>(repository, logger) {
+    private val timeProvider: TimeProvider,
+    cacheService: CacheService,
+) : GenericCrudService<Long, Offer, OfferChangeRequest, OfferData>(repository, cacheService, Offer::class, logger) {
 
 
     companion object {

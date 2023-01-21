@@ -3,22 +3,29 @@ package de.sambalmueslie.openbooking.common
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.LoadingCache
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.data.repository.PageableRepository
 import org.slf4j.Logger
 import java.util.concurrent.TimeUnit
+import kotlin.reflect.KClass
 
 abstract class GenericCrudService<T : Any, O : BusinessObject<T>, R : BusinessObjectChangeRequest, D : DataObject<O>>(
     private val repository: PageableRepository<D, T>,
+    cacheService: CacheService,
+    type: KClass<O>,
     logger: Logger,
     cacheSize: Long = 100,
 ) : BaseCrudService<T, O, R>(logger) {
 
-    private val cache: LoadingCache<T, O> = Caffeine.newBuilder()
-        .maximumSize(cacheSize)
-        .expireAfterWrite(1, TimeUnit.HOURS)
-        .build { id -> repository.findByIdOrNull(id)?.convert() }
+    private val cache: LoadingCache<T, O> = cacheService.register(type) {
+        Caffeine.newBuilder()
+            .maximumSize(cacheSize)
+            .expireAfterWrite(1, TimeUnit.HOURS)
+            .recordStats()
+            .build { id -> repository.findByIdOrNull(id)?.convert() }
+    }
 
     final override fun get(id: T): O? {
         return cache.get(id)
