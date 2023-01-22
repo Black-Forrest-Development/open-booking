@@ -5,6 +5,9 @@ import {DOCUMENT} from "@angular/common";
 import {AuthService} from "@auth0/auth0-angular";
 import {MatSelectChange} from "@angular/material/select";
 import {HomeService} from "../model/home.service";
+import {Observable} from "rxjs";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {map, shareReplay} from "rxjs/operators";
 
 @Component({
   selector: 'app-home-toolbar',
@@ -20,12 +23,18 @@ export class HomeToolbarComponent {
 
   lang: string | undefined = undefined;
 
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
 
   constructor(private translate: TranslateService,
               public dialog: MatDialog, @Inject(DOCUMENT)
               public document: Document,
               public auth: AuthService,
-              public service: HomeService
+              public service: HomeService,
+              private breakpointObserver: BreakpointObserver
   ) {
     translate.setDefaultLang('en');
 
@@ -48,7 +57,7 @@ export class HomeToolbarComponent {
 
   showHelp() {
     let newTab = window.open()
-      // @ts-ignore
+    // @ts-ignore
     this.service.getHelpUrl().subscribe(url => newTab.location.href = url.url)
   }
 

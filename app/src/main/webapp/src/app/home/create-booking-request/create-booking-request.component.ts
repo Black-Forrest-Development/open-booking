@@ -32,17 +32,17 @@ export class CreateBookingRequestComponent {
   spacePlaceholder = ""
 
   formGroup = this.fb.group({
-    title: ['Default Title', Validators.required],
+    title: ['', Validators.required],
     size: ['', Validators.required],
     group: [false],
-    minAge: ['1', Validators.required],
-    maxAge: ['99', Validators.required],
-    contact: ['Contact', Validators.required],
+    minAge: ['', Validators.required],
+    maxAge: ['', Validators.required],
+    contact: ['', Validators.required],
     street: [''],
     zip: [''],
     city: [''],
-    phone: ['012456789', Validators.required],
-    mail: ['test@mailtest.com', Validators.required],
+    phone: ['', Validators.required],
+    mail: ['', Validators.required],
     termsAndConditions: [false, Validators.requiredTrue],
     comment: [''],
   });

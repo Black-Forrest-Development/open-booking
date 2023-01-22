@@ -3,6 +3,9 @@ import {DayInfo, defaultDayInfo} from "../../day-info/model/day-info-api";
 import {ActivatedRoute} from "@angular/router";
 import {DayInfoService} from "../../day-info/model/day-info.service";
 import {Location} from "@angular/common";
+import {Observable} from "rxjs";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {map, shareReplay} from "rxjs/operators";
 
 @Component({
   selector: 'app-day-info-details',
@@ -15,10 +18,16 @@ export class DayInfoDetailsComponent {
 
   data: DayInfo = defaultDayInfo
 
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
 
   constructor(private route: ActivatedRoute,
               private service: DayInfoService,
-              private location: Location
+              private location: Location,
+              private breakpointObserver: BreakpointObserver
   ) {
   }
 
