@@ -9,7 +9,13 @@
     "Back": "Zurück",
     "Details": "Details",
     "Edit": "Bearbeiten",
-    "Delete": "Löschen"
+    "Delete": "Löschen",
+    "Submit": "Absenden",
+    "Cancel": "Abbrechen",
+    "Close": "Schließen",
+    "Save": "Speichern",
+    "Yes": "Ja",
+    "No": "Nein"
   },
   "MENU": {
     "Home": "Startseite",
@@ -18,12 +24,15 @@
     "Help": "Hilfe",
     "Admin": "Verwaltung",
     "Login": "Login",
-    "Logout": "Logout"
+    "Logout": "Logout",
+    "Backoffice": "Backoffice"
   },
   "LANG": {
     "Title": "Sprache",
     "English": "English",
-    "German": "Deutsch"
+    "German": "Deutsch",
+    "en": "English",
+    "de": "Deutsch"
   },
   "DAY_INFO": {
     "SelectRange": {
@@ -48,7 +57,20 @@
       "Select": "Tag auswählen"
     },
     "Action": {
-      "Create": "Buchung erstellen"
+      "Create": "Buchung erstellen",
+      "Search": "Buchung suchen"
+    },
+    "Dialog": {
+      "InfoTitle": "Buchungsinfo"
+    },
+    "Status": {
+      "Title": "Buchungsstatus",
+      "CONFIRMED": "Bestätigt",
+      "UNCONFIRMED": "Unbestätigt",
+      "UNKNOWN": "Unbekannt"
+    },
+    "Details": {
+      "Title": "Buchungsdetails"
     },
     "Create": {
       "Title": "Eine neue Buchung erstellen",
@@ -79,6 +101,7 @@
         "VisitorGroup": {
           "Title": "Bezeichung",
           "Size": "Größe",
+          "School": "Schulklasse oder Kindergarten-Gruppe",
           "MinAge": "Minimum Alter",
           "MaxAge": "Maximum Alter",
           "Contact": "Kontakt",
@@ -100,6 +123,16 @@
     }
   },
   "OFFER": {
+    "Field": {
+      "Id": "Id",
+      "Date": "Datum",
+      "StartTime": "Begin",
+      "FinishTime": "Finish Time",
+      "Start": "Start",
+      "Finish": "Finish",
+      "MaxPersons": "Max Persons",
+      "Active": "Active"
+    },
     "Form": {
       "Id": "Id",
       "Start": "Begin",
@@ -109,7 +142,22 @@
     },
     "Action": {
       "Details": "Details",
-      "Print": "Drucken"
+      "Print": "Drucken",
+      "Select": "Termin auswählen",
+      "CreateSingle": "Termin erstellen",
+      "CreateSeries": "Serie erstellen",
+      "CreateRange": "Auswahl erstellen",
+      "ShowBookings": "Buchungen",
+      "Export_PDF": "PDF",
+      "Export_Excel": "Excel",
+      "Search": "Termin suchen"
+    },
+    "Operation": {
+      "Create": "Termin erstellen",
+      "Edit": "Termin ändern"
+    },
+    "Info": {
+      "SpaceAvailable": "Es sind noch {{value}} Plätze frei"
     }
   },
   "ADMIN": {

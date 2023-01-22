@@ -12,7 +12,7 @@
         <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Title' | translate}}</mat-label>
         <input matInput type="text" formControlName="title">
       </mat-form-field>
-      <div class="d-flex flex-row align-items-baseline gap-3">
+      <div class="form-group gap-3">
         <mat-form-field class="column50">
           <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Size' | translate}}</mat-label>
           <input matInput type="number" formControlName="size" [disabled]="groupBookingSelected" [placeholder]="spacePlaceholder">
@@ -29,7 +29,7 @@
           </mat-slide-toggle>
         </div>
       </div>
-      <div class="d-flex flex-row align-items-baseline gap-3">
+      <div class="form-group gap-3">
         <mat-form-field class="column50">
           <mat-label>{{'BOOKING.Create.Form.VisitorGroup.MinAge' | translate}}</mat-label>
           <input matInput type="number" formControlName="minAge">
@@ -48,7 +48,7 @@
         <input matInput type="text" formControlName="street">
       </mat-form-field>
 
-      <div class="d-flex flex-row align-items-baseline gap-3">
+      <div class="form-group gap-3">
         <mat-form-field class="fxFlexNoGrow">
           <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Zip' | translate}}</mat-label>
           <input matInput type="text" formControlName="zip">
@@ -59,7 +59,7 @@
         </mat-form-field>
       </div>
 
-      <div class="d-flex flex-row gap-3">
+      <div class="form-group gap-3">
         <mat-form-field class="fxFlex">
           <mat-label>{{'BOOKING.Create.Form.VisitorGroup.Phone' | translate}}</mat-label>
           <input matInput type="text" formControlName="phone">

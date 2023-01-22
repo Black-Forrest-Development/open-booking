@@ -1,3 +1,15 @@
 .column50 {
   flex: 1 1 calc(50% - 1rem)
 }
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 800px) {
+  .form-group {
+    flex-direction: column;
+  }
+}
+
