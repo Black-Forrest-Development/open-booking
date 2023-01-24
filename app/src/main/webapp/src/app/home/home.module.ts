@@ -20,6 +20,7 @@ import {CreateBookingRequestComponent} from './create-booking-request/create-boo
 import {ReactiveFormsModule} from "@angular/forms";
 import {CreateBookingConfirmationDialogComponent} from './create-booking-confirmation-dialog/create-booking-confirmation-dialog.component';
 import {ConfirmMailComponent} from './confirm-mail/confirm-mail.component';
+import { CreateBookingFailedDialogComponent } from './create-booking-failed-dialog/create-booking-failed-dialog.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {ConfirmMailComponent} from './confirm-mail/confirm-mail.component';
         DayInfoDetailsListEntryComponent,
         CreateBookingRequestComponent,
         CreateBookingConfirmationDialogComponent,
-        ConfirmMailComponent
+        ConfirmMailComponent,
+        CreateBookingFailedDialogComponent
     ],
     exports: [
         HomeToolbarComponent

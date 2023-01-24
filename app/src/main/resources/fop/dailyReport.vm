@@ -97,20 +97,20 @@
                             </fo:table-header>
                             <fo:table-body>
                                 #foreach($booking in $entry.bookings)
-                                    <fo:table-row height="0.7cm">
-                                        <fo:table-cell padding="4px" number-columns-spanned="2">
+                                    <fo:table-row height="0.7cm" border="thin solid #CCCCCC">
+                                        <fo:table-cell padding="2px" number-columns-spanned="2">
                                             <fo:block text-align="left">$foreach.count</fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding="4px" number-columns-spanned="3">
+                                        <fo:table-cell padding="2px" number-columns-spanned="3">
                                             <fo:block text-align="left">${booking.visitorGroup.title}</fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding="4px" number-columns-spanned="3">
+                                        <fo:table-cell padding="2px" number-columns-spanned="3">
                                             <fo:block text-align="left">${booking.visitorGroup.contact}</fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding="4px" number-columns-spanned="3">
+                                        <fo:table-cell padding="2px" number-columns-spanned="3">
                                             <fo:block text-align="left">${booking.visitorGroup.size}</fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding="4px" number-columns-spanned="3">
+                                        <fo:table-cell padding="2px" number-columns-spanned="3">
                                             <fo:block text-align="left">${booking.booking.status}</fo:block>
                                         </fo:table-cell>
                                     </fo:table-row>

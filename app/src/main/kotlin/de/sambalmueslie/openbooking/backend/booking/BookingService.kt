@@ -79,11 +79,15 @@ class BookingService(
 
     fun getBookings(offer: List<Offer>): List<Booking> {
         val offerIds = offer.map { it.id }.toSet()
-        return repository.findByOfferIdIn(offerIds).map { it.convert() }
+        return getBookingsByOfferId(offerIds)
     }
 
     fun getBookings(offer: Offer): List<Booking> {
         return repository.findByOfferId(offer.id).map { it.convert() }
+    }
+
+    fun getBookingsByOfferId(offerIds: Set<Long>): List<Booking>{
+        return repository.findByOfferIdIn(offerIds).map { it.convert() }
     }
 
     fun getBookings(bookingIds: Set<Long>): List<Booking> {
@@ -97,6 +101,7 @@ class BookingService(
         val confirmedBookings = repository.findByOfferIdInAndStatus(offerIds, BookingStatus.CONFIRMED).groupBy { it.offerId }
         return data.mapNotNull { info(it, offer[it.offerId], confirmedBookings[it.offerId] ?: emptyList()) }
     }
+
 
     private fun info(data: BookingData, offer: Offer?, confirmedBookings: List<BookingData>): BookingInfo? {
         if (offer == null) return null

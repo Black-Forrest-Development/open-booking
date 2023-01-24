@@ -45,7 +45,7 @@ class VisitorGroupService(
     override fun isValid(request: VisitorGroupChangeRequest) {
         if (request.title.isEmpty()) throw InvalidRequestException("Title cannot be empty")
         if (request.size <= 0) throw InvalidRequestException("Size must be a positive number")
-        if (request.minAge <= 0) throw InvalidRequestException("Min Age must be a positive number")
+        if (request.minAge < 0) throw InvalidRequestException("Min Age must be >= 0")
         if (request.maxAge <= 0) throw InvalidRequestException("Max Age must be a positive number")
         if (request.contact.isEmpty()) throw InvalidRequestException("Contact cannot be empty")
         if (request.email.isEmpty() && request.phone.isEmpty()) throw InvalidRequestException("Either mail or phone contact must be provided")

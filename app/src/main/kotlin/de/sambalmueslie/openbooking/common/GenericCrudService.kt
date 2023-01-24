@@ -86,7 +86,7 @@ abstract class GenericCrudService<T : Any, O : BusinessObject<T>, R : BusinessOb
         return result
     }
 
-    protected abstract fun isValid(request: R)
+    abstract fun isValid(request: R)
     protected open fun existing(request: R): D? {
         return null
     }

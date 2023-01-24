@@ -5,10 +5,13 @@ import de.sambalmueslie.openbooking.backend.booking.BookingService
 import de.sambalmueslie.openbooking.backend.booking.api.Booking
 import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
 import de.sambalmueslie.openbooking.backend.booking.api.BookingInfo
+import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
 import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupStatus
+import de.sambalmueslie.openbooking.backend.offer.OfferService
+import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import de.sambalmueslie.openbooking.backend.request.api.*
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestData
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelation
@@ -19,6 +22,7 @@ import de.sambalmueslie.openbooking.backend.response.api.ResolvedResponse
 import de.sambalmueslie.openbooking.backend.response.api.ResponseType
 import de.sambalmueslie.openbooking.common.*
 import de.sambalmueslie.openbooking.config.AppConfig
+import de.sambalmueslie.openbooking.error.InvalidRequestException
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
@@ -27,12 +31,11 @@ import org.slf4j.LoggerFactory
 import java.util.*
 
 
-
-
 @Singleton
 class BookingRequestService(
     private val bookingService: BookingService,
     private val visitorGroupService: VisitorGroupService,
+    private val offerService: OfferService,
     private val responseService: ResponseService,
     private val repository: BookingRequestRepository,
     private val relationRepository: BookingRequestRelationRepository,
@@ -69,10 +72,15 @@ class BookingRequestService(
     }
 
     override fun create(request: BookingRequestChangeRequest): BookingRequest {
+        val offerIds = request.offerIds.toSet()
+        val existingBookings = bookingService.getBookingsByOfferId(offerIds).groupBy { it.offerId }
+        val suitableOffers = offerService.getOffer(offerIds).filter { isEnoughSpaceAvailable(request, it, existingBookings[it.id] ?: emptyList()) }
+        if (suitableOffers.isEmpty()) throw InvalidRequestException("REQUEST.Error.NoSuitableOffer")
+
         isValid(request)
         val data = repository.save(createData(request))
 
-        val bookings = request.offerIds.map { bookingService.create(BookingChangeRequest(it, data.visitorGroupId)) }
+        val bookings = suitableOffers.map { bookingService.create(BookingChangeRequest(it.id, data.visitorGroupId)) }
         val relations = bookings.map { BookingRequestRelation(it.id, data.id) }
         relationRepository.saveAll(relations)
 
@@ -98,8 +106,19 @@ class BookingRequestService(
     }
 
     override fun isValid(request: BookingRequestChangeRequest) {
-        // intentionally left empty
+        visitorGroupService.isValid(request.visitorGroupChangeRequest)
     }
+
+
+    private fun isEnoughSpaceAvailable(request: BookingRequestChangeRequest, offer: Offer, bookings: List<Booking>): Boolean {
+        if (bookings.isEmpty()) return true
+
+        val spaceConfirmed = bookings.filter { it.status == BookingStatus.CONFIRMED || it.status == BookingStatus.UNCONFIRMED }.sumOf { it.size }
+        val spaceAvailable = offer.maxPersons - spaceConfirmed
+
+        return spaceAvailable >= request.visitorGroupChangeRequest.size
+    }
+
 
     override fun deleteDependencies(data: BookingRequestData) {
         val relations = relationRepository.getByBookingRequestId(data.id)
@@ -234,5 +253,6 @@ class BookingRequestService(
         )
         return responseService.resolve(lang, ResponseType.BOOKING_DENIED, properties)
     }
+
 
 }

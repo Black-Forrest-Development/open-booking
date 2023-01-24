@@ -11,6 +11,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {CreateBookingConfirmationDialogComponent} from "../create-booking-confirmation-dialog/create-booking-confirmation-dialog.component";
 import {Location} from "@angular/common";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {CreateBookingFailedDialogComponent} from "../create-booking-failed-dialog/create-booking-failed-dialog.component";
 
 @Component({
   selector: 'app-create-booking-request',
@@ -33,10 +34,10 @@ export class CreateBookingRequestComponent {
 
   formGroup = this.fb.group({
     title: ['', Validators.required],
-    size: ['', Validators.required],
+    size: ['', [Validators.required, Validators.min(1)]],
     group: [false],
-    minAge: ['', Validators.required],
-    maxAge: ['', Validators.required],
+    minAge: ['', [Validators.required, Validators.min(0)]],
+    maxAge: ['', [Validators.required, Validators.min(0)]],
     contact: ['', Validators.required],
     street: [''],
     zip: [''],
@@ -123,7 +124,10 @@ export class CreateBookingRequestComponent {
       value.comment!!,
       value.termsAndConditions!!
     )
-    this.service.createBooking(request).subscribe(d => this.handleResult(d))
+    this.service.createBooking(request).subscribe({
+      next: d     => this.handleResult(d),
+      error: (err) => this.handleError(err)
+    })
   }
 
   private handleResult(d: BookingRequest) {
@@ -142,5 +146,10 @@ export class CreateBookingRequestComponent {
     } else {
       this.formGroup.controls['size'].enable()
     }
+  }
+
+  private handleError(err: any) {
+    let dialogRef = this.dialog.open(CreateBookingFailedDialogComponent, {data: err})
+    dialogRef.afterClosed().subscribe(() => this.router.navigate(['']))
   }
 }

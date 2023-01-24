@@ -34,6 +34,12 @@ export class HomeService extends BaseService {
     return this.get('request/' + requestId + '/received/message', queryParams)
   }
 
+  getRequestFailedMessage(requestId: number, lang: string): Observable<ResolvedResponse> {
+    let queryParams = new HttpParams()
+    queryParams = queryParams.append("lang",lang)
+    return this.get('request/' + requestId + '/failed/message', queryParams)
+  }
+
   getHelpUrl(): Observable<UrlResponse> {
     return this.get('setting/help')
   }

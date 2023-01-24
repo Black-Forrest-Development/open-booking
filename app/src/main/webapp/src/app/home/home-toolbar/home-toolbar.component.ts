@@ -36,7 +36,7 @@ export class HomeToolbarComponent {
               public service: HomeService,
               private breakpointObserver: BreakpointObserver
   ) {
-    translate.setDefaultLang('en');
+    translate.setDefaultLang('de');
 
   }
 
