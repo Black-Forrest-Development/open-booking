@@ -11,7 +11,8 @@ import java.time.LocalDateTime
 @Entity(name = "Setting")
 @Table(name = "setting")
 data class SettingData(
-    @Id val id: String,
+    @Id @GeneratedValue val id: Long,
+    @Column var key: String,
     @Column var value: String,
     @Column @Enumerated(EnumType.STRING) var type: ValueType,
     @Column var created: LocalDateTime,
@@ -20,7 +21,7 @@ data class SettingData(
 
     companion object {
         fun create(request: SettingChangeRequest, timestamp: LocalDateTime): SettingData {
-            return SettingData(request.id, convert(request), request.type, timestamp)
+            return SettingData(0, request.key, convert(request), request.type, timestamp)
         }
 
         private fun convert(request: SettingChangeRequest): String {
@@ -41,11 +42,11 @@ data class SettingData(
             else -> value
         }
 
-        return Setting(id, result, type)
+        return Setting(id, key, result, type)
     }
 
     fun update(request: SettingChangeRequest, timestamp: LocalDateTime): SettingData {
-        value = convert(request)
+        value = convert(request.value)
         type = request.type
         updated = timestamp
         return this

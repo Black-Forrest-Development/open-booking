@@ -16,6 +16,7 @@ const routes: Routes = [
         {path: 'notification', loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule)},
         {path: 'audit', loadChildren: () => import('./audit/audit.module').then(m => m.AuditModule)},
         {path: 'cache', loadChildren: () => import('./cache/cache.module').then(m => m.CacheModule)},
+        {path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
       ]
     }
   ]

@@ -15,7 +15,7 @@ class SettingsChangeHandler(
     source: SettingsService,
     private val service: AuditLogEntryService,
     private val timeProvider: TimeProvider
-) : BusinessObjectChangeListener<String, Setting> {
+) : BusinessObjectChangeListener<Long, Setting> {
 
     init {
         source.register(this)
@@ -34,7 +34,7 @@ class SettingsChangeHandler(
     }
 
     private fun handleChange(obj: Setting, message: String) {
-        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message, obj.id, obj, "SETTING API"))
+        service.create(AuditLogEntryChangeRequest(timeProvider.now(), "system", AuditLogLevel.INFO, message, obj.id.toString(), obj, "SETTING API"))
     }
 
 }

@@ -36,13 +36,13 @@ export class HomeToolbarComponent {
               public service: HomeService,
               private breakpointObserver: BreakpointObserver
   ) {
-    translate.setDefaultLang('de');
+    translate.setDefaultLang('en');
 
   }
 
   ngOnInit() {
-    this.lang = navigator.language
-    this.translate.use(this.lang);
+    this.lang = navigator.language ?? 'de'
+    this.translate.use(this.lang)
   }
 
   changeLang(event: MatSelectChange) {

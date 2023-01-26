@@ -178,9 +178,11 @@ CREATE TABLE audit_log_entry
 );
 
 -- setting
+CREATE SEQUENCE setting_seq;
 CREATE TABLE setting
 (
-    id      VARCHAR(255)                NOT NULL PRIMARY KEY,
+    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('setting_seq'::regclass),
+    key     VARCHAR(255)                NOT NULL UNIQUE,
     value   TEXT                        NOT NULL,
     type    VARCHAR(255)                NOT NULL,
 

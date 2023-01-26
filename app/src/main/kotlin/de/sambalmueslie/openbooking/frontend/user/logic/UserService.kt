@@ -86,11 +86,11 @@ class UserService(
 
 
     fun getHelpUrl(): String {
-        return settingsService.get(SettingsAPI.SETTINGS_URL_HELP)?.value as? String ?: ""
+        return settingsService.findByKey(SettingsAPI.SETTINGS_URL_HELP)?.value as? String ?: ""
     }
 
     fun getTermsAndConditionsUrl(): String {
-        return settingsService.get(SettingsAPI.SETTINGS_URL_TERMS_AND_CONDITIONS)?.value as? String ?: ""
+        return settingsService.findByKey(SettingsAPI.SETTINGS_URL_TERMS_AND_CONDITIONS)?.value as? String ?: ""
     }
 
     fun confirmEmail(key: String): GenericRequestResult {

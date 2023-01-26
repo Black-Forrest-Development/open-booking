@@ -31,7 +31,7 @@ abstract class GenericCrudService<T : Any, O : BusinessObject<T>, R : BusinessOb
         return cache.get(id)
     }
 
-    final override fun getAll(pageable: Pageable): Page<O> {
+    override fun getAll(pageable: Pageable): Page<O> {
         return repository.findAll(pageable).map { it.convert() }
     }
 

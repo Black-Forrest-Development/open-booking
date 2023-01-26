@@ -152,4 +152,10 @@ export class CreateBookingRequestComponent {
     let dialogRef = this.dialog.open(CreateBookingFailedDialogComponent, {data: err})
     dialogRef.afterClosed().subscribe(() => this.router.navigate(['']))
   }
+
+  showTermsAndConditions() {
+    let newTab = window.open()
+    // @ts-ignore
+    this.service.getTermsAndConditionsUrl().subscribe(url => newTab.location.href = url.url)
+  }
 }

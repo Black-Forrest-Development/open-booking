@@ -209,7 +209,8 @@
         "Label": "Mail"
       },
       "TermsAndConditions": {
-        "Label": "I read the terms and conditions and accept these."
+        "Label": "I read the terms and conditions and accept these.",
+        "Show": "Show terms and conditions"
       },
       "Comment": {
         "Label": "Comment",
@@ -271,7 +272,8 @@
       "Notification": "Notification Mgt",
       "Response": "Response Mgt",
       "AuditLog": "Audit Log",
-      "Cache": "Cache Mgt"
+      "Cache": "Cache Mgt",
+      "Settings": "Settings"
     }
   },
   "RESPONSE": {
@@ -392,6 +394,13 @@
     },
     "Action": {
       "Reset": "Reset"
+    }
+  },
+  "SETTING": {
+    "Field": {
+      "Id": "Id",
+      "Value": "Value",
+      "Type": "Type"
     }
   },
   "ERROR": {

@@ -206,7 +206,8 @@
         "Label": "E-Mail Addresse"
       },
       "TermsAndConditions": {
-        "Label": "Ich habe die Hinweise zur Terminreservierung gelesen und akzeptiere sie."
+        "Label": "Ich habe die Hinweise zur Terminreservierung gelesen und akzeptiere sie.",
+        "Show": "Hinweise anzeigen"
       },
       "Comment": {
         "Label": "Anmerkungen",
