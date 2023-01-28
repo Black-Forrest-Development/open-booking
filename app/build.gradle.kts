@@ -36,9 +36,9 @@ dependencies {
     implementation("org.apache.poi:poi:5.2.3")
     implementation("org.apache.poi:poi-ooxml:5.2.3")
     // mail
-    implementation("org.simplejavamail:simple-java-mail:7.7.1")
-    implementation("org.simplejavamail:batch-module:7.7.1")
-    implementation("org.simplejavamail:authenticated-socks-module:7.7.1")
+    implementation("org.simplejavamail:simple-java-mail:7.8.0")
+    implementation("org.simplejavamail:batch-module:7.8.0")
+    implementation("org.simplejavamail:authenticated-socks-module:7.8.0")
 }
 
 application {
