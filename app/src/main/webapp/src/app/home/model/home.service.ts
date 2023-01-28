@@ -17,7 +17,11 @@ export class HomeService extends BaseService {
   constructor(http: HttpClient, logging: LoggingService) {
     super(http, 'frontend/user', logging)
     this.retryCount = 1
+    this.getTitle().subscribe(d => this.title = d.text)
   }
+
+  title: string = 'APP.Title'
+
 
 
   getOffer(offerId: number): Observable<DayInfoOffer> {
