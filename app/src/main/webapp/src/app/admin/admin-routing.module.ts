@@ -13,7 +13,6 @@ const routes: Routes = [
       {path: 'offer', loadChildren: () => import('./offer-admin/offer-admin.module').then(m => m.OfferAdminModule)},
       {path: 'booking', loadChildren: () => import('./booking-admin/booking-admin.module').then(m => m.BookingAdminModule)},
       {path: 'request', loadChildren: () => import('./request-admin/request-admin.module').then(m => m.RequestAdminModule)},
-      {path: 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule)}
     ]
 
   },
