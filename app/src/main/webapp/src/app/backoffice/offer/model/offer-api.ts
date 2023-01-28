@@ -6,6 +6,15 @@ export interface Offer {
   active: boolean
 }
 
+export const defaultOffer: Offer = {
+  id: -1,
+  start: "",
+  finish: "",
+  maxPersons: -1,
+  active: false
+}
+
+
 export class OfferChangeRequest {
   constructor(
     public start: string,
