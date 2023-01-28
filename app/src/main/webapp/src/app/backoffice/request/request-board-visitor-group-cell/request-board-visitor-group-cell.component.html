@@ -3,9 +3,9 @@
     <div>{{data.title}}</div>
     <div>{{data.contact}}</div>
   </div>
-  <div class="status-column d-flex flex-row gap-3" *ngIf="showDetails">
+  <div class="status-column d-flex flex-row gap-3 align-items-center" *ngIf="showDetails">
     <div class="fxFlex">
-      <mat-chip [highlighted]="true">{{data.status}}</mat-chip>
+      <mat-chip [highlighted]="true" [color]="getColor(data.status)">{{data.status}}</mat-chip>
     </div>
     <div class="fxFlex">
       <ng-container *ngIf="!confirming; else mailConfirming">

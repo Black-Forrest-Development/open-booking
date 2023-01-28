@@ -101,4 +101,8 @@ class UserService(
         return bookingRequestService.getRequestReceivedMessage(requestId, lang)
     }
 
+    fun getTitle(): String {
+        return settingsService.findByKey(SettingsAPI.SETTINGS_TEXT_TITLE)?.value as? String ?: ""
+    }
+
 }

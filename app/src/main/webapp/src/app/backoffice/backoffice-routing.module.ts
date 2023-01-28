@@ -17,6 +17,7 @@ const routes: Routes = [
         {path: 'audit', loadChildren: () => import('./audit/audit.module').then(m => m.AuditModule)},
         {path: 'cache', loadChildren: () => import('./cache/cache.module').then(m => m.CacheModule)},
         {path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
+        {path: 'mail', loadChildren: () => import('./mail/mail.module').then(m => m.MailModule)},
       ]
     }
   ]

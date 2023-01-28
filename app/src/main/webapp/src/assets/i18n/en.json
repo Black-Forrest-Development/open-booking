@@ -164,6 +164,11 @@
       "Deny": "Deny booking",
       "Submit": "Submit request"
     },
+    "Table": {
+      "Timestamp": "Timestamp",
+      "VisitorGroup": "Visitor Group",
+      "Bookings": "Bookings"
+    },
     "Form": {
       "SpaceAvailable": "Places available",
       "Title": {
@@ -241,6 +246,9 @@
       "Failed": {
         "Title": "Booking Request Failed",
         "Message": "We are sorry, but something went wrong with your request. Please try again or choose a different date."
+      },
+      "Comment": {
+        "Title": "Comment Dialog"
       }
     }
   },
@@ -273,7 +281,8 @@
       "Response": "Response Mgt",
       "AuditLog": "Audit Log",
       "Cache": "Cache Mgt",
-      "Settings": "Settings"
+      "Settings": "Settings",
+      "Mail": "Mail Status"
     }
   },
   "RESPONSE": {
@@ -401,6 +410,25 @@
       "Id": "Id",
       "Value": "Value",
       "Type": "Type"
+    }
+  },
+  "MAIL": {
+    "Action": {
+      "Search": "Search Job",
+      "SearchHistory": "Search History"
+    },
+    "Table": {
+      "Id": "Id",
+      "Status": "Status",
+      "Message": "Message",
+      "Timestamp": "Timestamp",
+      "Title": "Title"
+    },
+    "Status": {
+      "QUEUED": "Queued",
+      "FINISHED": "Finished",
+      "RETRY": "Retrying",
+      "FAILED": "Failed"
     }
   },
   "ERROR": {

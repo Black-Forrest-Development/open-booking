@@ -15,7 +15,7 @@
     </div>
     <div class="flex-grow-1"></div>
     <div class="px-1">
-      <h3>{{'APP.Title' | translate}}</h3>
+      <h3>{{ (service.getTitle() | async)?.text ?? 'APP.Title' | translate}}</h3>
     </div>
     <div class="flex-grow-1"></div>
 

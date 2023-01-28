@@ -1,4 +1,4 @@
-package de.sambalmueslie.openbooking.backend.notification.mail
+package de.sambalmueslie.openbooking.backend.mail.api
 
 data class MailParticipant(
     val name: String,

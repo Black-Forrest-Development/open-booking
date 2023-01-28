@@ -4,6 +4,7 @@ package de.sambalmueslie.openbooking.frontend.user
 import de.sambalmueslie.openbooking.backend.info.api.DateRangeSelectionRequest
 import de.sambalmueslie.openbooking.frontend.user.api.CreateBookingRequest
 import de.sambalmueslie.openbooking.frontend.user.api.OfferInfoSelectRequest
+import de.sambalmueslie.openbooking.frontend.user.api.TextResponse
 import de.sambalmueslie.openbooking.frontend.user.api.UrlResponse
 import de.sambalmueslie.openbooking.frontend.user.logic.UserService
 import io.micronaut.http.annotation.*
@@ -42,6 +43,9 @@ class UserController(private val service: UserService) {
 
     @Get("setting/terms-and-conditions")
     fun getTermsAndConditionsUrl() = UrlResponse(service.getTermsAndConditionsUrl())
+
+    @Get("setting/title")
+    fun getTitle() = TextResponse(service.getTitle())
 
     @Post("confirm/email/{key}")
     fun confirmEmail(key: String) = service.confirmEmail(key)

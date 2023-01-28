@@ -5,7 +5,7 @@ import de.sambalmueslie.openbooking.backend.export.tools.LocalDateTimeTool
 import de.sambalmueslie.openbooking.backend.notification.api.ContentType
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplate
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateType
-import de.sambalmueslie.openbooking.backend.notification.mail.Mail
+import de.sambalmueslie.openbooking.backend.mail.api.Mail
 import jakarta.inject.Singleton
 import org.apache.velocity.app.VelocityEngine
 import org.apache.velocity.tools.ToolManager

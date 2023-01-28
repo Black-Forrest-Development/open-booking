@@ -191,17 +191,20 @@ CREATE TABLE setting
 );
 
 -- default settings
-INSERT INTO setting
+INSERT INTO setting(key, value, type,created)
 VALUES ('url.help', 'http://localhost', 'URL', now());
 
-INSERT INTO setting
+INSERT INTO setting(key, value, type,created)
 VALUES ('url.terms-and-conditions', 'http://localhost', 'URL', now());
 
-INSERT INTO setting
+INSERT INTO setting(key, value, type,created)
 VALUES ('mail.from-address', 'mail@test.com', 'EMAIL', now());
 
-INSERT INTO setting
+INSERT INTO setting(key, value, type,created)
 VALUES ('mail.reply-to-address', 'mail@test.com', 'EMAIL', now());
 
-INSERT INTO setting
+INSERT INTO setting(key, value, type,created)
 VALUES ('mail.default-admin-address', 'mail@test.com', 'EMAIL', now());
+
+INSERT INTO setting(key, value, type,created)
+VALUES ('text.title', 'APP.Title', 'STRING', now());

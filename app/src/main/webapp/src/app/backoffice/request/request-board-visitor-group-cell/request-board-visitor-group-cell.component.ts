@@ -3,6 +3,7 @@ import {defaultVisitorGroup, VisitorGroup} from "../../../visitor-group/model/vi
 import {MatDialog} from "@angular/material/dialog";
 import {VisitorGroupService} from "../../visitor-group/model/visitor-group.service";
 import {VisitorGroupInfoDialogComponent} from "../../visitor-group/visitor-group-info-dialog/visitor-group-info-dialog.component";
+import {ThemePalette} from "@angular/material/core";
 
 @Component({
   selector: 'app-request-board-visitor-group-cell',
@@ -38,5 +39,15 @@ export class RequestBoardVisitorGroupCellComponent {
 
   showDetailsDialog() {
     this.dialog.open(VisitorGroupInfoDialogComponent, {data: this.data});
+  }
+
+  getColor(status: string): ThemePalette {
+    if(status == 'CONFIRMED'){
+      return 'accent'
+    }
+    if(status == 'UNCONFIRMED'){
+      return 'warn'
+    }
+    return undefined
   }
 }

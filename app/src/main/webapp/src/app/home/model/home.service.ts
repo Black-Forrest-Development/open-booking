@@ -7,7 +7,7 @@ import {DayInfoOffer} from "../../offer/model/offer-api";
 import {CreateBookingRequest} from "../../booking/model/booking-api";
 import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
 import {ResolvedResponse} from "../../backoffice/response/model/response-api";
-import {UrlResponse} from "./home-api";
+import {TextResponse, UrlResponse} from "./home-api";
 import {GenericRequestResult} from "../../shared/shared-api";
 
 @Injectable({
@@ -30,13 +30,13 @@ export class HomeService extends BaseService {
 
   getRequestReceivedMessage(requestId: number, lang: string): Observable<ResolvedResponse> {
     let queryParams = new HttpParams()
-    queryParams = queryParams.append("lang",lang)
+    queryParams = queryParams.append("lang", lang)
     return this.get('request/' + requestId + '/received/message', queryParams)
   }
 
   getRequestFailedMessage(requestId: number, lang: string): Observable<ResolvedResponse> {
     let queryParams = new HttpParams()
-    queryParams = queryParams.append("lang",lang)
+    queryParams = queryParams.append("lang", lang)
     return this.get('request/' + requestId + '/failed/message', queryParams)
   }
 
@@ -47,6 +47,11 @@ export class HomeService extends BaseService {
   getTermsAndConditionsUrl(): Observable<UrlResponse> {
     return this.get('setting/terms-and-conditions')
   }
+
+  getTitle(): Observable<TextResponse> {
+    return this.get('setting/title')
+  }
+
 
   confirmEmail(key: string): Observable<GenericRequestResult> {
     return this.post('confirm/email/' + key, {})
