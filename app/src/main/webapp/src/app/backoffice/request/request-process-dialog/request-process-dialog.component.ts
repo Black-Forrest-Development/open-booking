@@ -1,10 +1,10 @@
 import {Component, Inject} from '@angular/core';
-import {BookingInfo} from "../../../booking/model/booking-api";
 import {ResolvedResponse} from "../../response/model/response-api";
 import {FormBuilder, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {BookingRequestService} from "../model/booking-request.service";
 import {BookingConfirmationContent, BookingRequestInfo} from "../model/booking-request-api";
+import {BookingInfo} from "../../booking/model/booking-api";
 
 @Component({
   selector: 'app-request-process-dialog',
@@ -39,7 +39,7 @@ export class RequestProcessDialogComponent {
   ngOnInit(): void {
     this.loadResponse()
     this.title = (this.data.confirmation) ? 'REQUEST.Dialog.Confirm.Title' : 'REQUEST.Dialog.Deny.Title'
-    this.confirm = (this.data.confirmation) ? 'REQUEST.Action.Confirm': 'REQUEST.Action.Deny'
+    this.confirm = (this.data.confirmation) ? 'REQUEST.Action.Confirm' : 'REQUEST.Action.Deny'
   }
 
   private loadResponse() {

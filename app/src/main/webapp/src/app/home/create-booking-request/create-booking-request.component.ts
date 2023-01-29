@@ -5,13 +5,13 @@ import {HomeService} from "../model/home.service";
 import {DayInfoHelper, DayInfoOffer} from "../../offer/model/offer-api";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {Address, VisitorGroupChangeRequest} from "../../visitor-group/model/visitor-group-api";
-import {CreateBookingRequest} from "../../booking/model/booking-api";
 import {MatDialog} from '@angular/material/dialog';
 import {CreateBookingConfirmationDialogComponent} from "../create-booking-confirmation-dialog/create-booking-confirmation-dialog.component";
 import {Location} from "@angular/common";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {CreateBookingFailedDialogComponent} from "../create-booking-failed-dialog/create-booking-failed-dialog.component";
 import {BookingRequest} from "../../backoffice/request/model/booking-request-api";
+import {CreateBookingRequest} from "../model/home-api";
 
 @Component({
   selector: 'app-create-booking-request',
@@ -125,7 +125,7 @@ export class CreateBookingRequestComponent {
       value.termsAndConditions!!
     )
     this.service.createBooking(request).subscribe({
-      next: d     => this.handleResult(d),
+      next: d => this.handleResult(d),
       error: (err) => this.handleError(err)
     })
   }

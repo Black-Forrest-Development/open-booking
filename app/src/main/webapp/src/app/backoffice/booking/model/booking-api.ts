@@ -55,3 +55,17 @@ export const defaultBookingSearchResult: BookingSearchResult = {
   booking: defaultBooking,
   visitorGroup: defaultVisitorGroup
 }
+
+
+export interface BookingInfo {
+  id: number,
+  offer: Offer,
+  spaceAvailable: number,
+  spaceConfirmed: number,
+  status: string,
+  timestamp: string
+}
+export interface DayInfoBooking {
+  size: number,
+  status: string,
+}

@@ -4,9 +4,8 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {LoggingService} from "../../shared/logging/logging.service";
 import {Observable} from "rxjs";
 import {DayInfoOffer} from "../../offer/model/offer-api";
-import {CreateBookingRequest} from "../../booking/model/booking-api";
 import {ResolvedResponse} from "../../backoffice/response/model/response-api";
-import {TextResponse, UrlResponse} from "./home-api";
+import {CreateBookingRequest, TextResponse, UrlResponse} from "./home-api";
 import {GenericRequestResult} from "../../shared/shared-api";
 import {BookingRequest} from "../../backoffice/request/model/booking-request-api";
 

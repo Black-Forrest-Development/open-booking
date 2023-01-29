@@ -1,23 +1,22 @@
 import {Component, Input} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {BookingDetailsInfoDialogComponent} from "../booking-details-info-dialog/booking-details-info-dialog.component";
-import {VisitorGroup} from 'src/app/visitor-group/model/visitor-group-api';
-import {defaultOffer, Offer} from "../../../backoffice/offer/model/offer-api";
-import {Booking, BookingDetails} from "../../../backoffice/booking/model/booking-api";
-import {BookingService} from "../../../backoffice/booking/model/booking.service";
+import {defaultOffer, Offer} from "../../offer/model/offer-api";
+import {Booking, BookingDetails} from "../model/booking-api";
+import {BookingService} from "../model/booking.service";
+import {VisitorGroup} from "../../../visitor-group/model/visitor-group-api";
+import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-offer-booking-details',
-  templateUrl: './offer-booking-details.component.html',
-  styleUrls: ['./offer-booking-details.component.scss']
+  selector: 'app-booking-daily-board-offer',
+  templateUrl: './booking-daily-board-offer.component.html',
+  styleUrls: ['./booking-daily-board-offer.component.scss']
 })
-export class OfferBookingDetailsComponent {
+export class BookingDailyBoardOfferComponent {
   reloading: boolean = false
   @Input() offer: Offer = defaultOffer
   bookings: BookingDetails[] = []
   data: BookingDetailsEntry[] = []
 
-  constructor(private service: BookingService, private dialog: MatDialog) {
+  constructor(private service: BookingService, private router: Router) {
   }
 
   ngOnInit() {
@@ -36,7 +35,7 @@ export class OfferBookingDetailsComponent {
   }
 
   showDetails(b: BookingDetails) {
-    this.dialog.open(BookingDetailsInfoDialogComponent, {data: b})
+    this.router.navigate(["/backoffice/booking/details/" + b.booking.id]).then()
   }
 
   private getWidth(b: BookingDetails): number {
