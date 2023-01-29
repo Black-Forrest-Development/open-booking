@@ -1,0 +1,97 @@
+{
+  "APP": {
+    "Title": "Open Booking",
+    "Welcome": "Willkommen"
+  },
+  "ACTION": {
+    "Ok": "OK",
+    "Next": "Weiter",
+    "Back": "Zurück",
+    "Details": "Details"
+  },
+  "MENU": {
+    "Home": "Startseite",
+    "Title": "Menu",
+    "Language": "Sprache",
+    "Help": "Hilfe",
+    "Admin": "Verwaltung",
+    "Login": "Login",
+    "Logout": "Logout"
+  },
+  "LANG": {
+    "Title": "Sprache",
+    "English": "English",
+    "German": "Deutsch"
+  },
+  "DAY_INFO": {
+    "SelectRange": {
+      "Title": "Datumsbereichsauswahl",
+      "StartDate": "Start-Datum",
+      "EndDate": "End-Datum"
+    },
+    "Chart": {
+      "Space": {
+        "Title": "Belegung der jeweiligen Veranstaltungen",
+        "Series": {
+          "Available": "Verfügbare Plätze",
+          "Confirmed": "Bestätigte Buchung",
+          "Unconfirmed": "Unbestätigte Buchung"
+        }
+      }
+    }
+  },
+  "BOOKING": {
+    "Entry": {
+      "Select": "Tag auswählen"
+    },
+    "Action": {
+      "Create": "Buchung erstellen"
+    },
+    "Create": {
+      "Title": "Eine neue Buchung erstellen",
+      "Step": {
+        "VisitorGroup": {
+          "Header": "Besuchergruppe",
+          "Title": "Bezeichung",
+          "Size": "Größe",
+          "MinAge": "Minimum Alter",
+          "MaxAge": "Maximum Alter",
+          "Contact": "Kontakt",
+          "Street": "Straße",
+          "Zip": "PLZ",
+          "City": "Stadt",
+          "Phone": "Telefon",
+          "Mail": "E-Mail"
+        },
+        "Offer": {
+          "Header": "Termine"
+        },
+        "Finalize": {
+          "Header": "Abschluss"
+        }
+      },
+      "Form": {
+        "VisitorGroup": {
+          "Title": "Bezeichung",
+          "Size": "Größe",
+          "MinAge": "Minimum Alter",
+          "MaxAge": "Maximum Alter",
+          "Contact": "Kontakt",
+          "Street": "Straße",
+          "Zip": "PLZ",
+          "City": "Stadt",
+          "Phone": "Telefon",
+          "Mail": "E-Mail"
+        },
+        "Finalize": {
+          "TermsAndConditions": "Ich habe die Hinweise zur Terminreservierung gelesen und akzeptiere sie.",
+          "Comment": "Anmerkungen"
+        }
+      },
+      "Action": {
+        "Submit": "Anfrage senden",
+        "Reset": "Zurücksetzen"
+      }
+    }
+  }
+}

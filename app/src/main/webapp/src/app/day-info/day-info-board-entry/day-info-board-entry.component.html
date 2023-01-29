@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-header class="day-info-card-header">
+    <mat-card-title>{{data.date | date:'fullDate'}}</mat-card-title>
+    <mat-card-subtitle>{{data.start | date:'shortTime' }} - {{data.end | date:'shortTime'}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div echarts [options]="chartOption" class="demo-chart"></div>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="fxFlex"></div>
+    <mat-slide-toggle class="fxFlex" (toggleChange)="toggleSelection()" [(ngModel)]="selected">{{'BOOKING.Entry.Select' | translate}}</mat-slide-toggle>
+    <a mat-icon-button color="primary" routerLink="/day-info/details/{{data.date}}"><mat-icon>info</mat-icon></a>
+    <div class="fxFlex"></div>
+  </mat-card-actions>
+</mat-card>

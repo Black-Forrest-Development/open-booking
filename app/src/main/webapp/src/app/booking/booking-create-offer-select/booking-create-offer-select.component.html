@@ -1,0 +1,23 @@
+<mat-progress-bar mode="indeterminate" *ngIf="service.reloading | async"></mat-progress-bar>
+<form [formGroup]="offerFormGroup">
+  <div class="fxLayoutColumn fxLayoutAlignStretchCenter fxFlexGap" style="padding-top:10px;">
+    <ng-container *ngFor="let entry of service.offers">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{entry.date | date:'fullDate'}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="fxLayoutRowWrap fxFlexGap" style="padding-top:10px;">
+            <div class="fxFlexNoGrow" *ngFor="let info of entry.infos">
+              <button mat-flat-button [color]="selected.indexOf(info) < 0 ? 'primary' : 'accent'" (click)="toggleSelection(info)">{{info.offer.start | date:'shortTime'}}</button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </div>
+  <div>
+    <button mat-button matStepperPrevious>{{'ACTION.Back' | translate}}</button>
+    <button mat-button matStepperNext [disabled]="offerFormGroup.invalid">{{'ACTION.Next' | translate}}</button>
+  </div>
+</form>
