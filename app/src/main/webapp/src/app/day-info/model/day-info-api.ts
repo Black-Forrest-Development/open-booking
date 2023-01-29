@@ -1,5 +1,5 @@
 import {DayInfoOffer} from "../../offer/model/offer-api";
-import {Offer} from "../../admin/offer-admin/model/offer-admin-api";
+import {Offer} from "../../backoffice/offer/model/offer-api";
 
 export interface DayInfo {
   date: string,

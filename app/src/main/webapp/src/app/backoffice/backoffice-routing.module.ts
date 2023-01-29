@@ -18,6 +18,7 @@ const routes: Routes = [
         {path: 'cache', loadChildren: () => import('./cache/cache.module').then(m => m.CacheModule)},
         {path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
         {path: 'mail', loadChildren: () => import('./mail/mail.module').then(m => m.MailModule)},
+        {path: 'group', loadChildren: () => import('./visitor-group/visitor-group.module').then(m => m.VisitorGroupModule)},
       ]
     }
   ]

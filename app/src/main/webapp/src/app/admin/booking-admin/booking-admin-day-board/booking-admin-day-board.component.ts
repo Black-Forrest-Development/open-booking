@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {OfferAdminService} from "../../offer-admin/model/offer-admin.service";
 import {ActivatedRoute} from "@angular/router";
-import {Offer} from "../../offer-admin/model/offer-admin-api";
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Location} from "@angular/common";
+import {Offer} from "../../../backoffice/offer/model/offer-api";
+import {OfferService} from "../../../backoffice/offer/model/offer.service";
 
 @Component({
   selector: 'app-booking-admin-day-board',
@@ -25,7 +25,7 @@ export class BookingAdminDayBoardComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private service: OfferAdminService,
+    private service: OfferService,
     private location: Location
   ) {
   }

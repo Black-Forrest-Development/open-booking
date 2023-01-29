@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {HomeService} from "../model/home.service";
 import {TranslateService} from "@ngx-translate/core";
 import {defaultResolvedResponse, ResolvedResponse} from "../../backoffice/response/model/response-api";
-import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
+import {BookingRequest} from "../../backoffice/request/model/booking-request-api";
 
 @Component({
   selector: 'app-create-booking-confirmation-dialog',

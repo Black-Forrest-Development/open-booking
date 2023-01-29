@@ -1,11 +1,10 @@
 import {Component, Inject} from '@angular/core';
-import {BookingRequestInfo} from "../../../admin/request-admin/model/request-admin-api";
 import {BookingInfo} from "../../../booking/model/booking-api";
 import {ResolvedResponse} from "../../response/model/response-api";
 import {FormBuilder, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {BookingRequestService} from "../model/booking-request.service";
-import {BookingConfirmationContent} from "../model/booking-request-api";
+import {BookingConfirmationContent, BookingRequestInfo} from "../model/booking-request-api";
 
 @Component({
   selector: 'app-request-process-dialog',

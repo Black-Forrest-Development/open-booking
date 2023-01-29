@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
-import {BookingAdminService} from "../model/booking-admin.service";
+import {BookingService} from "../../../backoffice/booking/model/booking.service";
 
 @Component({
   selector: 'app-booking-details',
@@ -13,7 +13,7 @@ export class BookingDetailsComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private service: BookingAdminService,
+    private service: BookingService,
     private location: Location
   ) {
   }

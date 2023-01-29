@@ -5,10 +5,15 @@ import {BookingRoutingModule} from './booking-routing.module';
 import {MaterialModule} from "../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
+import { BookingBoardComponent } from './booking-board/booking-board.component';
+import { BookingDetailsComponent } from './booking-details/booking-details.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    BookingBoardComponent,
+    BookingDetailsComponent
+  ],
   imports: [
     CommonModule,
     BookingRoutingModule,

@@ -4,9 +4,9 @@ import {OfferService} from "../model/offer.service";
 import {HotToastService} from "@ngneat/hot-toast";
 import {TranslateService} from "@ngx-translate/core";
 import {Location} from "@angular/common";
-import {OfferRangeRequest} from "../../../admin/offer-admin/model/offer-admin-api";
 import * as moment from "moment/moment";
 import {GenericRequestResult} from "../../../shared/shared-api";
+import {OfferRangeRequest} from "../model/offer-api";
 
 @Component({
   selector: 'app-offer-create-range',

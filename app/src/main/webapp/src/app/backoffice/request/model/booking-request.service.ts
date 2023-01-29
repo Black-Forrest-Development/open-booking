@@ -4,8 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {LoggingService} from "../../../shared/logging/logging.service";
 import {Observable} from "rxjs";
 import {Page} from "../../../shared/page/page";
-import {BookingConfirmationContent, BookingRequest, BookingRequestChangeRequest} from "./booking-request-api";
-import {BookingRequestInfo} from "../../../admin/request-admin/model/request-admin-api";
+import {BookingConfirmationContent, BookingRequest, BookingRequestChangeRequest, BookingRequestInfo} from "./booking-request-api";
 import {GenericRequestResult} from "../../../shared/shared-api";
 import {ResolvedResponse} from "../../response/model/response-api";
 

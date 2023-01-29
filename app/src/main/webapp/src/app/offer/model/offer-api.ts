@@ -1,5 +1,5 @@
 import {DayInfoBooking} from "../../booking/model/booking-api";
-import {Offer} from "../../admin/offer-admin/model/offer-admin-api";
+import {Offer} from "../../backoffice/offer/model/offer-api";
 
 export interface OfferInfoSelectResultEntry {
   date: string,

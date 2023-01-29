@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
-import {defaultOffer, Offer} from "../../offer-admin/model/offer-admin-api";
-import {BookingAdminService} from '../model/booking-admin.service';
-import {BookingDetails} from "../model/booking-admin-api";
 import {MatDialog} from "@angular/material/dialog";
 import {BookingDetailsInfoDialogComponent} from "../booking-details-info-dialog/booking-details-info-dialog.component";
+import {defaultOffer, Offer} from "../../../backoffice/offer/model/offer-api";
+import {BookingDetails} from "../../../backoffice/booking/model/booking-api";
+import {BookingService} from "../../../backoffice/booking/model/booking.service";
 
 @Component({
   selector: 'app-booking-admin-day-entry',
@@ -16,7 +16,7 @@ export class BookingAdminDayEntryComponent {
 
   bookings: BookingDetails[] = []
 
-  constructor(private service: BookingAdminService, private dialog: MatDialog) {
+  constructor(private service: BookingService, private dialog: MatDialog) {
   }
 
   ngOnInit() {

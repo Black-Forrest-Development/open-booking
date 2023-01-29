@@ -5,10 +5,10 @@ import {LoggingService} from "../../shared/logging/logging.service";
 import {Observable} from "rxjs";
 import {DayInfoOffer} from "../../offer/model/offer-api";
 import {CreateBookingRequest} from "../../booking/model/booking-api";
-import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
 import {ResolvedResponse} from "../../backoffice/response/model/response-api";
 import {TextResponse, UrlResponse} from "./home-api";
 import {GenericRequestResult} from "../../shared/shared-api";
+import {BookingRequest} from "../../backoffice/request/model/booking-request-api";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,6 @@ export class HomeService extends BaseService {
   }
 
   title: string = 'APP.Title'
-
 
 
   getOffer(offerId: number): Observable<DayInfoOffer> {

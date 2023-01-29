@@ -3,10 +3,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
 import {HotToastService} from "@ngneat/hot-toast";
 import {OfferService} from "../model/offer.service";
-import {OfferSeriesRequest} from "../../../admin/offer-admin/model/offer-admin-api";
 import * as moment from "moment";
 import {Location} from "@angular/common";
 import {GenericRequestResult} from "../../../shared/shared-api";
+import {OfferSeriesRequest} from "../model/offer-api";
 
 @Component({
   selector: 'app-offer-create-series',

@@ -8,8 +8,6 @@ import {PageEvent} from "@angular/material/paginator";
 import {Offer} from "../model/offer-api";
 import {OfferDeleteDialogComponent} from "../offer-delete-dialog/offer-delete-dialog.component";
 import {OfferService} from "../model/offer.service";
-import {OfferAdminCreateSeriesDialogComponent} from "../../../admin/offer-admin/offer-admin-create-series-dialog/offer-admin-create-series-dialog.component";
-import {OfferAdminCreateRangeDialogComponent} from "../../../admin/offer-admin/offer-admin-create-range-dialog/offer-admin-create-range-dialog.component";
 import {ExportService} from "../../export/model/export.service";
 
 @Component({
@@ -88,17 +86,6 @@ export class OfferBoardComponent {
     this.pageSize = event.pageSize
     this.loadPage(event.pageIndex)
   }
-
-  createSeries() {
-    const dialogRef = this.dialog.open(OfferAdminCreateSeriesDialogComponent)
-    dialogRef.afterClosed().subscribe(() => this.loadPage(0))
-  }
-
-  createRange() {
-    const dialogRef = this.dialog.open(OfferAdminCreateRangeDialogComponent)
-    dialogRef.afterClosed().subscribe(() => this.loadPage(0))
-  }
-
   updateOfferOngoing: UpdateEntry[] = [];
 
   isUpdateOngoing(offer: Offer): boolean {

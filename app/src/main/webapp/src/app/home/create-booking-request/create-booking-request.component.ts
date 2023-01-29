@@ -6,12 +6,12 @@ import {DayInfoHelper, DayInfoOffer} from "../../offer/model/offer-api";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {Address, VisitorGroupChangeRequest} from "../../visitor-group/model/visitor-group-api";
 import {CreateBookingRequest} from "../../booking/model/booking-api";
-import {BookingRequest} from "../../admin/request-admin/model/request-admin-api";
 import {MatDialog} from '@angular/material/dialog';
 import {CreateBookingConfirmationDialogComponent} from "../create-booking-confirmation-dialog/create-booking-confirmation-dialog.component";
 import {Location} from "@angular/common";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {CreateBookingFailedDialogComponent} from "../create-booking-failed-dialog/create-booking-failed-dialog.component";
+import {BookingRequest} from "../../backoffice/request/model/booking-request-api";
 
 @Component({
   selector: 'app-create-booking-request',

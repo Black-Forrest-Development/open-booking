@@ -1,5 +1,6 @@
 import {VisitorGroupChangeRequest} from "../../visitor-group/model/visitor-group-api";
-import {Offer} from "../../admin/offer-admin/model/offer-admin-api";
+import {Offer} from "../../backoffice/offer/model/offer-api";
+
 
 export class CreateBookingRequest {
   constructor(
@@ -15,7 +16,6 @@ export interface DayInfoBooking {
   size: number,
   status: string,
 }
-
 
 
 export interface BookingInfo {

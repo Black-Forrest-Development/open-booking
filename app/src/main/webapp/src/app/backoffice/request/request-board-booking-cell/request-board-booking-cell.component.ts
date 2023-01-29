@@ -1,12 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {BookingRequestInfo, defaultBookingRequestInfo} from "../../../admin/request-admin/model/request-admin-api";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
 import {MatDialog} from "@angular/material/dialog";
 import {GenericRequestResult} from "../../../shared/shared-api";
 import {BookingRequestService} from "../model/booking-request.service";
 import {HotToastService} from "@ngneat/hot-toast";
-import {BookingConfirmationContent} from "../model/booking-request-api";
+import {BookingConfirmationContent, BookingRequestInfo, defaultBookingRequestInfo} from "../model/booking-request-api";
 import {RequestProcessDialogComponent} from "../request-process-dialog/request-process-dialog.component";
 
 @Component({

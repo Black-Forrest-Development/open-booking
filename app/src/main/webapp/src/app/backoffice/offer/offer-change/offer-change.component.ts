@@ -5,8 +5,7 @@ import {HotToastService} from "@ngneat/hot-toast";
 import {TranslateService} from "@ngx-translate/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {OfferService} from "../model/offer.service";
-import {Offer, OfferChangeRequest} from "../model/offer-api";
-import {OfferChangeForm} from "../../../admin/offer-admin/model/offer-admin-api";
+import {Offer, OfferChangeForm, OfferChangeRequest} from "../model/offer-api";
 import * as moment from "moment/moment";
 import {Moment} from "moment/moment";
 

@@ -51,3 +51,10 @@ export class OfferRangeRequest {
   }
 }
 
+export interface OfferChangeForm {
+  date: string,
+  startTime: string,
+  finishTime: string,
+  maxPersons: number,
+  active: boolean
+}

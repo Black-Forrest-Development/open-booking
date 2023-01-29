@@ -10,7 +10,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {BookingAdminDayBoardComponent} from './booking-admin-day-board/booking-admin-day-board.component';
 import {BookingAdminDayEntryComponent} from './booking-admin-day-entry/booking-admin-day-entry.component';
 import {BookingDetailsInfoDialogComponent} from './booking-details-info-dialog/booking-details-info-dialog.component';
-import {VisitorGroupAdminModule} from "../visitor-group-admin/visitor-group-admin.module";
 import {BookingDetailsInfoComponent} from './booking-details-info/booking-details-info.component';
 import {OfferBookingDetailsComponent} from './offer-booking-details/offer-booking-details.component';
 import {BookingDetailsComponent} from './booking-details/booking-details.component';
@@ -29,16 +28,15 @@ import {VisitorGroupModule} from "../../backoffice/visitor-group/visitor-group.m
     BookingDetailsComponent,
     BookingChangeComponent
   ],
-    imports: [
-        CommonModule,
-        BookingAdminRoutingModule,
-        MaterialModule,
-        TranslateModule,
-        NgxEchartsModule,
-        ReactiveFormsModule,
-        VisitorGroupAdminModule,
-        VisitorGroupModule,
-    ]
+  imports: [
+    CommonModule,
+    BookingAdminRoutingModule,
+    MaterialModule,
+    TranslateModule,
+    NgxEchartsModule,
+    ReactiveFormsModule,
+    VisitorGroupModule,
+  ]
 })
 export class BookingAdminModule {
 }
