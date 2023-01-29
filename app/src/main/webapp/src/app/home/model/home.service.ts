@@ -8,15 +8,19 @@ import {ResolvedResponse} from "../../backoffice/response/model/response-api";
 import {CreateBookingRequest, TextResponse, UrlResponse} from "./home-api";
 import {GenericRequestResult} from "../../shared/shared-api";
 import {BookingRequest} from "../../backoffice/request/model/booking-request-api";
+import {Title} from "@angular/platform-browser";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService extends BaseService {
-  constructor(http: HttpClient, logging: LoggingService) {
+  constructor(http: HttpClient, logging: LoggingService, private pageTitle: Title) {
     super(http, 'frontend/user', logging)
     this.retryCount = 1
-    this.getTitle().subscribe(d => this.title = d.text)
+    this.getTitle().subscribe(d => {
+      this.pageTitle.setTitle(d.text)
+      this.title = d.text
+    })
   }
 
   title: string = 'APP.Title'

@@ -1,1 +1,11 @@
-<p>booking-board works!</p>
+<mat-progress-bar mode="indeterminate" *ngIf="this.dayInfoService.reloading | async"></mat-progress-bar>
+<div class="d-flex flex-column p-2 container-fluid gap-3" >
+  <div class="d-flex flex-row flex-wrap gap-3">
+    <ng-container *ngFor="let data of this.dayInfoService.data">
+      <app-booking-board-entry [data]="data" class="booking-board-entry"></app-booking-board-entry>
+    </ng-container>
+  </div>
+</div>
+
+
+

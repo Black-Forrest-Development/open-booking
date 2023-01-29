@@ -57,4 +57,8 @@ export class BookingRequestService extends BaseService {
     return this.put('' + id + '/deny', content)
   }
 
+
+  getInfoByBookingId(bookingId: number): Observable<BookingRequestInfo> {
+    return this.get('info/by/booking/' + bookingId)
+  }
 }

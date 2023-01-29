@@ -2,18 +2,20 @@ package de.sambalmueslie.openbooking.backend.notification.processor
 
 
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupStatus
+import de.sambalmueslie.openbooking.backend.mail.MailService
+import de.sambalmueslie.openbooking.backend.mail.api.Mail
+import de.sambalmueslie.openbooking.backend.mail.api.MailParticipant
 import de.sambalmueslie.openbooking.backend.notification.NotificationTemplateEvaluator
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationEvent
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationEventType
 import de.sambalmueslie.openbooking.backend.notification.api.NotificationTemplateType
 import de.sambalmueslie.openbooking.backend.notification.handler.BookingRequestChangeHandler
-import de.sambalmueslie.openbooking.backend.mail.api.Mail
-import de.sambalmueslie.openbooking.backend.mail.api.MailParticipant
-import de.sambalmueslie.openbooking.backend.mail.MailService
 import de.sambalmueslie.openbooking.backend.request.BookingRequestService
 import de.sambalmueslie.openbooking.backend.request.api.BookingConfirmationContent
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequest
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestInfo
+import de.sambalmueslie.openbooking.backend.settings.SettingsService
+import de.sambalmueslie.openbooking.backend.settings.api.SettingsAPI
 import de.sambalmueslie.openbooking.config.MailConfig
 import jakarta.inject.Singleton
 import org.slf4j.Logger
@@ -24,6 +26,7 @@ class BookingRequestEventProcessor(
     private val service: BookingRequestService,
     private val evaluator: NotificationTemplateEvaluator,
     private val mailService: MailService,
+    private val settingsService: SettingsService,
     private val config: MailConfig
 ) : NotificationEventProcessor {
 
@@ -67,8 +70,8 @@ class BookingRequestEventProcessor(
 
     private fun notifyAdminsOnCreated(properties: Map<String, Any>) {
         val mails = evaluator.evaluate(NotificationTemplateType.BOOKING_REQUEST_CREATED_ADMIN, properties)
-        val from = MailParticipant("", config.fromAddress)
-        val to = listOf(MailParticipant("", config.defaultAdminAddress))
+        val from = MailParticipant("", getFromAddress())
+        val to = listOf(MailParticipant("", getDefaultAdminAddress()))
         mails.forEach { mailService.send(it, from, to) }
 
     }
@@ -89,11 +92,28 @@ class BookingRequestEventProcessor(
     }
 
     private fun notifyContact(mails: List<Mail>, info: BookingRequestInfo) {
-        val from = MailParticipant("", config.fromAddress)
+        val from = MailParticipant("", getFromAddress())
         val visitorGroup = info.visitorGroup
         val to = listOf(MailParticipant(visitorGroup.contact, visitorGroup.email))
         mails.forEach { mailService.send(it, from, to) }
     }
 
+    private fun getFromAddress(): String {
+        val settings = settingsService.findByKey(SettingsAPI.SETTINGS_MAIL_FROM_ADDRESS)
+
+        val value = settings?.value as? String
+        if (value.isNullOrBlank()) return config.fromAddress
+
+        return value
+    }
+
+    private fun getDefaultAdminAddress(): String {
+        val settings = settingsService.findByKey(SettingsAPI.SETTINGS_MAIL_DEFAULT_ADMIN_ADDRESS)
+
+        val value = settings?.value as? String
+        if (value.isNullOrBlank()) return config.defaultAdminAddress
+
+        return value
+    }
 
 }

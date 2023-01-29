@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-header>
+    {{'REQUEST.Table.Bookings' | translate}}
+  </mat-card-header>
+  <mat-card-content class="d-flex flex-column gap-3">
+    <ng-container *ngFor="let booking of data.bookings">
+      <div class="d-flex flex-row gap-3">
+        <div class="col-2"><b>{{'REQUEST.Table.Timestamp' | translate}}</b></div>
+        <div>{{booking.offer.start | date:'medium'}}</div>
+      </div>
+
+      <div class="d-flex flex-row gap-3">
+        <div class="col-2"><b>{{'BOOKING.Status.Title' | translate}}</b></div>
+        <div>{{'BOOKING.Status.' + booking.status | translate}}</div>
+      </div>
+    </ng-container>
+  </mat-card-content>
+</mat-card>

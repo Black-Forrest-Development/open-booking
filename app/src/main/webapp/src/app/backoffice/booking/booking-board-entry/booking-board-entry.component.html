@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-header class="booking-board-entry-card-header">
+    <mat-card-title>{{data.date | date:'fullDate'}}</mat-card-title>
+    <mat-card-subtitle>{{data.start | date:'shortTime' }} - {{data.end | date:'shortTime'}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions>
+    <div class="d-flex flex-column gap-3 justify-content-center align-content-stretch flex-fill">
+      <button mat-flat-button color="primary" routerLink="./day/{{data.date}}" class="flex-fill">
+        <mat-icon>bookmarks</mat-icon>
+        {{'OFFER.Action.ShowBookings' | translate}}
+      </button>
+      <button mat-flat-button color="primary" (click)="exportPdf(data)" class="flex-fill">
+        <mat-icon>picture_as_pdf</mat-icon>
+        {{'OFFER.Action.Export_PDF' | translate}}
+      </button>
+      <button mat-flat-button color="primary" (click)="create(data)" class="flex-fill">
+        <mat-icon>add</mat-icon>
+        {{'BOOKING.Action.Create' | translate}}</button>
+    </div>
+  </mat-card-actions>
+</mat-card>

@@ -6,6 +6,7 @@ import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI.Companion.PERMISSION_WRITE
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeRequest
+import de.sambalmueslie.openbooking.backend.request.api.BookingRequestInfo
 import de.sambalmueslie.openbooking.common.checkPermission
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
@@ -60,5 +61,9 @@ class BookingRequestController(private val service: BookingRequestService) : Boo
     @Put("/{id}/deny")
     override fun deny(auth: Authentication, @PathVariable id: Long, @Body content: BookingConfirmationContent) =
         auth.checkPermission(PERMISSION_WRITE) { service.deny(id, content) }
+
+    @Get("/info/by/booking/{bookingId}")
+    override fun getInfoByBookingId(auth: Authentication, bookingId: Long)=
+        auth.checkPermission(PERMISSION_READ) { service.getInfoByBookingId(bookingId) }
 
 }

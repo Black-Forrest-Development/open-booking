@@ -24,4 +24,6 @@ interface BookingRequestAPI : AuthCrudAPI<Long, BookingRequest, BookingRequestCh
     fun confirm(auth: Authentication, id: Long, bookingId: Long, content: BookingConfirmationContent): GenericRequestResult
     fun deny(auth: Authentication, id: Long, content: BookingConfirmationContent): GenericRequestResult
 
+    fun getInfoByBookingId(auth: Authentication, bookingId: Long): BookingRequestInfo?
+
 }

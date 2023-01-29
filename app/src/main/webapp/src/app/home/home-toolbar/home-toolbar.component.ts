@@ -8,6 +8,7 @@ import {HomeService} from "../model/home.service";
 import {Observable} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home-toolbar',
@@ -34,7 +35,8 @@ export class HomeToolbarComponent {
               public document: Document,
               public auth: AuthService,
               public service: HomeService,
-              private breakpointObserver: BreakpointObserver
+              private breakpointObserver: BreakpointObserver,
+
   ) {
     translate.setDefaultLang('en');
 

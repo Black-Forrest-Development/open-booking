@@ -3,6 +3,8 @@ package de.sambalmueslie.openbooking.backend.mail.external
 
 import de.sambalmueslie.openbooking.backend.mail.api.Mail
 import de.sambalmueslie.openbooking.backend.mail.api.MailParticipant
+import de.sambalmueslie.openbooking.backend.settings.SettingsService
+import de.sambalmueslie.openbooking.backend.settings.api.SettingsAPI
 import de.sambalmueslie.openbooking.config.MailConfig
 import io.micronaut.context.annotation.Requires
 import io.micronaut.context.env.Environment
@@ -16,7 +18,8 @@ import org.slf4j.LoggerFactory
 @Singleton
 @Requires(notEnv = [Environment.TEST])
 class MailSender(
-    private val config: MailConfig
+    private val config: MailConfig,
+    private val settingsService: SettingsService
 ) : MailClient {
 
     companion object {
@@ -32,7 +35,7 @@ class MailSender(
         val builder = EmailBuilder.startingBlank()
         to.forEach { builder.to(it.name, it.address) }
         bcc.forEach { builder.bcc(it.name, it.address) }
-        builder.withReplyTo(config.replyToAddress)
+        builder.withReplyTo(getReplyToAddress())
 
         builder.withSubject(mail.subject)
         builder.from(from.name, from.address)
@@ -48,5 +51,12 @@ class MailSender(
         }
         return true
     }
+    private fun getReplyToAddress(): String {
+        val settings = settingsService.findByKey(SettingsAPI.SETTINGS_MAIL_REPLY_TO_ADDRESS)
 
+        val value = settings?.value as? String
+        if (value.isNullOrBlank()) return config.replyToAddress
+
+        return value
+    }
 }

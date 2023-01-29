@@ -254,5 +254,11 @@ class BookingRequestService(
         return responseService.resolve(lang, ResponseType.BOOKING_DENIED, properties)
     }
 
+    fun getInfoByBookingId(bookingId: Long): BookingRequestInfo? {
+        val relations = relationRepository.getByBookingId(bookingId)
+        val requestId = relations.map { it.bookingRequestId }.toSet().firstOrNull() ?: return null
+        return info(requestId)
+    }
+
 
 }
