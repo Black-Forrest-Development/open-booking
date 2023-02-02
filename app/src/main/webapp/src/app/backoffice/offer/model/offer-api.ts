@@ -58,3 +58,12 @@ export interface OfferChangeForm {
   maxPersons: number,
   active: boolean
 }
+
+export class OfferFilterRequest {
+  constructor(
+    public from: string | null | undefined,
+    public to: string | null | undefined,
+    public active: boolean | null | undefined,
+  ) {
+  }
+}

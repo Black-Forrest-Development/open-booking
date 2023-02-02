@@ -5,7 +5,7 @@
   </div>
   <div class="status-column d-flex flex-row gap-3 align-items-center" *ngIf="showDetails">
     <div class="fxFlex">
-      <mat-chip [highlighted]="true" [color]="getColor(data.status)">{{data.status}}</mat-chip>
+      <app-visitor-group-status [status]="data.status"></app-visitor-group-status>
     </div>
     <div class="fxFlex">
       <ng-container *ngIf="!confirming; else mailConfirming">

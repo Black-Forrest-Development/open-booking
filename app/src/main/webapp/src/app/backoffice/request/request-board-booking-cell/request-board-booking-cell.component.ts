@@ -25,10 +25,7 @@ export class RequestBoardBookingCellComponent {
 
   constructor(
     private fb: FormBuilder,
-    private service: BookingRequestService,
-    private translationService: TranslateService,
-    private toastService: HotToastService,
-    private dialog: MatDialog
+    private service: BookingRequestService
   ) {
   }
 
@@ -39,22 +36,7 @@ export class RequestBoardBookingCellComponent {
     let selectedBooking = this.data.bookings.find(b => b.id == selectedBookingId)
     if (!selectedBooking) return
 
-    let dialogRef = this.dialog.open(RequestProcessDialogComponent, {
-      data: {info: this.data, selectedBooking: selectedBooking, confirmation: true},
-      height: '800px',
-      width: '800px',
-    })
-
-    dialogRef.afterClosed().subscribe(result => {
-        if (!result) {
-          this.changing = false
-          return
-        }
-        let content = result as BookingConfirmationContent
-        this.changing = true
-        this.service.confirmBookingRequest(this.data.id, selectedBookingId, content).subscribe(r => this.handleResult(r))
-      }
-    )
+    this.service.confirmBooking(selectedBooking, this.data).subscribe( result => {if(result) this.change.emit(true)})
   }
 
   denial() {
@@ -62,33 +44,7 @@ export class RequestBoardBookingCellComponent {
     this.changing = true
 
     let selectedBooking = this.data.bookings[0]
-
-    let dialogRef = this.dialog.open(RequestProcessDialogComponent, {
-      data: {info: this.data, selectedBooking: selectedBooking, confirmation: false},
-      height: '800px',
-      width: '800px',
-    })
-
-    dialogRef.afterClosed().subscribe(result => {
-        if (!result) {
-          this.changing = false
-          return
-        }
-        let content = result as BookingConfirmationContent
-        this.changing = true
-        this.service.denyBookingRequest(this.data.id, content).subscribe(r => this.handleResult(r))
-      }
-    )
+    this.service.denialBooking(selectedBooking, this.data).subscribe( result => {if(result) this.change.emit(true)})
   }
 
-  private handleResult(result: GenericRequestResult) {
-    this.changing = false
-    let message = this.translationService.instant(result.msg)
-    if (result.success) {
-      this.toastService.success(message)
-    } else {
-      this.toastService.error(message)
-    }
-    this.change.emit(true)
-  }
 }

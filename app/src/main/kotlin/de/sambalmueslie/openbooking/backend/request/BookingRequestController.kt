@@ -1,13 +1,13 @@
 package de.sambalmueslie.openbooking.backend.request
 
 
-import de.sambalmueslie.openbooking.backend.request.api.BookingConfirmationContent
-import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI
+import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupChangeRequest
+import de.sambalmueslie.openbooking.backend.request.api.*
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI.Companion.PERMISSION_WRITE
-import de.sambalmueslie.openbooking.backend.request.api.BookingRequestChangeRequest
-import de.sambalmueslie.openbooking.backend.request.api.BookingRequestInfo
+import de.sambalmueslie.openbooking.common.GenericRequestResult
 import de.sambalmueslie.openbooking.common.checkPermission
+import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication
@@ -42,6 +42,10 @@ class BookingRequestController(private val service: BookingRequestService) : Boo
     override fun getInfoUnconfirmed(auth: Authentication, pageable: Pageable) =
         auth.checkPermission(PERMISSION_READ) { service.getInfoUnconfirmed(pageable) }
 
+    @Post("/unconfirmed/info")
+    override fun filterInfoUnconfirmed(auth: Authentication, @Body filter: BookingRequestFilterRequest, pageable: Pageable)=
+        auth.checkPermission(PERMISSION_READ) { service.filterInfoUnconfirmed(filter, pageable) }
+
     @Get("/{id}/received/message")
     override fun getRequestReceivedMessage(auth: Authentication, id: Long, @QueryValue(defaultValue = "en") lang: String) =
         auth.checkPermission(PERMISSION_READ) { service.getRequestReceivedMessage(id, lang) }
@@ -66,4 +70,7 @@ class BookingRequestController(private val service: BookingRequestService) : Boo
     override fun getInfoByBookingId(auth: Authentication, bookingId: Long)=
         auth.checkPermission(PERMISSION_READ) { service.getInfoByBookingId(bookingId) }
 
+    @Put("/{id}/visitor")
+    override fun updateVisitorGroup(auth: Authentication, @PathVariable id: Long, @Body request: VisitorGroupChangeRequest)  =
+        auth.checkPermission(PERMISSION_WRITE) { service.updateVisitorGroup(id, request) }
 }

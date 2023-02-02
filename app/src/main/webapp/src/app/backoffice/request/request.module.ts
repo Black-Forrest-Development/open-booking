@@ -11,6 +11,7 @@ import {RequestBoardBookingCellComponent} from './request-board-booking-cell/req
 import {QuillModule} from "ngx-quill";
 import {RequestProcessDialogComponent} from './request-process-dialog/request-process-dialog.component';
 import {RequestCommentDialogComponent} from './request-comment-dialog/request-comment-dialog.component';
+import {VisitorGroupModule} from "../visitor-group/visitor-group.module";
 
 
 @NgModule({
@@ -21,14 +22,15 @@ import {RequestCommentDialogComponent} from './request-comment-dialog/request-co
     RequestProcessDialogComponent,
     RequestCommentDialogComponent
   ],
-  imports: [
-    CommonModule,
-    RequestRoutingModule,
-    MaterialModule,
-    TranslateModule,
-    ReactiveFormsModule,
-    QuillModule
-  ]
+    imports: [
+        CommonModule,
+        RequestRoutingModule,
+        MaterialModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        QuillModule,
+        VisitorGroupModule
+    ]
 })
 export class RequestModule {
 }

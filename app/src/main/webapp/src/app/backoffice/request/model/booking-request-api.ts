@@ -44,3 +44,12 @@ export class BookingConfirmationContent {
   ) {
   }
 }
+
+export class BookingRequestFilterRequest {
+  constructor(
+    public offerDate: string | null | undefined,
+    public visitorGroupStatus: string | null | undefined,
+    public query: string | null | undefined
+  ) {
+  }
+}

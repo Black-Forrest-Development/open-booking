@@ -6,16 +6,22 @@ import {MaterialModule} from "../../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {VisitorGroupInfoDialogComponent} from "./visitor-group-info-dialog/visitor-group-info-dialog.component";
+import { VisitorGroupChangeComponent } from './visitor-group-change/visitor-group-change.component';
+import { VisitorGroupStatusComponent } from './visitor-group-status/visitor-group-status.component';
 
 
 @NgModule({
   declarations: [
     VisitorGroupInfoComponent,
-    VisitorGroupInfoDialogComponent
+    VisitorGroupInfoDialogComponent,
+    VisitorGroupChangeComponent,
+    VisitorGroupStatusComponent
   ],
   exports: [
     VisitorGroupInfoComponent,
-    VisitorGroupInfoDialogComponent
+    VisitorGroupInfoDialogComponent,
+    VisitorGroupChangeComponent,
+    VisitorGroupStatusComponent
   ],
   imports: [
     CommonModule,

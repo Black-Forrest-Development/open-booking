@@ -4,20 +4,17 @@
     <button mat-icon-button (click)="back()">
       <mat-icon>arrow_back_ios</mat-icon>
     </button>
-    <button mat-stroked-button>
-      <mat-icon>add</mat-icon>
-      {{'REQUEST.Action.ChangeSize' | translate}}</button>
-    <button mat-stroked-button>
-      <mat-icon>playlist_add</mat-icon>
-      {{'REQUEST.Action.ChangeOffer' | translate}}</button>
+<!--    <button mat-stroked-button>-->
+<!--      <mat-icon>playlist_add</mat-icon>-->
+<!--      {{'REQUEST.Action.ChangeOffer' | translate}}</button>-->
   </div>
 
   <div class="d-flex flex-row container-fluid p-2 gap-3 align-content-stretch">
     <div class="d-flex flex-column gap-3 align-content-stretch flex-fill">
       <app-booking-details-header [data]="data"></app-booking-details-header>
-      <app-booking-details-bookings [data]="data"></app-booking-details-bookings>
+      <app-booking-details-bookings [data]="data" (change)="reload()"></app-booking-details-bookings>
     </div>
-    <app-booking-details-visitor-group [data]="data"></app-booking-details-visitor-group>
+    <app-booking-details-visitor-group [data]="data" (requestReload)="reload()" class="col-5"></app-booking-details-visitor-group>
   </div>
 
 </div>

@@ -6,6 +6,7 @@ import com.github.benmanes.caffeine.cache.LoadingCache
 import de.sambalmueslie.openbooking.backend.booking.BookingService
 import de.sambalmueslie.openbooking.backend.booking.api.Booking
 import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
+import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.info.api.DateRangeSelectionRequest
 import de.sambalmueslie.openbooking.backend.info.api.DayInfo
 import de.sambalmueslie.openbooking.backend.info.api.DayInfoBooking
@@ -26,11 +27,21 @@ import java.util.concurrent.TimeUnit
 @Singleton
 class InfoService(
     private val offerService: OfferService,
-    private val bookingService: BookingService
+    private val bookingService: BookingService,
+    private val cacheService: CacheService
 ) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(InfoService::class.java)
+    }
+
+
+    private val cache: LoadingCache<LocalDate, DayInfo> = cacheService.register(DayInfo::class){
+        Caffeine.newBuilder()
+            .maximumSize(100)
+            .expireAfterWrite(1, TimeUnit.HOURS)
+            .refreshAfterWrite(15, TimeUnit.MINUTES)
+            .build { date -> createDayInfo(date) }
     }
 
     init {
@@ -97,11 +108,6 @@ class InfoService(
     }
 
 
-    private val cache: LoadingCache<LocalDate, DayInfo> = Caffeine.newBuilder()
-        .maximumSize(100)
-        .expireAfterWrite(1, TimeUnit.HOURS)
-        .refreshAfterWrite(15, TimeUnit.MINUTES)
-        .build { date -> createDayInfo(date) }
 
 
     fun getDayInfoRange(request: DateRangeSelectionRequest): List<DayInfo> {

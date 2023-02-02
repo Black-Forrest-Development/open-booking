@@ -38,7 +38,7 @@ export class BookingDetailsComponent {
     this.location.back()
   }
 
-  private reload() {
+  reload() {
     if (!this.bookingId) return
     if (this.reloading) return
     this.reloading = true

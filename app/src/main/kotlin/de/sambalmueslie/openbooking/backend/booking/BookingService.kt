@@ -129,6 +129,12 @@ class BookingService(
         notifyUpdated(result)
     }
 
+    fun update(bookingId: Long, visitorGroup: VisitorGroup, status: BookingStatus){
+        val data = repository.findByIdOrNull(bookingId) ?: return
+        val result = repository.update(data.update(visitorGroup, status, timeProvider.now())).convert()
+        notifyUpdated(result)
+    }
+
     fun findByOffer(offerId: Long): List<Booking> {
         return repository.findByOfferId(offerId).map { it.convert() }
     }

@@ -1,11 +1,41 @@
 <mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
 <div class="d-flex flex-column p-0 container-fluid">
-  <div class="d-flex flex-row gap-3 align-items-start px-2 pt-2 pb-0">
-    <mat-form-field class="flex-fill pb-0" appearance="outline">
-      <mat-label>{{'REQUEST.Action.Search' | translate}}</mat-label>
-      <input matInput (keyup)="keyUp.emit(input.value)" placeholder="" #input [disabled]="reloading">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
+  <div class="d-flex flex-row px-2 pt-2 pb-0">
+    <form [formGroup]="filterForm">
+      <div class="d-flex flex-row gap-3 align-items-start align-content-start p-0">
+        <mat-form-field appearance="outline">
+          <mat-label>{{'REQUEST.Filter.Date' | translate}}</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="offerDate">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{'REQUEST.Filter.VisitorStatus' | translate}}</mat-label>
+          <mat-select formControlName="visitorGroupStatus">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let status of visitorGroupStatus" [value]="status">
+              <app-visitor-group-status [status]="status"></app-visitor-group-status>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="col-5 pb-0" appearance="outline">
+          <mat-label>{{'REQUEST.Action.Search' | translate}}</mat-label>
+          <input matInput placeholder="" #input [disabled]="reloading" formControlName="query">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <button mat-fab (click)="applyFilter()">
+          <mat-icon>filter_alt</mat-icon>
+        </button>
+        <button mat-fab (click)="clearFilter()" *ngIf="filter">
+          <mat-icon>filter_alt_off</mat-icon>
+        </button>
+      </div>
+    </form>
+
+    <div class="flex-fill"></div>
     <div>
       <button mat-fab extended class="mt-1" routerLink="./create">
         <mat-icon>add_circle</mat-icon>

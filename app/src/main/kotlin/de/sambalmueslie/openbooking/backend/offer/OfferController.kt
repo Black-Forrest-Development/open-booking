@@ -6,6 +6,7 @@ import de.sambalmueslie.openbooking.backend.offer.api.OfferAPI.Companion.PERMISS
 import de.sambalmueslie.openbooking.backend.offer.api.OfferAPI.Companion.PERMISSION_WRITE
 import de.sambalmueslie.openbooking.common.PatchRequest
 import de.sambalmueslie.openbooking.common.checkPermission
+import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication
@@ -54,5 +55,9 @@ class OfferController(private val service: OfferService) : OfferAPI {
     @Post("/range")
     override fun createRange(auth: Authentication, request: OfferRangeRequest) =
         auth.checkPermission(PERMISSION_WRITE) { service.createRange(request) }
+
+    @Post("/filter")
+    override fun filter(auth: Authentication, @Body request: OfferFilterRequest, pageable: Pageable) =
+        auth.checkPermission(PERMISSION_READ) { service.filter(request, pageable) }
 
 }

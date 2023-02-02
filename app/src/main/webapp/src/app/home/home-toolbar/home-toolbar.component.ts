@@ -3,12 +3,10 @@ import {TranslateService} from "@ngx-translate/core";
 import {MatDialog} from "@angular/material/dialog";
 import {DOCUMENT} from "@angular/common";
 import {AuthService} from "@auth0/auth0-angular";
-import {MatSelectChange} from "@angular/material/select";
 import {HomeService} from "../model/home.service";
 import {Observable} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
-import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home-toolbar',
@@ -36,20 +34,17 @@ export class HomeToolbarComponent {
               public auth: AuthService,
               public service: HomeService,
               private breakpointObserver: BreakpointObserver,
-
   ) {
     translate.setDefaultLang('en');
 
   }
 
   ngOnInit() {
-    this.lang = navigator.language ?? 'de'
-    this.translate.use(this.lang)
-  }
+    let userLang = navigator.language
+    let valid = this.languages.findIndex(v => v.key == userLang) >= 0
 
-  changeLang(event: MatSelectChange) {
-    let value = event.value
-    this.setLanguage(value)
+    this.lang = (valid) ? userLang : 'de'
+    this.translate.use(this.lang)
   }
 
   setLanguage(language: string) {

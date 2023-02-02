@@ -47,4 +47,11 @@ data class BookingData(
         updated = timestamp
         return this
     }
+
+    fun update(visitorGroup: VisitorGroup, status: BookingStatus, timestamp: LocalDateTime): BookingData {
+        this.size = visitorGroup.size
+        this.status = status
+        updated = timestamp
+        return this
+    }
 }

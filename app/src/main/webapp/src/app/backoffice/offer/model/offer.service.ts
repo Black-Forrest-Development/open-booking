@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {LoggingService} from "../../../shared/logging/logging.service";
 import {Observable} from "rxjs";
 import {Page} from "../../../shared/page/page";
-import {Offer, OfferChangeRequest, OfferRangeRequest, OfferSeriesRequest} from "./offer-api";
+import {Offer, OfferChangeRequest, OfferFilterRequest, OfferRangeRequest, OfferSeriesRequest} from "./offer-api";
 import {GenericRequestResult} from "../../../shared/shared-api";
 import * as moment from "moment";
 import {Moment} from "moment";
@@ -54,7 +54,7 @@ export class OfferService extends BaseService {
   }
 
 
-  setOfferActive(id: number, active:boolean): Observable<Offer> {
+  setOfferActive(id: number, active: boolean): Observable<Offer> {
     return this.patch('' + id + '/active', {value: active})
   }
 
@@ -71,6 +71,10 @@ export class OfferService extends BaseService {
       return mDate
     }
     return null;
+  }
+
+  filter(request: OfferFilterRequest, page: number, size: number): Observable<Page<Offer>> {
+    return this.postPaged('filter', request, page, size)
   }
 
 

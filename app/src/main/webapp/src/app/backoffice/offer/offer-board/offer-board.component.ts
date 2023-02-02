@@ -5,21 +5,33 @@ import {MatDialog} from "@angular/material/dialog";
 import {debounceTime, distinctUntilChanged} from "rxjs";
 import {Page} from "../../../shared/page/page";
 import {PageEvent} from "@angular/material/paginator";
-import {Offer} from "../model/offer-api";
+import {Offer, OfferFilterRequest} from "../model/offer-api";
 import {OfferDeleteDialogComponent} from "../offer-delete-dialog/offer-delete-dialog.component";
 import {OfferService} from "../model/offer.service";
 import {ExportService} from "../../export/model/export.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from "@angular/material-moment-adapter";
 
 @Component({
   selector: 'app-offer-board',
   templateUrl: './offer-board.component.html',
-  styleUrls: ['./offer-board.component.scss']
+  styleUrls: ['./offer-board.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
+  ],
 })
 export class OfferBoardComponent {
 
   reloading: boolean = false
   pageNumber = 0
-  pageSize = 10
+  pageSize = 50
   totalElements = 0
 
   data: Offer[] = []
@@ -27,6 +39,12 @@ export class OfferBoardComponent {
   displayedColumns: string[] = ['start', 'finish', 'maxPersons', 'active', 'cmd']
 
   keyUp: EventEmitter<string> = new EventEmitter<string>()
+
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null, Validators.required),
+    end: new FormControl<Date | null>(null, Validators.required),
+  });
+
 
   constructor(
     private service: OfferService,
@@ -44,13 +62,28 @@ export class OfferBoardComponent {
       debounceTime(500),
       distinctUntilChanged()
     ).subscribe(data => this.search(data))
+
+    this.range.valueChanges.subscribe(d => this.handleSelectionChange())
   }
 
   private loadPage(number: number) {
     if (this.reloading) return
     this.reloading = true
 
-    this.service.getAllOffer(number, this.pageSize).subscribe(p => this.handleData(p))
+    let filter = this.range.value
+    if (filter.start || filter.end) {
+      let start = this.convert(filter.start)
+      let end = this.convert(filter.end)
+      let request = new OfferFilterRequest(start, end, null)
+      this.service.filter(request, number, this.pageSize).subscribe(p => this.handleData(p))
+    } else {
+      this.service.getAllOffer(number, this.pageSize).subscribe(p => this.handleData(p))
+    }
+  }
+
+  private convert(date: Date | null | undefined): string | null {
+    if (date == null) return null
+    return date.toISOString()
   }
 
   private handleData(p: Page<Offer>) {
@@ -86,6 +119,7 @@ export class OfferBoardComponent {
     this.pageSize = event.pageSize
     this.loadPage(event.pageIndex)
   }
+
   updateOfferOngoing: UpdateEntry[] = [];
 
   isUpdateOngoing(offer: Offer): boolean {
@@ -120,6 +154,27 @@ export class OfferBoardComponent {
     const index = this.updateOfferOngoing.findIndex(u => u.offer.id == offer.id)
     if (index > -1) {
       this.updateOfferOngoing.splice(index, 1);
+    }
+  }
+
+
+  clearSelection() {
+    this.range.get('start')?.setValue(null)
+    this.range.get('end')?.setValue(null)
+    this.range.reset()
+    this.applyFilter()
+  }
+
+  applyFilter() {
+    this.loadPage(this.pageNumber)
+  }
+
+  handleSelectionChange() {
+    let start = this.range.get('start')?.value
+    let end = this.range.get('end')?.value
+    if (this.range.invalid) return
+    if (start != null && end != null) {
+      this.loadPage(0)
     }
   }
 }
