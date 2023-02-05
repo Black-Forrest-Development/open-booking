@@ -43,6 +43,10 @@ class NotificationService(
     }
 
     private fun process(event: NotificationEvent) {
-        processor.forEach { it.process(event) }
+        try {
+            processor.forEach { it.process(event) }
+        } catch (e: Exception) {
+            logger.error("Error while processing notification event ${event.type}", e)
+        }
     }
 }

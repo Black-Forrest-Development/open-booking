@@ -83,3 +83,8 @@ flyway:
       create-schemas: true
       schemas: open_booking
       clean-schema: false
+
+redis:
+  uri: redis://localhost
+
+

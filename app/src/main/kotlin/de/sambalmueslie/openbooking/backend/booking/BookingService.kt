@@ -162,4 +162,5 @@ class BookingService(
 
         return page.map { BookingSearchResult(offers[it.offerId]!!, it.convert(), visitorGroups[it.visitorGroupId]!!) }
     }
+
 }

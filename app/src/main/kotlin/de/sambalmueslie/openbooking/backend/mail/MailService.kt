@@ -6,6 +6,7 @@ import de.sambalmueslie.openbooking.backend.mail.db.*
 import de.sambalmueslie.openbooking.backend.mail.external.MailClient
 import de.sambalmueslie.openbooking.common.TimeProvider
 import de.sambalmueslie.openbooking.common.findByIdOrNull
+import de.sambalmueslie.openbooking.common.forEachWithTryCatch
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.scheduling.annotation.Scheduled
@@ -58,15 +59,21 @@ class MailService(
     }
 
     private fun process(job: MailSendJob) {
-        val result = job.process(client)
-        val data = jobRepository.findByIdOrNull(job.jobId) ?: return
-        if (result) {
-            jobRepository.update(data.updateStatus(MailJobStatus.FINISHED, timeProvider.now()))
-        } else {
-            jobRepository.update(data.updateStatus(MailJobStatus.FAILED, timeProvider.now()))
-            if (job.getRetryCounter() <= MAX_RETRIES) {
-                retry(job)
+        try {
+            val result = job.process(client)
+            val data = jobRepository.findByIdOrNull(job.jobId) ?: return
+            if (result) {
+                jobRepository.update(data.updateStatus(MailJobStatus.FINISHED, timeProvider.now()))
+            } else {
+                jobRepository.update(data.updateStatus(MailJobStatus.FAILED, timeProvider.now()))
+                if (job.getRetryCounter() <= MAX_RETRIES) {
+                    retry(job)
+                }
             }
+        } catch (e: Exception){
+            logger.error("Error while processing job ${job.jobId}", e)
+            val data = jobRepository.findByIdOrNull(job.jobId) ?: return
+            jobRepository.update(data.updateStatus(MailJobStatus.FAILED, timeProvider.now()))
         }
     }
 
@@ -94,7 +101,7 @@ class MailService(
         return jobs
     }
 
-    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0 0/15 * * * ?")
     fun processRetryJobs() {
         val duration = measureTimeMillis {
             val jobs = getFailedJobs()

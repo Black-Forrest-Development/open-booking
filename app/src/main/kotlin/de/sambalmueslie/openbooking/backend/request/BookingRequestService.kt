@@ -4,11 +4,9 @@ package de.sambalmueslie.openbooking.backend.request
 import de.sambalmueslie.openbooking.backend.booking.BookingService
 import de.sambalmueslie.openbooking.backend.booking.api.Booking
 import de.sambalmueslie.openbooking.backend.booking.api.BookingChangeRequest
-import de.sambalmueslie.openbooking.backend.booking.api.BookingInfo
 import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
 import de.sambalmueslie.openbooking.backend.cache.CacheService
 import de.sambalmueslie.openbooking.backend.group.VisitorGroupService
-import de.sambalmueslie.openbooking.backend.group.api.VisitorGroup
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupChangeRequest
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupStatus
 import de.sambalmueslie.openbooking.backend.offer.OfferService
@@ -18,9 +16,6 @@ import de.sambalmueslie.openbooking.backend.request.db.BookingRequestData
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelation
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRelationRepository
 import de.sambalmueslie.openbooking.backend.request.db.BookingRequestRepository
-import de.sambalmueslie.openbooking.backend.response.ResponseService
-import de.sambalmueslie.openbooking.backend.response.api.ResolvedResponse
-import de.sambalmueslie.openbooking.backend.response.api.ResponseType
 import de.sambalmueslie.openbooking.common.*
 import de.sambalmueslie.openbooking.config.AppConfig
 import de.sambalmueslie.openbooking.error.InvalidRequestException
@@ -29,7 +24,6 @@ import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.time.LocalDate
 import java.util.*
 
 
@@ -38,9 +32,14 @@ class BookingRequestService(
     private val bookingService: BookingService,
     private val visitorGroupService: VisitorGroupService,
     private val offerService: OfferService,
-    private val responseService: ResponseService,
     private val repository: BookingRequestRepository,
     private val relationRepository: BookingRequestRelationRepository,
+
+    private val converter: BookingInfoConverter,
+    private val filterService: BookingRequestFilterService,
+    private val messageService: BookingRequestMessageService,
+    private val changeService: BookingRequestChangeService,
+
     private val config: AppConfig,
     private val timeProvider: TimeProvider,
     cacheService: CacheService,
@@ -48,13 +47,13 @@ class BookingRequestService(
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(BookingRequestService::class.java)
-        private const val MSG_CONFIRM_EMAIL_FAILED = "VISITOR_GROUP.Message.ConfirmEmailFailed"
-        private const val MSG_CONFIRM_EMAIL_SUCCEED = "VISITOR_GROUP.Message.ConfirmEmailSucceed"
-        private const val MSG_CONFIRM_REQUEST_FAILED = "REQUEST.MESSAGE.CONFIRM.FAILED"
-        private const val MSG_CONFIRM_REQUEST_SUCCESS = "REQUEST.MESSAGE.CONFIRM.SUCCESS"
-        private const val MSG_DENIAL_REQUEST_SUCCESS = "REQUEST.MESSAGE.DENIAL.SUCCESS"
-        private const val MSG_UPDATE_REQUEST_FAIL = "REQUEST.MESSAGE.UPDATE.FAIL"
-        private const val MSG_UPDATE_REQUEST_SUCCESS = "REQUEST.MESSAGE.UPDATE.SUCCESS"
+        const val MSG_CONFIRM_EMAIL_FAILED = "VISITOR_GROUP.Message.ConfirmEmailFailed"
+        const val MSG_CONFIRM_EMAIL_SUCCEED = "VISITOR_GROUP.Message.ConfirmEmailSucceed"
+        const val MSG_CONFIRM_REQUEST_FAILED = "REQUEST.MESSAGE.CONFIRM.FAILED"
+        const val MSG_CONFIRM_REQUEST_SUCCESS = "REQUEST.MESSAGE.CONFIRM.SUCCESS"
+        const val MSG_DENIAL_REQUEST_SUCCESS = "REQUEST.MESSAGE.DENIAL.SUCCESS"
+        const val MSG_UPDATE_REQUEST_FAIL = "REQUEST.MESSAGE.UPDATE.FAIL"
+        const val MSG_UPDATE_REQUEST_SUCCESS = "REQUEST.MESSAGE.UPDATE.SUCCESS"
     }
 
     private val listeners = mutableSetOf<BookingRequestChangeListener>()
@@ -95,6 +94,15 @@ class BookingRequestService(
         return result
     }
 
+    private fun isEnoughSpaceAvailable(request: VisitorGroupChangeRequest, offer: Offer, bookings: List<Booking>): Boolean {
+        if (bookings.isEmpty()) return true
+
+        val spaceConfirmed = bookings.filter { it.status == BookingStatus.CONFIRMED || it.status == BookingStatus.UNCONFIRMED }.sumOf { it.size }
+        val spaceAvailable = offer.maxPersons - spaceConfirmed
+
+        return spaceAvailable >= request.size
+    }
+
     override fun createData(request: BookingRequestChangeRequest): BookingRequestData {
         val visitorGroup = visitorGroupService.create(request.visitorGroupChangeRequest)
 
@@ -115,17 +123,6 @@ class BookingRequestService(
         visitorGroupService.isValid(request.visitorGroupChangeRequest)
     }
 
-
-    private fun isEnoughSpaceAvailable(request: VisitorGroupChangeRequest, offer: Offer, bookings: List<Booking>): Boolean {
-        if (bookings.isEmpty()) return true
-
-        val spaceConfirmed = bookings.filter { it.status == BookingStatus.CONFIRMED || it.status == BookingStatus.UNCONFIRMED }.sumOf { it.size }
-        val spaceAvailable = offer.maxPersons - spaceConfirmed
-
-        return spaceAvailable >= request.size
-    }
-
-
     override fun deleteDependencies(data: BookingRequestData) {
         val relations = relationRepository.getByBookingRequestId(data.id)
         relations.forEach { bookingService.delete(it.bookingId) }
@@ -135,81 +132,10 @@ class BookingRequestService(
         relationRepository.deleteByBookingRequestId(data.id)
     }
 
-    fun getUnconfirmed(pageable: Pageable): Page<BookingRequest> {
-        return getUnconfirmedData(pageable).map { it.convert() }
-    }
+    fun getUnconfirmed(pageable: Pageable): Page<BookingRequest> = filterService.getUnconfirmedData(pageable).map { it.convert() }
+    fun getInfoUnconfirmed(pageable: Pageable) = converter.page { filterService.getUnconfirmedData(pageable) }
+    fun filterInfoUnconfirmed(filter: BookingRequestFilterRequest, pageable: Pageable) = converter.page { filterService.filterInfoUnconfirmed(filter, pageable) }
 
-    fun getInfoUnconfirmed(pageable: Pageable): Page<BookingRequestInfo> {
-        val data = getUnconfirmedData(pageable)
-        return info(data)
-    }
-
-    fun filterInfoUnconfirmed(filter: BookingRequestFilterRequest, pageable: Pageable): Page<BookingRequestInfo> {
-        val offerDate: LocalDate? = filter.offerDate
-        val visitorGroupStatus: VisitorGroupStatus? = filter.visitorGroupStatus
-        val query: String? = filter.query?.let {"%$it%" }
-        val status = listOf(BookingRequestStatus.UNKNOWN, BookingRequestStatus.UNCONFIRMED)
-
-        val data = if (offerDate != null && visitorGroupStatus == null && query.isNullOrBlank()) {
-            repository.findByOfferDate(offerDate, status, pageable)
-        } else if (offerDate == null && visitorGroupStatus != null && query.isNullOrBlank()) {
-            repository.findByVisitorGroupStatus(visitorGroupStatus, status, pageable)
-        } else if (offerDate == null && visitorGroupStatus == null && !query.isNullOrBlank()) {
-            repository.findByQuery(query, status, pageable)
-        } else if (offerDate != null && visitorGroupStatus != null && query.isNullOrBlank()) {
-            repository.findByOfferDateAndVisitorGroupStatus(offerDate, visitorGroupStatus, status, pageable)
-        } else if (offerDate != null && visitorGroupStatus == null && !query.isNullOrBlank()) {
-            repository.findByOfferDateAndQuery(offerDate, query, status, pageable)
-        } else if (offerDate == null && visitorGroupStatus != null && !query.isNullOrBlank()) {
-            repository.findByVisitorGroupStatusAndQuery(visitorGroupStatus, query, status, pageable)
-        } else if (offerDate != null && visitorGroupStatus != null && !query.isNullOrBlank()) {
-            repository.findByOfferDateAndVisitorGroupStatusAndQuery(offerDate, visitorGroupStatus, query, status, pageable)
-        } else {
-            getUnconfirmedData(pageable)
-        }
-
-        return info(data)
-    }
-
-    private fun info(data: Page<BookingRequestData>): Page<BookingRequestInfo> {
-        val requestIds = data.content.map { it.id }
-        val relations = relationRepository.getByBookingRequestIdIn(requestIds)
-            .groupBy { it.bookingRequestId }
-            .mapValues { it.value.map { it.bookingId } }
-        val bookingIds = relations.values.map { it }.flatten().toSet()
-        val bookings = bookingService.getBookingInfos(bookingIds).associateBy { it.id }
-
-        val visitorGroupIds = data.content.map { it.visitorGroupId }.toSet()
-        val visitorGroups = visitorGroupService.getVisitorGroups(visitorGroupIds).associateBy { it.id }
-
-        val result = data.mapNotNull { info(it, relations, bookings, visitorGroups) }
-            .sortedBy { it.visitorGroup.status.order }
-
-        return Page.of(result, data.pageable, data.totalSize)
-    }
-
-
-    private fun info(request: BookingRequestData, relations: Map<Long, List<Long>>, bookings: Map<Long, BookingInfo>, visitorGroups: Map<Long, VisitorGroup>): BookingRequestInfo? {
-        val visitorGroup = visitorGroups[request.visitorGroupId] ?: return null
-        val relatedBookingIds = relations[request.id] ?: emptyList()
-        val relatedBookings = relatedBookingIds.mapNotNull { bookings[it] }
-
-        val timestamp = request.updated ?: request.created
-        return BookingRequestInfo(request.id, visitorGroup, relatedBookings, request.status, request.comment, timestamp)
-    }
-
-    fun info(id: Long): BookingRequestInfo? {
-        val data = repository.findByIdOrNull(id) ?: return null
-        val relations = relationRepository.getByBookingRequestId(data.id)
-        val bookings = bookingService.getBookingInfos(relations.map { it.bookingId }.toSet())
-        val visitorGroup = visitorGroupService.get(data.visitorGroupId) ?: return null
-
-        val timestamp = data.updated ?: data.created
-        return BookingRequestInfo(data.id, visitorGroup, bookings, data.status, data.comment, timestamp)
-    }
-
-
-    private fun getUnconfirmedData(pageable: Pageable) = repository.findByStatusIn(listOf(BookingRequestStatus.UNKNOWN, BookingRequestStatus.UNCONFIRMED), pageable)
 
     fun confirmEmail(key: String): GenericRequestResult {
         val request = repository.findOneByKey(key) ?: return GenericRequestResult(false, MSG_CONFIRM_EMAIL_FAILED)
@@ -259,78 +185,18 @@ class BookingRequestService(
         return "${config.baseUrl}/home/confirm/email/${data.key}"
     }
 
-
-    fun getRequestReceivedMessage(id: Long, lang: String = "de"): ResolvedResponse? {
-        val info = info(id) ?: return null
-        val properties = mutableMapOf(
-            Pair("status", info.status),
-            Pair("visitor", info.visitorGroup),
-            Pair("bookings", info.bookings),
-        )
-        return responseService.resolve(lang, ResponseType.BOOKING_REQUEST_RECEIVED, properties)
-    }
-
-    fun getConfirmationMessage(id: Long, bookingId: Long, lang: String = "de"): ResolvedResponse? {
-        val info = info(id) ?: return null
-        val selected = info.bookings.find { it.id == bookingId } ?: return null
-        val properties = mutableMapOf(
-            Pair("status", info.status),
-            Pair("visitor", info.visitorGroup),
-            Pair("bookings", info.bookings),
-            Pair("selected", selected),
-        )
-        return responseService.resolve(lang, ResponseType.BOOKING_CONFIRMED, properties)
-    }
-
-
-    fun getDenialMessage(id: Long, lang: String = "de"): ResolvedResponse? {
-        val info = info(id) ?: return null
-        val properties = mutableMapOf(
-            Pair("status", info.status),
-            Pair("visitor", info.visitorGroup),
-            Pair("bookings", info.bookings),
-        )
-        return responseService.resolve(lang, ResponseType.BOOKING_DENIED, properties)
-    }
+    fun getRequestReceivedMessage(id: Long, lang: String = "de") = messageService.getRequestReceivedMessage(id, lang)
+    fun getConfirmationMessage(id: Long, bookingId: Long, lang: String = "de") = messageService.getConfirmationMessage(id, bookingId, lang)
+    fun getDenialMessage(id: Long, lang: String = "de") = messageService.getDenialMessage(id, lang)
 
     fun getInfoByBookingId(bookingId: Long): BookingRequestInfo? {
         val relations = relationRepository.getByBookingId(bookingId)
         val requestId = relations.map { it.bookingRequestId }.toSet().firstOrNull() ?: return null
-        return info(requestId)
+        return converter.data { repository.findByIdOrNull(requestId) }
     }
 
-    fun updateVisitorGroup(id: Long, request: VisitorGroupChangeRequest): GenericRequestResult {
-        val data = repository.findByIdOrNull(id)
-            ?: return GenericRequestResult(false, MSG_UPDATE_REQUEST_FAIL)
+    fun updateVisitorGroup(id: Long, request: VisitorGroupChangeRequest) = changeService.updateVisitorGroup(id, request)
 
-        val current = visitorGroupService.get(data.visitorGroupId)
-            ?: return GenericRequestResult(false, MSG_UPDATE_REQUEST_FAIL)
-
-        val sizeChanged = current.size != request.size
-        if (!sizeChanged) {
-            visitorGroupService.update(data.visitorGroupId, request)
-            return GenericRequestResult(true, MSG_UPDATE_REQUEST_SUCCESS)
-        }
-
-        val relations = relationRepository.getByBookingRequestId(data.id)
-        val bookingIds = relations.map { it.bookingId }.toSet()
-        val bookings = bookingService.getBookings(bookingIds).groupBy { it.offerId }
-
-        val offerIds = bookings.keys
-        val suitableOffers = offerService.getOffer(offerIds)
-            .filter { isEnoughSpaceAvailable(request, it, bookings[it.id] ?: emptyList()) }
-            .associateBy { it.id }
-        if (suitableOffers.isEmpty()) return GenericRequestResult(false, "REQUEST.Error.NoSuitableOffer")
-
-        val visitorGroup = visitorGroupService.update(data.visitorGroupId, request)
-
-        bookings.forEach { (offerId, bookings) ->
-            val offerSuitable = suitableOffers.containsKey(offerId)
-            val status = if (offerSuitable) BookingStatus.UNCONFIRMED else BookingStatus.DENIED
-            bookings.forEach { bookingService.update(it.id, visitorGroup, status) }
-        }
-        return GenericRequestResult(true, MSG_UPDATE_REQUEST_SUCCESS)
-    }
-
+    fun info(id: Long) = converter.data { repository.findByIdOrNull(id) }
 
 }

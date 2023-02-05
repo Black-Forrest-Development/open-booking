@@ -94,6 +94,13 @@ abstract class GenericCrudService<T : Any, O : BusinessObject<T>, R : BusinessOb
     protected open fun deleteDependencies(data: D) {
         // intentionally left empty
     }
+
+    fun deleteAll() {
+        val sequence = PageableSequence() { repository.findAll(it) }
+        sequence.forEach { delete(it) }
+        cache.invalidateAll()
+    }
+
 }
 
 

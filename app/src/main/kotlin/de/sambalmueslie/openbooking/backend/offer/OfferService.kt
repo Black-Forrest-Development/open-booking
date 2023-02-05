@@ -60,10 +60,6 @@ class OfferService(
 
     }
 
-    fun deleteAll() {
-        val sequence = PageableSequence() { repository.findAll(it) }
-        sequence.forEach { delete(it) }
-    }
 
     fun getOffer(date: LocalDate): List<Offer> {
         val start = date.atStartOfDay()
