@@ -37,6 +37,7 @@ class NotificationService(
     fun processEvents() {
         val duration = measureTimeMillis {
             val events = getEvents()
+            if (events.isEmpty()) return
             events.forEach { process(it) }
         }
         logger.info("Process events finished within $duration ms.")

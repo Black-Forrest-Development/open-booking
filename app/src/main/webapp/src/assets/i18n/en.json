@@ -452,5 +452,18 @@
       "CONFIRMED": "Confirmed",
       "UNCONFIRMED": "Unconfirmed"
     }
+  },
+  "DASHBOARD": {
+    "Stats": {
+      "DailyVisitor": {
+        "Title": "Daily Visitor Statistics",
+        "yAxis": "Space",
+        "TotalSpace": "Available space"
+      },
+      "TotalVisitor": {
+        "Title": "Total Visitor Statistics",
+        "TotalRemaining": "Remaining space"
+      }
+    }
   }
 }

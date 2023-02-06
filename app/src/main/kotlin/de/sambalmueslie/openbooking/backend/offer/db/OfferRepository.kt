@@ -1,6 +1,5 @@
 package de.sambalmueslie.openbooking.backend.offer.db
 
-import de.sambalmueslie.openbooking.backend.offer.api.Offer
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.jdbc.annotation.JdbcRepository
 import io.micronaut.data.model.Page
@@ -8,7 +7,6 @@ import io.micronaut.data.model.Pageable
 import io.micronaut.data.model.query.builder.sql.Dialect
 import io.micronaut.data.repository.PageableRepository
 import io.micronaut.data.repository.jpa.JpaSpecificationExecutor
-import io.micronaut.data.repository.jpa.criteria.QuerySpecification
 import java.time.LocalDateTime
 
 @Repository
@@ -25,6 +23,8 @@ interface OfferRepository : PageableRepository<OfferData, Long>, JpaSpecificatio
     fun findAllByActiveOrderByStart(active: Boolean, pageable: Pageable): Page<OfferData>
 
     fun findAllByStartGreaterThanEqualsAndFinishLessThanOrderByStart(from: LocalDateTime, to: LocalDateTime, pageable: Pageable): Page<OfferData>
+    fun findOneOrderByStart(): OfferData?
+    fun findOneOrderByStartDesc(): OfferData?
 
 
 }

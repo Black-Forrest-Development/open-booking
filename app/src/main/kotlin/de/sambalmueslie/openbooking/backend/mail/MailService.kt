@@ -53,6 +53,7 @@ class MailService(
     fun processNewJobs() {
         val duration = measureTimeMillis {
             val jobs = getNewJobs()
+            if (jobs.isEmpty()) return
             jobs.forEach { process(it) }
         }
         logger.info("Process new jobs finished within $duration ms.")
@@ -105,6 +106,7 @@ class MailService(
     fun processRetryJobs() {
         val duration = measureTimeMillis {
             val jobs = getFailedJobs()
+            if (jobs.isEmpty()) return
             jobs.forEach { process(it) }
         }
         logger.info("Process retry jobs finished within $duration ms.")

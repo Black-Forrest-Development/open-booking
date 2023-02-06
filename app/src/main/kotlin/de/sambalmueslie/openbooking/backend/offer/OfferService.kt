@@ -71,8 +71,16 @@ class OfferService(
         return repository.findByIdIn(offerIds).map { it.convert() }
     }
 
+    fun getFirstOffer(): Offer? {
+        return repository.findOneOrderByStart()?.convert()
+    }
+
     fun getFirstOffer(date: LocalDate): Offer? {
         return repository.findOneByStartGreaterThanEqualsOrderByStart(date.atStartOfDay())?.convert()
+    }
+
+    fun getLastOffer(): Offer? {
+        return repository.findOneOrderByStartDesc()?.convert()
     }
 
     fun getLastOffer(date: LocalDate): Offer? {

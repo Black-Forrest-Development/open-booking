@@ -15,8 +15,30 @@ import java.time.LocalDate
 @JdbcRepository(dialect = Dialect.POSTGRES)
 interface BookingRequestRepository : PageableRepository<BookingRequestData, Long> {
 
-
+    @Query(
+        value = """
+            SELECT br.*
+            FROM booking_request br
+                     INNER JOIN visitor_group vg on br.visitor_group_id = vg.id
+            WHERE br.status IN (:status) 
+            ORDER BY CASE vg.status 
+                    WHEN 'CONFIRMED' then 0
+                    WHEN 'UNCONFIRMED' then 1
+                    WHEN 'UNKNOWN' then 2
+                END,
+                br.created ASC
+                
+        """,
+        countQuery = """
+            SELECT COUNT(br.*)
+            FROM booking_request br
+                     INNER JOIN visitor_group vg on br.visitor_group_id = vg.id
+            WHERE br.status IN (:status)
+        """,
+        nativeQuery = true
+    )
     fun findByStatusIn(status: List<BookingRequestStatus>, pageable: Pageable): Page<BookingRequestData>
+
     fun findOneByKey(key: String): BookingRequestData?
 
     @Query(

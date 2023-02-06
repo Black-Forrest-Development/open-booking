@@ -7,19 +7,23 @@ import {MaterialModule} from "../../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {DayInfoCardComponent} from './day-info-card/day-info-card.component';
+import { DailyVisitorStatsComponent } from './daily-visitor-stats/daily-visitor-stats.component';
+import {NgxEchartsModule} from "ngx-echarts";
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    DayInfoCardComponent
+    DayInfoCardComponent,
+    DailyVisitorStatsComponent
   ],
-  imports: [
-    CommonModule,
-    DashboardRoutingModule,
-    MaterialModule,
-    TranslateModule,
-    ReactiveFormsModule,
-  ]
+    imports: [
+        CommonModule,
+        DashboardRoutingModule,
+        MaterialModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        NgxEchartsModule,
+    ]
 })
 export class DashboardModule { }

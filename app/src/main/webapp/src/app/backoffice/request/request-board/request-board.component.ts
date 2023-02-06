@@ -99,9 +99,7 @@ export class RequestBoardComponent {
   }
 
   handleEntryChanged() {
-    if (this.reloading) return
-    this.reloading = true
-    this.service.getAllBookingRequestInfoUnconfirmed(0, 20).subscribe(d => this.handleData(d))
+    this.loadPage(this.pageNumber)
   }
 
   handlePageChange(event: PageEvent) {

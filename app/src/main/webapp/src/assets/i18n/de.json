@@ -452,5 +452,18 @@
       "CONFIRMED": "Mail bestätigt",
       "UNCONFIRMED": "Mail unbestätigt"
     }
+  },
+  "DASHBOARD": {
+    "Stats": {
+      "DailyVisitor": {
+        "Title": "Buchungsstatistik auf Tagesbasis",
+        "yAxis": "Plätze",
+        "TotalSpace": "Angebotene Plätze"
+      },
+      "TotalVisitor": {
+        "Title": "Buchungsstatistik Gesamt",
+        "TotalRemaining": "Verbleibende Plätze"
+      }
+    }
   }
 }

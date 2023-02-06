@@ -24,10 +24,10 @@ export class DayInfoService extends BaseService {
   reloading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   data: DayInfo[] = []
 
-  private labelDeactivated = ""
-  private labelConfirmed = ""
-  private labelUnconfirmed = ""
-  private labelAvailable = ""
+   labelDeactivated = ""
+   labelConfirmed = ""
+   labelUnconfirmed = ""
+   labelAvailable = ""
 
 
   private getDefaultDayInfo(): Observable<DayInfo[]> {
