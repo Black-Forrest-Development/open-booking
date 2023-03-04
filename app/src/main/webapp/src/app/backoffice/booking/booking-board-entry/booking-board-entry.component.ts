@@ -32,7 +32,22 @@ export class BookingBoardEntryComponent {
       )
   }
 
+  exportExcel(data: DayInfo) {
+    let reference = this.toastService.loading("Download started...")
+    this.exportService.createDailyReportExcel(data.date)
+      .subscribe({
+          error: (e) => {
+            reference.close()
+            this.toastService.error("Failed to generate Excel for " + data.date)
+          },
+          complete: () => reference.close()
+        }
+      )
+  }
+
   create(data: DayInfo) {
 
   }
+
+
 }

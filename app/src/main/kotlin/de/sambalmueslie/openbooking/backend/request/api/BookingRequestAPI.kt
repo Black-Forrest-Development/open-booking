@@ -4,6 +4,7 @@ import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupChangeRequest
 import de.sambalmueslie.openbooking.backend.response.api.ResolvedResponse
 import de.sambalmueslie.openbooking.common.AuthCrudAPI
 import de.sambalmueslie.openbooking.common.GenericRequestResult
+import de.sambalmueslie.openbooking.common.PatchRequest
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication
@@ -30,4 +31,5 @@ interface BookingRequestAPI : AuthCrudAPI<Long, BookingRequest, BookingRequestCh
 
     fun updateVisitorGroup(auth: Authentication, id: Long, request: VisitorGroupChangeRequest): GenericRequestResult
 
+    fun setComment(auth: Authentication, id: Long, value: PatchRequest<String>): BookingRequest?
 }

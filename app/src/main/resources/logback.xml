@@ -12,7 +12,8 @@
     </root>
 
     <logger name="io.micronaut.context.condition" level="INFO"/>
-    <logger name="io.micronaut.runtime" level="INFO"/>
+    <logger name="io.micronaut.runtime" level="DEBUG"/>
+    <logger name="io.micronaut.http" level="DEBUG"/>
     <logger name="io.micronaut.security" level="INFO"/>
     <logger name="org.flywaydb" level="INFO"/>
     <logger name="io.micronaut.core.io.service" level="INFO"/>

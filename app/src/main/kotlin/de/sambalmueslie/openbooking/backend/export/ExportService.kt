@@ -9,12 +9,12 @@ import io.micronaut.http.server.types.files.SystemFile
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.File
 import java.time.LocalDate
 
 @Singleton
 class ExportService(
     private val pdfExporter: PdfExporter,
+    private val excelExporter: ExcelExporter,
     private val offerService: OfferService,
     private val bookingService: BookingService
 ) {
@@ -24,21 +24,19 @@ class ExportService(
     }
 
     fun createDailyReportPdf(date: LocalDate): SystemFile? {
+        return createDailyReport(date, pdfExporter)
+    }
+
+    fun createDailyReportExcel(date: LocalDate): SystemFile? {
+        return createDailyReport(date, excelExporter)
+    }
+
+    private fun createDailyReport(date: LocalDate, exporter: Exporter): SystemFile? {
         val (duration, result) = measureTimeMillisWithReturn {
             val offer = offerService.getOffer(date).map {
                 OfferDetails(it, bookingService.findDetailsByOffer(it.id))
             }
-
-            val properties = mutableMapOf<String, Any>()
-            properties["offer"] = offer
-            properties["timestamp"] = date.toString()
-
-            val content = pdfExporter.export(properties, "dailyReport.vm") ?: return@measureTimeMillisWithReturn null
-
-            val file = File.createTempFile("DailyReport", ".pdf")
-            file.writeBytes(content)
-            val filename = "DailyReport${date.toString()}.pdf"
-            SystemFile(file).attach(filename)
+            exporter.export(date, offer) ?: return@measureTimeMillisWithReturn null
         }
         logger.info("Created daily report for $date within $duration ms")
         return result

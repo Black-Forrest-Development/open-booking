@@ -93,8 +93,9 @@ class InfoService(
 
 
     fun getDayInfoRange(request: DateRangeSelectionRequest): List<DayInfo> {
-        val firstOffer = offerService.getFirstOffer(LocalDate.now()) ?: return emptyList()
-        val lastOffer = offerService.getLastOffer(LocalDate.now()) ?: return emptyList()
+        val now = LocalDate.now()
+        val firstOffer = offerService.getFirstOffer(listOf(request.from, now).min()) ?: offerService.getFirstOffer() ?: return emptyList()
+        val lastOffer = offerService.getLastOffer(listOf(request.to, now).min()) ?: offerService.getLastOffer() ?: return emptyList()
 
         val from = if (firstOffer.start.toLocalDate().isAfter(request.from)) firstOffer.start.toLocalDate() else request.from
         val to = if (lastOffer.finish.toLocalDate().isBefore(request.to)) lastOffer.finish.toLocalDate() else request.to

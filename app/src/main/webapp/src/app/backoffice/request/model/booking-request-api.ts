@@ -23,6 +23,7 @@ export class BookingRequestChangeRequest {
     public visitorGroupChangeRequest: VisitorGroupChangeRequest,
     public offerIds: number[],
     public comment: string,
+    public autoConfirm: boolean
   ) {
   }
 }

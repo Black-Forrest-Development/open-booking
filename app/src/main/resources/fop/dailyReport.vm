@@ -48,82 +48,81 @@
         </fo:static-content>
         <!-- BODY -->
         <fo:flow flow-name="page-body" font-size="9pt">
-            #set( $empty = true )
-            #if(!$offer.empty)
-                #foreach($entry in $offer)
-                    #if(!$entry.bookings.empty)
-                        #set( $empty = false )
-                        <fo:table space-before="3mm">
-                            <fo:table-body>
-                                <fo:table-row background-color="#F5F5F5" border="thin solid #CCCCCC">
-                                    <fo:table-cell padding="4px">
-                                        <fo:block text-align="left" font-size="12pt">$dateTool.formatTime($entry.offer.start) -  ${dateTool.formatTime($entry.offer.finish)}</fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell padding="4px">
-                                        <fo:block text-align="left" font-size="12pt">Personen ${entry.offer.maxPersons}</fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell padding="4px">
-                                        <fo:block text-align="left" font-size="12pt">
-                                            #if($entry.offer.active)
-                                                Aktiv
-                                            #else
-                                                Deaktiviert
-                                            #end
-                                        </fo:block>
-                                    </fo:table-cell>
-                                </fo:table-row>
-                            </fo:table-body>
-                        </fo:table>
+            #foreach($entry in $offer)
+                <fo:table space-before="3mm">
+                    <fo:table-body>
+                        <fo:table-row background-color="#F5F5F5" border="thin solid #CCCCCC">
+                            <fo:table-cell padding="4px">
+                                <fo:block text-align="left" font-size="12pt">$dateTool.formatTime($entry.offer.start) -  ${dateTool.formatTime($entry.offer.finish)}</fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell padding="4px">
+                                <fo:block text-align="left" font-size="12pt">Plätze ${entry.offer.maxPersons}</fo:block>
+                            </fo:table-cell>
+                        </fo:table-row>
+                    </fo:table-body>
+                </fo:table>
 
-                        <fo:table border="thin solid #CCCCCC">
-                            <fo:table-header background-color="#F5F5F5">
-                                <fo:table-row font-weight="bold">
-                                    <fo:table-cell padding="4px" number-columns-spanned="2">
-                                        <fo:block>Nr</fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell padding="4px" number-columns-spanned="3">
-                                        <fo:block>Titel</fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell padding="4px" number-columns-spanned="3">
-                                        <fo:block>Kontakt</fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell padding="4px" number-columns-spanned="3">
-                                        <fo:block>Personen</fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell padding="4px" number-columns-spanned="3">
-                                        <fo:block>Status</fo:block>
-                                    </fo:table-cell>
-                                </fo:table-row>
-                            </fo:table-header>
-                            <fo:table-body>
-                                #foreach($booking in $entry.bookings)
-                                    <fo:table-row height="0.7cm" border="thin solid #CCCCCC">
-                                        <fo:table-cell padding="2px" number-columns-spanned="2">
-                                            <fo:block text-align="left">$foreach.count</fo:block>
-                                        </fo:table-cell>
-                                        <fo:table-cell padding="2px" number-columns-spanned="3">
-                                            <fo:block text-align="left">${booking.visitorGroup.title}</fo:block>
-                                        </fo:table-cell>
-                                        <fo:table-cell padding="2px" number-columns-spanned="3">
-                                            <fo:block text-align="left">${booking.visitorGroup.contact}</fo:block>
-                                        </fo:table-cell>
-                                        <fo:table-cell padding="2px" number-columns-spanned="3">
-                                            <fo:block text-align="left">${booking.visitorGroup.size}</fo:block>
-                                        </fo:table-cell>
-                                        <fo:table-cell padding="2px" number-columns-spanned="3">
-                                            <fo:block text-align="left">${booking.booking.status}</fo:block>
-                                        </fo:table-cell>
-                                    </fo:table-row>
-                                #end
-                            </fo:table-body>
-                        </fo:table>
-                    #end
-                #end
-            #end
-            #if($empty)
-                <fo:block border-bottom="thin solid #777777" font-size="60%">
-                    <fo:inline font-size="12pt">Keine Daten für ausgewählten Zeitraum</fo:inline>
-                </fo:block>
+                <fo:table border="thin solid #CCCCCC">
+                    <fo:table-header background-color="#F5F5F5">
+                        <fo:table-row font-weight="bold">
+                            <fo:table-cell padding="4px" number-columns-spanned="2">
+                                <fo:block>Nr</fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell padding="4px" number-columns-spanned="3">
+                                <fo:block>Titel</fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell padding="4px" number-columns-spanned="3">
+                                <fo:block>Kontakt</fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell padding="4px" number-columns-spanned="3">
+                                <fo:block>Personen</fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell padding="4px" number-columns-spanned="3">
+                                <fo:block>Status</fo:block>
+                            </fo:table-cell>
+                        </fo:table-row>
+                    </fo:table-header>
+                    <fo:table-body>
+                        #if($entry.bookings.empty)
+                            <fo:table-row height="0.7cm" border="thin solid #CCCCCC">
+                                <fo:table-cell padding="2px" number-columns-spanned="2">
+                                    <fo:block text-align="left"></fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell padding="2px" number-columns-spanned="3">
+                                    <fo:block text-align="left"></fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell padding="2px" number-columns-spanned="3">
+                                    <fo:block text-align="left"></fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell padding="2px" number-columns-spanned="3">
+                                    <fo:block text-align="left"></fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell padding="2px" number-columns-spanned="3">
+                                    <fo:block text-align="left"></fo:block>
+                                </fo:table-cell>
+                            </fo:table-row>
+                        #end
+                        #foreach($booking in $entry.bookings)
+                            <fo:table-row height="0.7cm" border="thin solid #CCCCCC">
+                                <fo:table-cell padding="2px" number-columns-spanned="2">
+                                    <fo:block text-align="left">$foreach.count</fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell padding="2px" number-columns-spanned="3">
+                                    <fo:block text-align="left">${booking.visitorGroup.title}</fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell padding="2px" number-columns-spanned="3">
+                                    <fo:block text-align="left">${booking.visitorGroup.contact}</fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell padding="2px" number-columns-spanned="3">
+                                    <fo:block text-align="left">${booking.visitorGroup.size}</fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell padding="2px" number-columns-spanned="3">
+                                    <fo:block text-align="left">${booking.booking.status}</fo:block>
+                                </fo:table-cell>
+                            </fo:table-row>
+                        #end
+                    </fo:table-body>
+                </fo:table>
             #end
         </fo:flow>
     </fo:page-sequence>

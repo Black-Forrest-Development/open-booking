@@ -92,8 +92,10 @@ class BookingRequestEventProcessor(
     }
 
     private fun notifyContact(mails: List<Mail>, info: BookingRequestInfo) {
-        val from = MailParticipant("", getFromAddress())
         val visitorGroup = info.visitorGroup
+        if (visitorGroup.email.isBlank()) return
+
+        val from = MailParticipant("", getFromAddress())
         val to = listOf(MailParticipant(visitorGroup.contact, visitorGroup.email))
         mails.forEach { mailService.send(it, from, to) }
     }

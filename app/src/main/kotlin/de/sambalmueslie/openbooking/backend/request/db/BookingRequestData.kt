@@ -31,5 +31,11 @@ data class BookingRequestData(
         return this
     }
 
+    fun setComment(comment: String, timestamp: LocalDateTime): BookingRequestData {
+        this.comment = comment
+        this.updated = timestamp
+        return this
+    }
+
 }
 

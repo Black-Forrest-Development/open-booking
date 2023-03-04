@@ -11,5 +11,6 @@ interface ExportAPI {
     }
 
     fun createDailyReportPdf(auth: Authentication, date: LocalDate): SystemFile?
+    fun createDailyReportExcel(auth: Authentication, date: LocalDate): SystemFile?
 
 }

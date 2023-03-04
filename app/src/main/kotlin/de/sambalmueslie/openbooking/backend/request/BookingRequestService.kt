@@ -105,6 +105,9 @@ class BookingRequestService(
 
     override fun createData(request: BookingRequestChangeRequest): BookingRequestData {
         val visitorGroup = visitorGroupService.create(request.visitorGroupChangeRequest)
+        if (request.autoConfirm) {
+            visitorGroupService.confirm(visitorGroup.id)
+        }
 
         val key = UUID.randomUUID().toString().uppercase(Locale.getDefault())
         return BookingRequestData(0, key, BookingRequestStatus.UNCONFIRMED, visitorGroup.id, request.comment, timeProvider.now())
@@ -198,5 +201,8 @@ class BookingRequestService(
     fun updateVisitorGroup(id: Long, request: VisitorGroupChangeRequest) = changeService.updateVisitorGroup(id, request)
 
     fun info(id: Long) = converter.data { repository.findByIdOrNull(id) }
+    fun setComment(id: Long, value: String): BookingRequest? {
+        return patchData(id) { it.setComment(value, timeProvider.now()) }
+    }
 
 }

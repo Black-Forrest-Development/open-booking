@@ -73,7 +73,7 @@ class UserService(
 
     fun createBooking(request: CreateBookingRequest): BookingRequest {
         if (!request.termsAndConditions) throw InvalidRequestException("You must accept the terms and conditions")
-        return bookingRequestService.create(BookingRequestChangeRequest(request.visitorGroupChangeRequest, request.offerIds, request.comment))
+        return bookingRequestService.create(BookingRequestChangeRequest(request.visitorGroupChangeRequest, request.offerIds, request.comment, false))
     }
 
     fun getOffer(offerId: Long): DayInfoOffer? {

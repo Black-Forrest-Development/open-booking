@@ -2,10 +2,12 @@ package de.sambalmueslie.openbooking.backend.request
 
 
 import de.sambalmueslie.openbooking.backend.group.api.VisitorGroupChangeRequest
+import de.sambalmueslie.openbooking.backend.offer.api.OfferAPI
 import de.sambalmueslie.openbooking.backend.request.api.*
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestAPI.Companion.PERMISSION_WRITE
 import de.sambalmueslie.openbooking.common.GenericRequestResult
+import de.sambalmueslie.openbooking.common.PatchRequest
 import de.sambalmueslie.openbooking.common.checkPermission
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
@@ -73,4 +75,9 @@ class BookingRequestController(private val service: BookingRequestService) : Boo
     @Put("/{id}/visitor")
     override fun updateVisitorGroup(auth: Authentication, @PathVariable id: Long, @Body request: VisitorGroupChangeRequest)  =
         auth.checkPermission(PERMISSION_WRITE) { service.updateVisitorGroup(id, request) }
+
+    @Patch("/{id}/comment")
+    override fun setComment(auth: Authentication, id: Long, @Body value: PatchRequest<String>) =
+        auth.checkPermission(OfferAPI.PERMISSION_WRITE) { service.setComment(id, value.value) }
+
 }

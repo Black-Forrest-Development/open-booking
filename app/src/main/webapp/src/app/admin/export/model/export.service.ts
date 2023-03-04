@@ -30,6 +30,19 @@ export class ExportService extends BaseService {
       )
   }
 
+  createDailyReportExcel(date: string): Observable<boolean> {
+    if (this.reloading.value) return of(false)
+    this.reloading.next(true)
+    return this.getBlob('daily/' + date + '/excel')
+      .pipe(
+        map(response => this.handleFileDownload(response)),
+        catchError((err, caught) => {
+          this.reloading.next(false)
+          throw err
+        })
+      )
+  }
+
   private handleFileDownload(response: HttpResponse<Blob>): boolean {
     let contentDispositionHeader = response.headers.get("content-disposition")
     // @ts-ignore

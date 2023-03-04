@@ -1,12 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {TranslateService} from "@ngx-translate/core";
-import {MatDialog} from "@angular/material/dialog";
-import {GenericRequestResult} from "../../../shared/shared-api";
 import {BookingRequestService} from "../model/booking-request.service";
-import {HotToastService} from "@ngneat/hot-toast";
-import {BookingConfirmationContent, BookingRequestInfo, defaultBookingRequestInfo} from "../model/booking-request-api";
-import {RequestProcessDialogComponent} from "../request-process-dialog/request-process-dialog.component";
+import {BookingRequestInfo, defaultBookingRequestInfo} from "../model/booking-request-api";
 
 @Component({
   selector: 'app-request-board-booking-cell',
@@ -25,7 +20,7 @@ export class RequestBoardBookingCellComponent {
 
   constructor(
     private fb: FormBuilder,
-    private service: BookingRequestService
+    private service: BookingRequestService,
   ) {
   }
 
@@ -36,7 +31,9 @@ export class RequestBoardBookingCellComponent {
     let selectedBooking = this.data.bookings.find(b => b.id == selectedBookingId)
     if (!selectedBooking) return
 
-    this.service.confirmBooking(selectedBooking, this.data).subscribe( result => {if(result) this.change.emit(true)})
+    this.service.confirmBooking(selectedBooking, this.data).subscribe(result => {
+      if (result) this.change.emit(true)
+    })
   }
 
   denial() {
@@ -44,7 +41,9 @@ export class RequestBoardBookingCellComponent {
     this.changing = true
 
     let selectedBooking = this.data.bookings[0]
-    this.service.denialBooking(selectedBooking, this.data).subscribe( result => {if(result) this.change.emit(true)})
+    this.service.denialBooking(selectedBooking, this.data).subscribe(result => {
+      if (result) this.change.emit(true)
+    })
   }
 
 }

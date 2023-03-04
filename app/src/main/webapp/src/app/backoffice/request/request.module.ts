@@ -12,6 +12,8 @@ import {QuillModule} from "ngx-quill";
 import {RequestProcessDialogComponent} from './request-process-dialog/request-process-dialog.component';
 import {RequestCommentDialogComponent} from './request-comment-dialog/request-comment-dialog.component';
 import {VisitorGroupModule} from "../visitor-group/visitor-group.module";
+import { RequestCreateComponent } from './request-create/request-create.component';
+import { RequestChangeResultComponent } from './request-change-result/request-change-result.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import {VisitorGroupModule} from "../visitor-group/visitor-group.module";
     RequestBoardVisitorGroupCellComponent,
     RequestBoardBookingCellComponent,
     RequestProcessDialogComponent,
-    RequestCommentDialogComponent
+    RequestCommentDialogComponent,
+    RequestCreateComponent,
+    RequestChangeResultComponent
   ],
     imports: [
         CommonModule,

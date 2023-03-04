@@ -13,6 +13,7 @@ import {BookingInfo} from "../../booking/model/booking-api";
 import {TranslateService} from "@ngx-translate/core";
 import {HotToastService} from "@ngneat/hot-toast";
 import {VisitorGroupChangeRequest} from "../../visitor-group/model/visitor-group-api";
+import {RequestChangeResultComponent} from "../request-change-result/request-change-result.component";
 
 @Injectable({
   providedIn: 'root'
@@ -90,7 +91,7 @@ export class BookingRequestService extends BaseService {
         this.changing.next(true)
         return this.confirmBookingRequest(data.id, selectedBooking.id, content)
       }),
-      tap(result => this.handleBookingChangeResult(result)),
+      tap(result => this.handleBookingChangeResult(result, data)),
       map(result => result.success)
     )
   }
@@ -111,22 +112,26 @@ export class BookingRequestService extends BaseService {
         this.changing.next(true)
         return this.denyBookingRequest(data.id, content)
       }),
-      tap(result => this.handleBookingChangeResult(result)),
+      tap(result => this.handleBookingChangeResult(result, data)),
       map(result => result.success)
     )
   }
 
-  private handleBookingChangeResult(result: GenericRequestResult) {
+  private handleBookingChangeResult(result: GenericRequestResult, data: BookingRequestInfo) {
     this.changing.next(false)
-    let message = this.translationService.instant(result.msg)
     if (result.success) {
-      this.toastService.success(message)
+      this.toastService.success(RequestChangeResultComponent, {data: {result: result, data: data}})
     } else {
+      let message = this.translationService.instant(result.msg)
       this.toastService.error(message)
     }
   }
 
   updateBookingRequestVisitorGroup(data: BookingRequestInfo, request: VisitorGroupChangeRequest): Observable<GenericRequestResult> {
     return this.put('' + data.id + '/visitor', request)
+  }
+
+  setComment(id: number, comment: string): Observable<BookingRequest> {
+    return this.patch(id + '/comment', {value: comment})
   }
 }

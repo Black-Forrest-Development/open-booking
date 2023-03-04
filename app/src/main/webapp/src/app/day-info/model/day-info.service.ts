@@ -24,10 +24,10 @@ export class DayInfoService extends BaseService {
   reloading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   data: DayInfo[] = []
 
-   labelDeactivated = ""
-   labelConfirmed = ""
-   labelUnconfirmed = ""
-   labelAvailable = ""
+  labelDeactivated = ""
+  labelConfirmed = ""
+  labelUnconfirmed = ""
+  labelAvailable = ""
 
 
   private getDefaultDayInfo(): Observable<DayInfo[]> {
@@ -54,6 +54,11 @@ export class DayInfoService extends BaseService {
     this.selectDayInfo(new DateRangeSelectionRequest(start.toISOString(), end.toISOString())).subscribe(d => this.handleData(d))
   }
 
+  loadRangeDayInfoString(from:string, to: string) {
+    if (this.reloading.value) return
+    this.reloading.next(true)
+    this.selectDayInfo(new DateRangeSelectionRequest(from, to)).subscribe(d => this.handleData(d))
+  }
 
   private handleData(d: DayInfo[]) {
     this.data = d

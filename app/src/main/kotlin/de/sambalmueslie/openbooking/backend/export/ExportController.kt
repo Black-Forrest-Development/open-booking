@@ -21,5 +21,8 @@ class ExportController(private val service: ExportService) : ExportAPI {
     @Get("/daily/{date}/pdf")
     override fun createDailyReportPdf(auth: Authentication, @PathVariable date: LocalDate) =
         auth.checkPermission(PERMISSION_READ) {service.createDailyReportPdf(date)}
-
+    @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
+    @Get("/daily/{date}/excel")
+    override fun createDailyReportExcel(auth: Authentication, @PathVariable date: LocalDate) =
+        auth.checkPermission(PERMISSION_READ) {service.createDailyReportExcel(date)}
 }
