@@ -28,29 +28,34 @@ class BookingInfoConverter(
         return info(provider.invoke())
     }
 
+    fun list(provider: () -> List<BookingRequestData>): List<BookingRequestInfo> {
+        return info(provider.invoke())
+    }
+
     fun data(provider: () -> BookingRequestData?): BookingRequestInfo? {
         val data = provider.invoke() ?: return null
         return info(data)
     }
 
-
     private fun info(data: Page<BookingRequestData>): Page<BookingRequestInfo> {
-        val requestIds = data.content.map { it.id }
+        val result = info(data.content)
+        return Page.of(result, data.pageable, data.totalSize)
+    }
+
+    private fun info(data: List<BookingRequestData>): List<BookingRequestInfo> {
+        val requestIds = data.map { it.id }
         val relations = relationRepository.getByBookingRequestIdIn(requestIds)
             .groupBy { it.bookingRequestId }
             .mapValues { it.value.map { it.bookingId } }
         val bookingIds = relations.values.map { it }.flatten().toSet()
         val bookings = bookingService.getBookingInfos(bookingIds).associateBy { it.id }
 
-        val visitorGroupIds = data.content.map { it.visitorGroupId }.toSet()
+        val visitorGroupIds = data.map { it.visitorGroupId }.toSet()
         val visitorGroups = visitorGroupService.getVisitorGroups(visitorGroupIds).associateBy { it.id }
 
-        val result = data.mapNotNull { info(it, relations, bookings, visitorGroups) }
+        return  data.mapNotNull { info(it, relations, bookings, visitorGroups) }
             .sortedBy { it.visitorGroup.status.order }
-
-        return Page.of(result, data.pageable, data.totalSize)
     }
-
 
     private fun info(request: BookingRequestData, relations: Map<Long, List<Long>>, bookings: Map<Long, BookingInfo>, visitorGroups: Map<Long, VisitorGroup>): BookingRequestInfo? {
         val visitorGroup = visitorGroups[request.visitorGroupId] ?: return null

@@ -78,6 +78,6 @@ class BookingRequestController(private val service: BookingRequestService) : Boo
 
     @Patch("/{id}/comment")
     override fun setComment(auth: Authentication, id: Long, @Body value: PatchRequest<String>) =
-        auth.checkPermission(OfferAPI.PERMISSION_WRITE) { service.setComment(id, value.value) }
+        auth.checkPermission(PERMISSION_WRITE) { service.setComment(id, value.value) }
 
 }

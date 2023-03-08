@@ -205,4 +205,10 @@ class BookingRequestService(
         return patchData(id) { it.setComment(value, timeProvider.now()) }
     }
 
+    fun findByOfferId(offerId: Long): List<BookingRequestInfo> {
+        val bookings = bookingService.getBookingsByOfferId(setOf(offerId)).associateBy { it.id }
+        val relations = relationRepository.getByBookingIdIn(bookings.keys)
+        return converter.list { repository.findByIdIn(relations.map { it.bookingRequestId }.toSet()) }
+    }
+
 }

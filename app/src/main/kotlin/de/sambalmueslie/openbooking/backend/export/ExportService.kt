@@ -2,8 +2,10 @@ package de.sambalmueslie.openbooking.backend.export
 
 
 import de.sambalmueslie.openbooking.backend.booking.BookingService
+import de.sambalmueslie.openbooking.backend.export.excel.ExcelExporter
 import de.sambalmueslie.openbooking.backend.offer.OfferService
 import de.sambalmueslie.openbooking.backend.offer.api.OfferDetails
+import de.sambalmueslie.openbooking.backend.request.BookingRequestService
 import de.sambalmueslie.openbooking.common.measureTimeMillisWithReturn
 import io.micronaut.http.server.types.files.SystemFile
 import jakarta.inject.Singleton
@@ -15,8 +17,8 @@ import java.time.LocalDate
 class ExportService(
     private val pdfExporter: PdfExporter,
     private val excelExporter: ExcelExporter,
-    private val offerService: OfferService,
-    private val bookingService: BookingService
+    private val requestService: BookingRequestService,
+    private val offerService: OfferService
 ) {
 
     companion object {
@@ -34,7 +36,7 @@ class ExportService(
     private fun createDailyReport(date: LocalDate, exporter: Exporter): SystemFile? {
         val (duration, result) = measureTimeMillisWithReturn {
             val offer = offerService.getOffer(date).map {
-                OfferDetails(it, bookingService.findDetailsByOffer(it.id))
+                OfferDetails(it, requestService.findByOfferId(it.id))
             }
             exporter.export(date, offer) ?: return@measureTimeMillisWithReturn null
         }

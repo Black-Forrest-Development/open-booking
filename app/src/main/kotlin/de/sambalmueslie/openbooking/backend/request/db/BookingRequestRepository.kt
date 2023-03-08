@@ -60,7 +60,7 @@ interface BookingRequestRepository : PageableRepository<BookingRequestData, Long
         """,
         nativeQuery = true
     )
-    fun findByOfferDate(offerDate: LocalDate,status: List<BookingRequestStatus>, pageable: Pageable): Page<BookingRequestData>
+    fun findByOfferDate(offerDate: LocalDate, status: List<BookingRequestStatus>, pageable: Pageable): Page<BookingRequestData>
 
     @Query(
         value = """
@@ -95,6 +95,7 @@ interface BookingRequestRepository : PageableRepository<BookingRequestData, Long
         nativeQuery = true
     )
     fun findByQuery(query: String, status: List<BookingRequestStatus>, pageable: Pageable): Page<BookingRequestData>
+
     @Query(
         value = """
             SELECT br.*
@@ -188,5 +189,7 @@ interface BookingRequestRepository : PageableRepository<BookingRequestData, Long
         status: List<BookingRequestStatus>,
         pageable: Pageable
     ): Page<BookingRequestData>
+
+    fun findByIdIn(ids: Set<Long>): List<BookingRequestData>
 
 }

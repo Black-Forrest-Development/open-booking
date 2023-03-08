@@ -14,7 +14,7 @@ interface BookingRequestRelationRepository : GenericRepository<BookingRequestRel
     fun getByBookingId(bookingId: Long): List<BookingRequestRelation>
     fun getByBookingRequestId(bookingRequestId: Long): List<BookingRequestRelation>
 
-    fun getByBookingIdIn(bookingIds: List<Long>): List<BookingRequestRelation>
+    fun getByBookingIdIn(bookingIds: Set<Long>): List<BookingRequestRelation>
     fun getByBookingRequestIdIn(bookingRequestIds: List<Long>): List<BookingRequestRelation>
 
     fun deleteByBookingId(bookingId: Long)
