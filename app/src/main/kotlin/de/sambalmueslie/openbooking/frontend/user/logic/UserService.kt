@@ -1,6 +1,7 @@
 package de.sambalmueslie.openbooking.frontend.user.logic
 
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.sambalmueslie.openbooking.backend.booking.api.BookingStatus
 import de.sambalmueslie.openbooking.backend.info.InfoService
 import de.sambalmueslie.openbooking.backend.info.api.DateRangeSelectionRequest
@@ -28,7 +29,8 @@ class UserService(
     private val offerService: OfferService,
     private val bookingRequestService: BookingRequestService,
     private val infoService: InfoService,
-    private val settingsService: SettingsService
+    private val settingsService: SettingsService,
+    private val mapper: ObjectMapper
 ) {
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(UserService::class.java)
@@ -73,6 +75,7 @@ class UserService(
 
     fun createBooking(request: CreateBookingRequest): BookingRequest {
         if (!request.termsAndConditions) throw InvalidRequestException("You must accept the terms and conditions")
+        if(logger.isDebugEnabled) logger.debug("Create booking ${mapper.writeValueAsString(request)}")
         return bookingRequestService.create(BookingRequestChangeRequest(request.visitorGroupChangeRequest, request.offerIds, request.comment, false))
     }
 

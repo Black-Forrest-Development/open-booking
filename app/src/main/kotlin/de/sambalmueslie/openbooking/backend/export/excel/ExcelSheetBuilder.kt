@@ -32,8 +32,10 @@ class ExcelSheetBuilder(
     private val sheet = wb.createSheet(date.toString())
     private var rowIndex = 3
     private val styleOfferHeaderBold = wb.createCellStyle()
+    private val styleOfferHeaderBoldCombined = wb.createCellStyle()
     private val styleOfferHeaderText = wb.createCellStyle()
     private val styleBooking = wb.createCellStyle()
+    private val styleBookingCombined = wb.createCellStyle()
 
     fun build() {
         setupStyles()
@@ -55,6 +57,15 @@ class ExcelSheetBuilder(
         styleOfferHeaderBold.fillPattern = FillPatternType.SOLID_FOREGROUND
         styleOfferHeaderBold.setFont(boldFont)
         styleOfferHeaderBold.borderBottom = BorderStyle.THIN
+        styleOfferHeaderBold.alignment = HorizontalAlignment.CENTER
+
+        styleOfferHeaderBoldCombined.setFillForegroundColor(XSSFColor(Color(217,217,217), colorMap))
+        styleOfferHeaderBoldCombined.fillPattern = FillPatternType.SOLID_FOREGROUND
+        styleOfferHeaderBoldCombined.setFont(boldFont)
+        styleOfferHeaderBoldCombined.borderBottom = BorderStyle.THIN
+        styleOfferHeaderBoldCombined.wrapText = true
+        styleOfferHeaderBoldCombined.verticalAlignment = VerticalAlignment.CENTER
+        styleOfferHeaderBoldCombined.alignment = HorizontalAlignment.CENTER
 
         styleOfferHeaderText.setFillForegroundColor(XSSFColor(Color(217,217,217), colorMap))
         styleOfferHeaderText.fillPattern = FillPatternType.SOLID_FOREGROUND
@@ -65,6 +76,13 @@ class ExcelSheetBuilder(
         styleBooking.fillPattern = FillPatternType.NO_FILL
         styleBooking.borderBottom = BorderStyle.THIN
         styleBooking.setFont(normalFont)
+
+        styleBookingCombined.fillPattern = FillPatternType.NO_FILL
+        styleBookingCombined.borderBottom = BorderStyle.THIN
+        styleBookingCombined.wrapText = true
+        styleBookingCombined.verticalAlignment = VerticalAlignment.CENTER
+        styleBookingCombined.alignment = HorizontalAlignment.CENTER
+        styleBookingCombined.setFont(normalFont)
 
     }
 
@@ -162,13 +180,15 @@ class ExcelSheetBuilder(
 
         val groupCell = row.createCell(2)
         groupCell.setCellValue("Gruppe")
-        groupCell.cellStyle = styleOfferHeaderBold
+        groupCell.cellStyle = styleOfferHeaderBoldCombined
         row.createCell(3).cellStyle = styleOfferHeaderBold
+        sheet.addMergedRegion(CellRangeAddress(row.rowNum, row.rowNum, 2, 3))
 
         val contactCell = row.createCell(4)
         contactCell.setCellValue("Kontakt")
-        contactCell.cellStyle = styleOfferHeaderBold
+        contactCell.cellStyle = styleOfferHeaderBoldCombined
         row.createCell(5).cellStyle = styleOfferHeaderBold
+        sheet.addMergedRegion(CellRangeAddress(row.rowNum, row.rowNum, 4, 5))
 
         val sizeCell = row.createCell(6)
         sizeCell.setCellValue("Pers")
@@ -176,11 +196,12 @@ class ExcelSheetBuilder(
 
         val noteCell = row.createCell(7)
         noteCell.setCellValue("Anmerkungen")
-        noteCell.cellStyle = styleOfferHeaderBold
+        noteCell.cellStyle = styleOfferHeaderBoldCombined
         CellUtil.setCellStyleProperty(noteCell, CellUtil.BORDER_LEFT, BorderStyle.THIN)
 
         row.createCell(8).cellStyle = styleOfferHeaderBold
         row.createCell(9).cellStyle = styleOfferHeaderBold
+        sheet.addMergedRegion(CellRangeAddress(row.rowNum, row.rowNum, 7, 9))
     }
 
     private fun setupBooking(index: Int, info: BookingRequestInfo) {
@@ -193,14 +214,16 @@ class ExcelSheetBuilder(
 
         val groupCell = row.createCell(2)
         groupCell.setCellValue(info.visitorGroup.title)
-        groupCell.cellStyle = styleBooking
+        groupCell.cellStyle = styleBookingCombined
 
         row.createCell(3).cellStyle = styleBooking
+        sheet.addMergedRegion(CellRangeAddress(row.rowNum, row.rowNum, 2, 3))
 
         val contactCell = row.createCell(4)
         contactCell.setCellValue(info.visitorGroup.contact)
-        contactCell.cellStyle = styleBooking
+        contactCell.cellStyle = styleBookingCombined
         row.createCell(5).cellStyle = styleBooking
+        sheet.addMergedRegion(CellRangeAddress(row.rowNum, row.rowNum, 4, 5))
 
         val sizeCell = row.createCell(6)
         sizeCell.setCellValue(info.visitorGroup.size.toDouble())
@@ -209,11 +232,13 @@ class ExcelSheetBuilder(
 
         val noteCell = row.createCell(7)
         noteCell.setCellValue(info.comment)
-        noteCell.cellStyle = styleBooking
+        noteCell.cellStyle = styleBookingCombined
         CellUtil.setCellStyleProperty(noteCell, CellUtil.BORDER_LEFT, BorderStyle.THIN)
 
         row.createCell(8).cellStyle = styleBooking
         row.createCell(9).cellStyle = styleBooking
+
+        sheet.addMergedRegion(CellRangeAddress(row.rowNum, row.rowNum, 7, 9))
     }
 
 
@@ -226,23 +251,25 @@ class ExcelSheetBuilder(
         CellUtil.setAlignment(indexCell, HorizontalAlignment.CENTER)
 
         val groupCell = row.createCell(2)
-        groupCell.cellStyle = styleBooking
-
+        groupCell.cellStyle = styleBookingCombined
         row.createCell(3).cellStyle = styleBooking
+        sheet.addMergedRegion(CellRangeAddress(row.rowNum, row.rowNum, 2, 3))
 
         val contactCell = row.createCell(4)
-        contactCell.cellStyle = styleBooking
+        contactCell.cellStyle = styleBookingCombined
         row.createCell(5).cellStyle = styleBooking
+        sheet.addMergedRegion(CellRangeAddress(row.rowNum, row.rowNum, 4, 5))
 
         val sizeCell = row.createCell(6)
         sizeCell.cellStyle = styleBooking
         CellUtil.setAlignment(sizeCell, HorizontalAlignment.CENTER)
 
         val noteCell = row.createCell(7)
-        noteCell.cellStyle = styleBooking
+        noteCell.cellStyle = styleBookingCombined
         CellUtil.setCellStyleProperty(noteCell, CellUtil.BORDER_LEFT, BorderStyle.THIN)
 
         row.createCell(8).cellStyle = styleBooking
         row.createCell(9).cellStyle = styleBooking
+        sheet.addMergedRegion(CellRangeAddress(row.rowNum, row.rowNum, 7, 9))
     }
 }
