@@ -42,6 +42,7 @@ export class RequestCreateComponent {
     mail: [''],
     comment: [''],
     autoConfirm: [false],
+    ignoreSizeCheck: [false],
   });
 
   selectedDay: DayInfo | undefined
@@ -115,7 +116,8 @@ export class RequestCreateComponent {
       visitorGroupRequest,
       offerIds,
       value.comment!!,
-      value.autoConfirm!!
+      value.autoConfirm!!,
+      value.ignoreSizeCheck!!
     )
     this.service.createBookingRequest(request).subscribe({
       next: d => this.handleResult(d),
@@ -130,7 +132,6 @@ export class RequestCreateComponent {
 
   private handleError(err: any) {
     let dialogRef = this.dialog.open(CreateBookingFailedDialogComponent, {data: err})
-    dialogRef.afterClosed().subscribe(() => this.location.back())
   }
 
 }

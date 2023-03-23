@@ -61,7 +61,7 @@ class BookingRequestChangeServiceTest {
         val offer = offerService.create(OfferChangeRequest(LocalDateTime.parse("2023-02-04T08:00:00"), LocalDateTime.parse("2023-02-04T08:50:00"), 25, true))
 
         val visitorRequest = VisitorGroupChangeRequest("title", 20, false, 5, 10, "contact", Address("street", "city", "zip"), "phone", "email")
-        val request = requestService.create(BookingRequestChangeRequest(visitorRequest, listOf(offer.id), "comment"))
+        val request = requestService.create(BookingRequestChangeRequest(visitorRequest, listOf(offer.id), "comment", false, false))
         assertEquals(BookingRequestStatus.UNCONFIRMED, request.status)
 
         var info = requestService.info(request.id)
@@ -109,7 +109,7 @@ class BookingRequestChangeServiceTest {
         val offer = offerService.create(OfferChangeRequest(LocalDateTime.parse("2023-02-04T09:00:00"), LocalDateTime.parse("2023-02-04T09:50:00"), 25, true))
 
         val visitorRequest = VisitorGroupChangeRequest("title", 20, false, 5, 10, "contact", Address("street", "city", "zip"), "phone", "email")
-        val request = requestService.create(BookingRequestChangeRequest(visitorRequest, listOf(offer.id), "comment"))
+        val request = requestService.create(BookingRequestChangeRequest(visitorRequest, listOf(offer.id), "comment", false, false))
         assertEquals(BookingRequestStatus.UNCONFIRMED, request.status)
 
         var info = requestService.info(request.id)
@@ -157,7 +157,7 @@ class BookingRequestChangeServiceTest {
         val offer = offerService.create(OfferChangeRequest(LocalDateTime.parse("2023-02-04T10:00:00"), LocalDateTime.parse("2023-02-04T10:50:00"), 25, true))
 
         val visitorRequest = VisitorGroupChangeRequest("title", 20, false, 5, 10, "contact", Address("street", "city", "zip"), "phone", "email")
-        val request = requestService.create(BookingRequestChangeRequest(visitorRequest, listOf(offer.id), "comment"))
+        val request = requestService.create(BookingRequestChangeRequest(visitorRequest, listOf(offer.id), "comment", false, false))
         assertEquals(BookingRequestStatus.UNCONFIRMED, request.status)
 
         var info = requestService.info(request.id)

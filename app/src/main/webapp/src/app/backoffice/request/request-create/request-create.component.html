@@ -63,9 +63,12 @@
                     {{'REQUEST.Form.Size.Error.Max' | translate}}
                   </mat-error>
                 </mat-form-field>
-                <div class="column50">
+                <div class="column50 d-flex flex-column">
                   <mat-slide-toggle formControlName="group">
                     {{'REQUEST.Form.School.Label' | translate}}
+                  </mat-slide-toggle>
+                  <mat-slide-toggle formControlName="ignoreSizeCheck">
+                    {{'REQUEST.Form.IgnoreSize.Label' | translate}}
                   </mat-slide-toggle>
                 </div>
               </div>

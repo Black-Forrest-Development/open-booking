@@ -75,8 +75,8 @@ class UserService(
 
     fun createBooking(request: CreateBookingRequest): BookingRequest {
         if (!request.termsAndConditions) throw InvalidRequestException("You must accept the terms and conditions")
-        if(logger.isDebugEnabled) logger.debug("Create booking ${mapper.writeValueAsString(request)}")
-        return bookingRequestService.create(BookingRequestChangeRequest(request.visitorGroupChangeRequest, request.offerIds, request.comment, false))
+        if (logger.isDebugEnabled) logger.debug("Create booking ${mapper.writeValueAsString(request)}")
+        return bookingRequestService.create(BookingRequestChangeRequest(request.visitorGroupChangeRequest, request.offerIds, request.comment, false, false))
     }
 
     fun getOffer(offerId: Long): DayInfoOffer? {

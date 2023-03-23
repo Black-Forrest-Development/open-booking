@@ -7,5 +7,6 @@ data class BookingRequestChangeRequest(
     val visitorGroupChangeRequest: VisitorGroupChangeRequest,
     val offerIds: List<Long>,
     val comment: String,
-    val autoConfirm: Boolean
+    val autoConfirm: Boolean,
+    val ignoreSizeCheck: Boolean
 ) : BusinessObjectChangeRequest

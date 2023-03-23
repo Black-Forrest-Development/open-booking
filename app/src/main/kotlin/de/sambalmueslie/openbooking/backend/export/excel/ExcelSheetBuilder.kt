@@ -4,11 +4,15 @@ package de.sambalmueslie.openbooking.backend.export.excel
 import de.sambalmueslie.openbooking.backend.offer.api.OfferDetails
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestInfo
 import de.sambalmueslie.openbooking.backend.request.api.BookingRequestStatus
-import org.apache.poi.ss.usermodel.*
+import org.apache.poi.ss.usermodel.BorderStyle
+import org.apache.poi.ss.usermodel.FillPatternType
+import org.apache.poi.ss.usermodel.HorizontalAlignment
+import org.apache.poi.ss.usermodel.VerticalAlignment
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.ss.util.CellUtil
 import org.apache.poi.ss.util.RegionUtil
 import org.apache.poi.xssf.usermodel.IndexedColorMap
+import org.apache.poi.xssf.usermodel.XSSFCellStyle
 import org.apache.poi.xssf.usermodel.XSSFColor
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.awt.Color
@@ -37,29 +41,64 @@ class ExcelSheetBuilder(
     private val styleBooking = wb.createCellStyle()
     private val styleBookingCombined = wb.createCellStyle()
 
+    private val boldFont = wb.createFont()
+    private val boldFontInverted = wb.createFont()
+    private val normalFont = wb.createFont()
+
+    private val colorMap: IndexedColorMap = wb.stylesSource.indexedColors
+    private val colors = listOf(
+        Pair(XSSFColor(Color(0, 112, 192), colorMap), boldFontInverted), // dark blue
+        Pair(XSSFColor(Color(166, 166, 166), colorMap), boldFont), // gray
+        Pair(XSSFColor(Color(191, 143, 0), colorMap), boldFont), // gold
+        Pair(XSSFColor(Color(180, 198, 231), colorMap), boldFont), // light blue
+        Pair(XSSFColor(Color(0, 0, 0), colorMap), boldFontInverted), // black
+        Pair(XSSFColor(Color(0, 176, 80), colorMap), boldFont), // green
+        Pair(XSSFColor(Color(255, 255, 255), colorMap), boldFont), // white
+        Pair(XSSFColor(Color(255, 0, 0), colorMap), boldFont), // red
+        Pair(XSSFColor(Color(255, 153, 255), colorMap), boldFont), //pink
+        Pair(XSSFColor(Color(255, 153, 0), colorMap), boldFont), // orange
+        Pair(XSSFColor(Color(112, 48, 160), colorMap), boldFontInverted), // purple
+        Pair(XSSFColor(Color(255, 255, 0), colorMap), boldFont),// yellow
+    )
+
+    private val colorHeaders = mutableListOf<XSSFCellStyle>()
+
     fun build() {
         setupStyles()
         setupSheet()
         setupHeadline()
-        offer.filter { it.offer.active }.forEach { setupOffer(it) }
+        offer.filter { it.offer.active }.forEachIndexed { index, offer -> setupOffer(index, offer) }
     }
 
     private fun setupStyles() {
-        val colorMap: IndexedColorMap = wb.stylesSource.indexedColors
-        val boldFont = wb.createFont()
+
         boldFont.bold = true
         boldFont.fontHeightInPoints = 12
 
-        val normalFont = wb.createFont()
+        boldFontInverted.bold = true
+        boldFontInverted.fontHeightInPoints = 12
+        boldFontInverted.setColor(XSSFColor(Color(255, 255, 255), colorMap))
+
         normalFont.fontHeightInPoints = 12
 
-        styleOfferHeaderBold.setFillForegroundColor(XSSFColor(Color(217,217,217), colorMap))
+        styleOfferHeaderBold.setFillForegroundColor(XSSFColor(Color(217, 217, 217), colorMap))
         styleOfferHeaderBold.fillPattern = FillPatternType.SOLID_FOREGROUND
         styleOfferHeaderBold.setFont(boldFont)
         styleOfferHeaderBold.borderBottom = BorderStyle.THIN
         styleOfferHeaderBold.alignment = HorizontalAlignment.CENTER
 
-        styleOfferHeaderBoldCombined.setFillForegroundColor(XSSFColor(Color(217,217,217), colorMap))
+        colors.forEach { (color, font) ->
+            val header = wb.createCellStyle()
+            header.setFillForegroundColor(color)
+            header.fillPattern = FillPatternType.SOLID_FOREGROUND
+            header.setFont(font)
+            header.borderBottom = BorderStyle.THIN
+            header.alignment = HorizontalAlignment.CENTER
+
+            colorHeaders.add(header)
+        }
+
+        styleOfferHeaderBoldCombined.setFillForegroundColor(XSSFColor(Color(217, 217, 217), colorMap))
         styleOfferHeaderBoldCombined.fillPattern = FillPatternType.SOLID_FOREGROUND
         styleOfferHeaderBoldCombined.setFont(boldFont)
         styleOfferHeaderBoldCombined.borderBottom = BorderStyle.THIN
@@ -67,7 +106,7 @@ class ExcelSheetBuilder(
         styleOfferHeaderBoldCombined.verticalAlignment = VerticalAlignment.CENTER
         styleOfferHeaderBoldCombined.alignment = HorizontalAlignment.CENTER
 
-        styleOfferHeaderText.setFillForegroundColor(XSSFColor(Color(217,217,217), colorMap))
+        styleOfferHeaderText.setFillForegroundColor(XSSFColor(Color(217, 217, 217), colorMap))
         styleOfferHeaderText.fillPattern = FillPatternType.SOLID_FOREGROUND
         styleOfferHeaderText.alignment = HorizontalAlignment.RIGHT
         styleOfferHeaderText.borderBottom = BorderStyle.THIN
@@ -75,6 +114,8 @@ class ExcelSheetBuilder(
 
         styleBooking.fillPattern = FillPatternType.NO_FILL
         styleBooking.borderBottom = BorderStyle.THIN
+        styleBooking.verticalAlignment = VerticalAlignment.CENTER
+        styleBooking.alignment = HorizontalAlignment.CENTER
         styleBooking.setFont(normalFont)
 
         styleBookingCombined.fillPattern = FillPatternType.NO_FILL
@@ -117,16 +158,17 @@ class ExcelSheetBuilder(
         sheet.setColumnWidth(9, 22 * 256)
     }
 
-    private fun setupOffer(details: OfferDetails) {
-        createOfferHeaderLine1(details)
-        createOfferHeaderLine2(details)
+    private fun setupOffer(index: Int, details: OfferDetails) {
+        val colorHeader = colorHeaders[index % colorHeaders.size]
+        createOfferHeaderLine1(colorHeader, details)
+        createOfferHeaderLine2(colorHeader, details)
 
         val bookings = details.bookings.filter { it.status != BookingRequestStatus.DENIED }
         bookings.forEachIndexed { index, info -> setupBooking(index, info) }
 
-        if(bookings.isEmpty()) setupEmptyBooking()
+        if (bookings.isEmpty()) setupEmptyBooking()
 
-        val firstRow = if(bookings.isEmpty()) rowIndex - 3 else rowIndex - bookings.size - 2
+        val firstRow = if (bookings.isEmpty()) rowIndex - 3 else rowIndex - bookings.size - 2
         val region = CellRangeAddress(firstRow, rowIndex - 1, 1, 9)
         RegionUtil.setBorderLeft(BorderStyle.MEDIUM, region, sheet)
         RegionUtil.setBorderRight(BorderStyle.MEDIUM, region, sheet)
@@ -137,17 +179,16 @@ class ExcelSheetBuilder(
     }
 
 
-
-    private fun createOfferHeaderLine1(details: OfferDetails) {
+    private fun createOfferHeaderLine1(colorHeader: XSSFCellStyle, details: OfferDetails) {
         val row = sheet.createRow(rowIndex++)
 
         val timeCell = row.createCell(1)
         timeCell.setCellValue(details.offer.start.format(formatter))
-        timeCell.cellStyle = styleOfferHeaderBold
+        timeCell.cellStyle = colorHeader
         row.createCell(2).cellStyle = styleOfferHeaderBold
 
         val spaceConfirmed = details.bookings.filter { it.status == BookingRequestStatus.CONFIRMED }.sumOf { it.visitorGroup.size }
-        val spaceAvailable = details.offer.maxPersons - spaceConfirmed
+        val spaceAvailable = Math.max(details.offer.maxPersons - spaceConfirmed, 0)
 
         val usedTextCell = row.createCell(3)
         usedTextCell.setCellValue("Belegt:")
@@ -171,12 +212,12 @@ class ExcelSheetBuilder(
     }
 
 
-    private fun createOfferHeaderLine2(details: OfferDetails) {
+    private fun createOfferHeaderLine2(colorHeader: XSSFCellStyle,details: OfferDetails) {
         val row = sheet.createRow(rowIndex++)
 
         val indexCell = row.createCell(1)
         indexCell.setCellValue("Nr")
-        indexCell.cellStyle = styleOfferHeaderBold
+        indexCell.cellStyle = colorHeader
 
         val groupCell = row.createCell(2)
         groupCell.setCellValue("Gruppe")
@@ -210,7 +251,6 @@ class ExcelSheetBuilder(
         val indexCell = row.createCell(1)
         indexCell.setCellValue(index.toDouble())
         indexCell.cellStyle = styleBooking
-        CellUtil.setAlignment(indexCell, HorizontalAlignment.CENTER)
 
         val groupCell = row.createCell(2)
         groupCell.setCellValue(info.visitorGroup.title)
@@ -228,7 +268,6 @@ class ExcelSheetBuilder(
         val sizeCell = row.createCell(6)
         sizeCell.setCellValue(info.visitorGroup.size.toDouble())
         sizeCell.cellStyle = styleBooking
-        CellUtil.setAlignment(sizeCell, HorizontalAlignment.CENTER)
 
         val noteCell = row.createCell(7)
         noteCell.setCellValue(info.comment)
@@ -239,6 +278,7 @@ class ExcelSheetBuilder(
         row.createCell(9).cellStyle = styleBooking
 
         sheet.addMergedRegion(CellRangeAddress(row.rowNum, row.rowNum, 7, 9))
+        row.height = -1
     }
 
 

@@ -351,6 +351,9 @@
         "Hint": "Anzahl Personen, die angemeldet werden sollen",
         "Label": "Gruppengröße"
       },
+      "IgnoreSize": {
+        "Label": "Gruppengröße nicht prüfen"
+      },
       "SpaceAvailable": "Places available",
       "Street": {
         "Label": "Straße"

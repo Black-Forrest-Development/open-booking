@@ -98,6 +98,7 @@ export class CreateBookingRequestComponent {
 
   submit() {
     if (this.formGroup.invalid) return
+    if (this.reloading) return
     let value = this.formGroup.value
     let size = ((value.group) ? this.offer?.offer.maxPersons : +value.size!!)
     if (!size) return;
@@ -124,6 +125,7 @@ export class CreateBookingRequestComponent {
       value.comment!!,
       value.termsAndConditions!!
     )
+    this.reloading = true
     this.service.createBooking(request).subscribe({
       next: d => this.handleResult(d),
       error: (err) => this.handleError(err)
@@ -131,6 +133,7 @@ export class CreateBookingRequestComponent {
   }
 
   private handleResult(d: BookingRequest) {
+    this.reloading = false
     let dialogRef = this.dialog.open(CreateBookingConfirmationDialogComponent, {data: d})
     dialogRef.afterClosed().subscribe(() => this.router.navigate(['']))
   }
@@ -149,6 +152,7 @@ export class CreateBookingRequestComponent {
   }
 
   private handleError(err: any) {
+    this.reloading = false
     let dialogRef = this.dialog.open(CreateBookingFailedDialogComponent, {data: err})
     dialogRef.afterClosed().subscribe(() => this.router.navigate(['']))
   }

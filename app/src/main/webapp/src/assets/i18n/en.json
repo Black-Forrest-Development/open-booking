@@ -351,6 +351,9 @@
         "Hint": "The amount of people within the group",
         "Label": "Group Size"
       },
+      "IgnoreSize": {
+        "Label": "Do not validate group size"
+      },
       "SpaceAvailable": "Places available",
       "Street": {
         "Label": "Street"

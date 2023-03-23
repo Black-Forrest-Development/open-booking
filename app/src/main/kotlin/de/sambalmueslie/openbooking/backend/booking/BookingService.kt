@@ -106,7 +106,7 @@ class BookingService(
     private fun info(data: BookingData, offer: Offer?, confirmedBookings: List<BookingData>): BookingInfo? {
         if (offer == null) return null
         val spaceConfirmed = confirmedBookings.sumOf { visitorGroupService.get(it.visitorGroupId)?.size ?: 0 }
-        val spaceAvailable = offer.maxPersons - spaceConfirmed
+        val spaceAvailable = (offer.maxPersons - spaceConfirmed).coerceAtLeast(0)
 
         val timestamp = data.updated ?: data.created
         return BookingInfo(data.id, offer, spaceAvailable, spaceConfirmed, data.status, timestamp)

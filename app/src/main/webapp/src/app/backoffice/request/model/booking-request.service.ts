@@ -22,6 +22,7 @@ export class BookingRequestService extends BaseService {
 
   constructor(http: HttpClient, logging: LoggingService, private dialog: MatDialog, private translationService: TranslateService, private toastService: HotToastService,) {
     super(http, 'backend/request', logging)
+    this.retryCount = 1
   }
 
   getAllBookingRequest(page: number, size: number): Observable<Page<BookingRequest>> {

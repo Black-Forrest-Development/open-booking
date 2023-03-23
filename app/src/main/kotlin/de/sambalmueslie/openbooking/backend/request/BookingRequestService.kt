@@ -78,7 +78,7 @@ class BookingRequestService(
         val offerIds = request.offerIds.toSet()
         val existingBookings = bookingService.getBookingsByOfferId(offerIds).groupBy { it.offerId }
         val suitableOffers = offerService.getOffer(offerIds).filter {
-            isEnoughSpaceAvailable(request.visitorGroupChangeRequest, it, existingBookings[it.id] ?: emptyList())
+            isEnoughSpaceAvailable(request, it, existingBookings[it.id] ?: emptyList())
         }
         if (suitableOffers.isEmpty()) throw InvalidRequestException("REQUEST.Error.NoSuitableOffer")
 
@@ -94,13 +94,14 @@ class BookingRequestService(
         return result
     }
 
-    private fun isEnoughSpaceAvailable(request: VisitorGroupChangeRequest, offer: Offer, bookings: List<Booking>): Boolean {
+    private fun isEnoughSpaceAvailable(request: BookingRequestChangeRequest, offer: Offer, bookings: List<Booking>): Boolean {
         if (bookings.isEmpty()) return true
+        if (request.ignoreSizeCheck) return true
 
         val spaceConfirmed = bookings.filter { it.status == BookingStatus.CONFIRMED || it.status == BookingStatus.UNCONFIRMED }.sumOf { it.size }
         val spaceAvailable = offer.maxPersons - spaceConfirmed
 
-        return spaceAvailable >= request.size
+        return spaceAvailable >= request.visitorGroupChangeRequest.size
     }
 
     override fun createData(request: BookingRequestChangeRequest): BookingRequestData {
